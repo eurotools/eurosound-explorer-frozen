@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2997D5F2-6E04-4411-A467-221282D715B3}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>sb_explorer</RootNamespace>
+    <AssemblyName>sb_explorer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NAudio, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\NAudio.1.10.0\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\AudioFunctions.cs" />
+    <Compile Include="Classes\BinaryFunctions.cs" />
+    <Compile Include="Classes\Decoders\DspAdpcm.cs" />
+    <Compile Include="Classes\Decoders\Eurocom_ImaAdpcm.cs" />
+    <Compile Include="Classes\Hashcodes.cs" />
+    <Compile Include="Controls\EuroSound_WaveViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView_ColumnSortingClick.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ListView_ColumnSortingClick.Designer.cs">
+      <DependentUpon>ListView_ColumnSortingClick.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControl_HashCodes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserControl_HashCodes.Designer.cs">
+      <DependentUpon>UserControl_HashCodes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControl_HexEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserControl_HexEditor.Designer.cs">
+      <DependentUpon>UserControl_HexEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControl_Samples_Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserControl_Samples_Properties.Designer.cs">
+      <DependentUpon>UserControl_Samples_Properties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControl_StreamData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserControl_StreamData.Designer.cs">
+      <DependentUpon>UserControl_StreamData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserControl_WavHeaderData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\UserControl_WavHeaderData.Designer.cs">
+      <DependentUpon>UserControl_WavHeaderData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\Decoders\ImaAdpcm.cs" />
+    <Compile Include="Forms\ADPCM_Validator_PC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ADPCM_Validator_PC.Designer.cs">
+      <DependentUpon>ADPCM_Validator_PC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Main.Designer.cs">
+      <DependentUpon>Frm_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MediaPlayer_Mono.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MediaPlayer_Mono.Designer.cs">
+      <DependentUpon>MediaPlayer_Mono.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MediaPlayer_Stereo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MediaPlayer_Stereo.Designer.cs">
+      <DependentUpon>MediaPlayer_Stereo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MusX Readers\MusxHeader.cs" />
+    <Compile Include="MusX Readers\NewMusX.cs" />
+    <Compile Include="Objects\HexData.cs" />
+    <Compile Include="Objects\MusXHeaderData.cs" />
+    <Compile Include="Objects\Sample.cs" />
+    <Compile Include="Objects\SamplePoolItem.cs" />
+    <Compile Include="Classes\Decoders\SonyAdpcm.cs" />
+    <Compile Include="Objects\StreamMarker.cs" />
+    <Compile Include="Objects\StreamStartMarker.cs" />
+    <Compile Include="Objects\StreamSample.cs" />
+    <Compile Include="Objects\WavHeaderData.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\UserControl_HashCodes.resx">
+      <DependentUpon>UserControl_HashCodes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UserControl_HexEditor.resx">
+      <DependentUpon>UserControl_HexEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UserControl_Samples_Properties.resx">
+      <DependentUpon>UserControl_Samples_Properties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UserControl_StreamData.resx">
+      <DependentUpon>UserControl_StreamData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\UserControl_WavHeaderData.resx">
+      <DependentUpon>UserControl_WavHeaderData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ADPCM_Validator_PC.resx">
+      <DependentUpon>ADPCM_Validator_PC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Main.resx">
+      <DependentUpon>Frm_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MediaPlayer_Mono.resx">
+      <DependentUpon>MediaPlayer_Mono.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MediaPlayer_Stereo.resx">
+      <DependentUpon>MediaPlayer_Stereo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

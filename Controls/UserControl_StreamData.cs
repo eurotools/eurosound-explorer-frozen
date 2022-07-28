@@ -1,0 +1,308 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace sb_explorer
+{
+    //-------------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------------------
+    public partial class UserControl_StreamData : UserControl
+    {
+        internal List<StreamSample> streamedSamples;
+        private MusXHeaderData headerData;
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        public UserControl_StreamData()
+        {
+            InitializeComponent();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void Button_LoadStreamData_Click(object sender, EventArgs e)
+        {
+            if (OpenFileDialog_StreamData.ShowDialog() == DialogResult.OK)
+            {
+                Textbox_StreamFilePath.Text = OpenFileDialog_StreamData.FileName;
+
+                //Read file
+                headerData = new MusXHeaderData();
+
+                //Read Header and make sure is a valid MUSX file
+                MusxHeader sfxHeaderData = new MusxHeader();
+                if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData))
+                {
+                    streamedSamples = new List<StreamSample>();
+
+                    if (headerData.FileVersion != 201)
+                    {
+                        //Read file data
+                        NewMusX newSoundbanksFile = new NewMusX();
+                        newSoundbanksFile.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
+
+                        //Enable validation tool
+                        if (headerData.Platform.Contains("PC"))
+                        {
+                            Button_ValidateADPCM.Enabled = true;
+                        }
+                        else
+                        {
+                            Button_ValidateADPCM.Enabled = false;
+                        }
+                    }
+
+                    PrintSamplesData(streamedSamples);
+                }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void ListView_StreamData_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ListView_StreamData.SelectedItems.Count == 1 && streamedSamples != null)
+            {
+                //Print markers data
+                int selectedIndex = (int)ListView_StreamData.SelectedItems[0].Tag;
+
+                //Print counts
+                Textbox_StartMarkers_Count.Text = streamedSamples[selectedIndex].StartMarkersCount.ToString();
+                Textbox_MarkersCount.Text = streamedSamples[selectedIndex].MarkersCount.ToString();
+
+                //Clear listview
+                ListView_StreamData_StartMarkers.BeginUpdate();
+                ListView_StreamData_StartMarkers.Items.Clear();
+
+                //Print Start Markers
+                if (streamedSamples[selectedIndex].StartMarkers.Count >= 0 && streamedSamples[selectedIndex].StartMarkers.Count <= 20)
+                {
+                    Textbox_StartMarkers_Count.ForeColor = SystemColors.ControlText;
+
+                    for (int i = 0; i < streamedSamples[selectedIndex].StartMarkers.Count; i++)
+                    {
+                        //Create listview item
+                        ListViewItem listViewItem = new ListViewItem(new string[] { "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" })
+                        {
+                            UseItemStyleForSubItems = false
+                        };
+
+                        ushort errors = 0;
+
+                        StreamStartMarker musicMarkerStartData = streamedSamples[selectedIndex].StartMarkers[i];
+                        listViewItem.Text = i.ToString();
+                        listViewItem.SubItems[1].Text = musicMarkerStartData.Name.ToString();
+                        listViewItem.SubItems[2].Text = musicMarkerStartData.Position.ToString();
+                        switch (musicMarkerStartData.Type)
+                        {
+                            case 10:
+                                listViewItem.SubItems[3].Text = "Start";
+                                break;
+                            case 9:
+                                listViewItem.SubItems[3].Text = "End";
+                                break;
+                            case 7:
+                                listViewItem.SubItems[3].Text = "Goto";
+                                break;
+                            case 6:
+                                listViewItem.SubItems[3].Text = "Loop";
+                                break;
+                            case 5:
+                                listViewItem.SubItems[3].Text = "Pause";
+                                break;
+                            case 0:
+                                listViewItem.SubItems[3].Text = "Jump";
+                                break;
+                            default:
+                                listViewItem.SubItems[3].Text = "Error";
+                                break;
+                        }
+                        listViewItem.SubItems[4].Text = musicMarkerStartData.LoopStart.ToString();
+                        listViewItem.SubItems[5].Text = musicMarkerStartData.LoopMarkerCount.ToString();
+                        listViewItem.SubItems[6].Text = musicMarkerStartData.MarkerPos.ToString();
+
+                        //Check for errors
+                        int streamLenght = streamedSamples[selectedIndex].SampleByteData.Length * 4;
+
+                        if (musicMarkerStartData.Position > streamLenght)
+                            errors |= (1 << 2);
+                        if (musicMarkerStartData.LoopStart > streamLenght)
+                            errors |= (1 << 4);
+
+                        //Change color if we have errors
+                        for (int j = 0; j < listViewItem.SubItems.Count; j++)
+                        {
+                            if (Convert.ToBoolean((errors >> j) & 1))
+                                listViewItem.SubItems[j].ForeColor = Color.Red;
+                        }
+                        ListView_StreamData_StartMarkers.Items.Add(listViewItem);
+                    }
+                }
+                else
+                {
+                    Textbox_StartMarkers_Count.ForeColor = Color.Red;
+                }
+                ListView_StreamData_StartMarkers.EndUpdate();
+
+                //Print markers
+                ListView_StreamData_Markers.BeginUpdate();
+                ListView_StreamData_Markers.Items.Clear();
+                if (streamedSamples[selectedIndex].Markers.Count >= 0 && streamedSamples[selectedIndex].Markers.Count <= 20)
+                {
+                    Textbox_MarkersCount.ForeColor = SystemColors.ControlText;
+
+                    for (int i = 0; i < streamedSamples[selectedIndex].Markers.Count; i++)
+                    {
+                        //Create listview item
+                        ListViewItem listViewItem = new ListViewItem(new string[] { "N/A", "N/A", "N/A", "N/A", "N/A", "N/A" })
+                        {
+                            UseItemStyleForSubItems = false
+                        };
+
+                        ushort errors = 0;
+                        StreamMarker musicMarkerStartData = streamedSamples[selectedIndex].Markers[i];
+                        listViewItem.Text = i.ToString();
+                        listViewItem.SubItems[1].Text = musicMarkerStartData.Name.ToString();
+                        listViewItem.SubItems[2].Text = musicMarkerStartData.Position.ToString();
+                        switch (musicMarkerStartData.Type)
+                        {
+                            case 10:
+                                listViewItem.SubItems[3].Text = "Start";
+                                break;
+                            case 9:
+                                listViewItem.SubItems[3].Text = "End";
+                                break;
+                            case 7:
+                                listViewItem.SubItems[3].Text = "Goto";
+                                break;
+                            case 6:
+                                listViewItem.SubItems[3].Text = "Loop";
+                                break;
+                            case 5:
+                                listViewItem.SubItems[3].Text = "Pause";
+                                break;
+                            case 0:
+                                listViewItem.SubItems[3].Text = "Jump";
+                                break;
+                            default:
+                                listViewItem.SubItems[3].Text = "Error";
+                                break;
+                        }
+                        listViewItem.SubItems[4].Text = musicMarkerStartData.LoopStart.ToString();
+                        listViewItem.SubItems[5].Text = musicMarkerStartData.LoopMarkerCount.ToString();
+
+                        //Check for errors
+                        int streamLenght = streamedSamples[selectedIndex].SampleByteData.Length * 4;
+
+                        if (musicMarkerStartData.Position > streamLenght)
+                            errors |= (1 << 2);
+                        if (musicMarkerStartData.LoopStart > streamLenght)
+                            errors |= (1 << 4);
+
+
+                        //Change color if we have errors
+                        for (int j = 0; j < listViewItem.SubItems.Count; j++)
+                        {
+                            if (Convert.ToBoolean((errors >> j) & 1))
+                                listViewItem.SubItems[j].ForeColor = Color.Red;
+                        }
+                        ListView_StreamData_Markers.Items.Add(listViewItem);
+                    }
+                }
+                else
+                {
+                    Textbox_MarkersCount.ForeColor = Color.Red;
+                }
+                ListView_StreamData_Markers.EndUpdate();
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void ListView_StreamData_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (ListView_StreamData.SelectedItems.Count == 1 && streamedSamples != null)
+            {
+                int selectedIndex = (int)ListView_StreamData.SelectedItems[0].Tag;
+                byte[] decodedData = null;
+
+                if (headerData.FileVersion != 201)
+                {
+                    if (headerData.Platform.Contains("PC") || headerData.Platform.Contains("GC"))
+                    {
+                        Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
+                    }
+                    else if(headerData.Platform.Contains("PS2"))
+                    {
+                        SonyAdpcm vagDecoder = new SonyAdpcm();
+                        decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
+                    }
+                }
+
+                //Show player
+                if (decodedData != null)
+                {
+                    Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, streamedSamples[selectedIndex].SampleByteData, 22050);
+                    sfxPlayer.ShowDialog();
+                }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        internal void PrintSamplesData(List<StreamSample> streamedSamples)
+        {
+            ListView_StreamData.BeginUpdate();
+            ListView_StreamData.Items.Clear();
+
+            for (int i = 0; i < streamedSamples.Count; i++)
+            {
+                StreamSample currentSample = streamedSamples[i];
+                ushort errors = 0;
+
+                //Create item and add it to list
+                ListViewItem listViewItem2 = new ListViewItem(new string[] { i.ToString(), "??", currentSample.BlockPosition.ToString(), currentSample.MarkerSize.ToString(), currentSample.AudioOffset.ToString(), currentSample.AudioSize.ToString(), currentSample.BaseVolume.ToString() })
+                {
+                    Tag = i
+                };
+
+                //Check for errors
+                if (currentSample.MarkerSize < 0)
+                {
+                    errors |= (1 << 3);
+                }
+                if (currentSample.AudioOffset < 0)
+                {
+                    errors |= (1 << 4);
+                }
+                if (currentSample.AudioSize < 0)
+                {
+                    errors |= (1 << 5);
+                }
+                if (currentSample.BaseVolume < 0 || currentSample.BaseVolume > 100)
+                {
+                    errors |= (1 << 6);
+                }
+
+                //Red fields
+                for (int j = 0; j < 7; j++)
+                {
+                    if (Convert.ToBoolean((errors >> j) & 1))
+                    {
+                        listViewItem2.SubItems[j].ForeColor = Color.Red;
+                    }
+                }
+                ListView_StreamData.Items.Add(listViewItem2);
+            }
+
+            ListView_StreamData.EndUpdate();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void Button_ValidateADPCM_Click(object sender, EventArgs e)
+        {
+            ADPCM_Validator_PC validateEurocomIMA = new ADPCM_Validator_PC();
+            validateEurocomIMA.ShowDialog();
+        }
+    }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
+}

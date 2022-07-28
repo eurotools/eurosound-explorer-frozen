@@ -1,0 +1,20 @@
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.Frm_Main.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.Properties.Resources.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.GenerateResource.cache
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.CoreCompileInputs.cache
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\bin\Debug\sb_explorer.exe
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\bin\Debug\sb_explorer.pdb
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\bin\Debug\NAudio.dll
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\bin\Debug\NAudio.xml
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.CopyComplete
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.exe
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.pdb
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_HashCodes.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_HexEditor.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_Samples_Properties.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_StreamData.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_WavHeaderData.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.Frm_MediaPlayer_Mono.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.MediaPlayer_Stereo.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.ADPCM_Validator_PC.resources
+C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.AssemblyReference.cache
