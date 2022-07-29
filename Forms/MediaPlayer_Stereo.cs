@@ -15,19 +15,12 @@ namespace sb_explorer
         private readonly byte[] pcmDataToPlayL, pcmDataToPlayR;
         private readonly int Frequency;
 
-        public MediaPlayer_Stereo(byte[] vPcmDataToPlayL, byte[] vPcmDataToPlayR, int vFrequency, string Platform)
+        public MediaPlayer_Stereo(byte[] vPcmDataToPlayL, byte[] vPcmDataToPlayR, int vFrequency)
         {
             InitializeComponent();
             pcmDataToPlayL = vPcmDataToPlayL;
             pcmDataToPlayR = vPcmDataToPlayR;
-            if (Platform.Contains("XB"))
-            {
-                Frequency = 44100;
-            }
-            else
-            {
-                Frequency = vFrequency;
-            }
+            Frequency = vFrequency;
         }
 
 

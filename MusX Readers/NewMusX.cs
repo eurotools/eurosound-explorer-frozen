@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace sb_explorer
@@ -18,7 +19,15 @@ namespace sb_explorer
                 uint sfxCount = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
                 for (int i = 0; i < sfxCount; i++)
                 {
-                    uint hashcode = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian) | 0x1A000000;
+                    uint hashcode;
+                    if (headerData.FileVersion == 201)
+                    {
+                        hashcode = 0x1A000000 | BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                    }
+                    else
+                    {
+                        hashcode = 0x2D700000 | BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                    }
                     uint sfxPos = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
                     long prevPos = BReader.BaseStream.Position;
 
@@ -42,7 +51,28 @@ namespace sb_explorer
                     sample.HexViewerData.HeaderDataLength = startOffset;
 
                     //Read flags and sample pool
-                    if (!headerData.Platform.Equals("PS2_"))
+                    if (headerData.Platform.Equals("PS2_") || headerData.Platform.Equals("XB__"))
+                    {
+                        sample.GroupHashCode = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian);
+                        sample.GroupMaxChannels = (sbyte)(sample.GroupHashCode & 15);
+                        sample.GroupHashCode >>= 4;
+
+                        //Read Flags
+                        startOffset = BReader.BaseStream.Position - (headerData.SFXStart + sfxPos);
+                        sample.Flags = BinaryFunctions.FlipUShort(BReader.ReadUInt16(), headerData.IsBigEndian);
+                        sample.HexViewerData.FlagsDataLength = startOffset;
+
+                        //Read UserFlags
+                        startOffset = BReader.BaseStream.Position - (headerData.SFXStart + sfxPos);
+                        if (headerData.Platform.Equals("PS2_") & headerData.FileVersion > 4)
+                        {
+                            sample.UserFlags = BinaryFunctions.FlipUShort(BReader.ReadUInt16(), headerData.IsBigEndian);
+                            sample.DopplerValue = BReader.ReadSByte();
+                            sample.UserValue = BReader.ReadSByte();
+                        }
+                        sample.HexViewerData.UserFlagsDataLength = startOffset;
+                    }
+                    else
                     {
                         sample.GroupHashCode = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian);
                         sample.GroupMaxChannels = BReader.ReadSByte();
@@ -74,27 +104,6 @@ namespace sb_explorer
                         sample.DopplerValue = BReader.ReadSByte();
                         sample.UserValue = BReader.ReadSByte();
 
-                        sample.HexViewerData.UserFlagsDataLength = startOffset;
-                    }
-                    else
-                    {
-                        sample.GroupHashCode = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian);
-                        sample.GroupMaxChannels = (sbyte)(sample.GroupHashCode & 15);
-                        sample.GroupHashCode >>= 4;
-
-                        //Read Flags
-                        startOffset = BReader.BaseStream.Position - (headerData.SFXStart + sfxPos);
-                        sample.Flags = BinaryFunctions.FlipUShort(BReader.ReadUInt16(), headerData.IsBigEndian);
-                        sample.HexViewerData.FlagsDataLength = startOffset;
-
-                        //Read UserFlags
-                        startOffset = BReader.BaseStream.Position - (headerData.SFXStart + sfxPos);
-                        if (headerData.Platform.Equals("PS2_") & headerData.FileVersion > 4)
-                        {
-                            sample.UserFlags = BinaryFunctions.FlipUShort(BReader.ReadUInt16(), headerData.IsBigEndian);
-                            sample.DopplerValue = BReader.ReadSByte();
-                            sample.UserValue = BReader.ReadSByte();
-                        }
                         sample.HexViewerData.UserFlagsDataLength = startOffset;
                     }
 
@@ -258,6 +267,95 @@ namespace sb_explorer
 
                 BReader.Close();
             }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        internal MusicSample ReadMusicFile(string filePath, MusXHeaderData headerData, int interleave_block_size)
+        {
+            MusicSample MusicData = null;
+
+            using (BinaryReader binaryReader = new BinaryReader(File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)))
+            {
+                //Go to File Start 1
+                binaryReader.BaseStream.Seek(headerData.FileStart1, SeekOrigin.Begin);
+
+                //Stream marker header data 
+                uint StartMarkersCount = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian);
+                uint MarkersCount = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian);
+                MusicData = new MusicSample
+                {
+                    //Properties
+                    StartMarkerOffset = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                    MarkerOffset = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                    BaseVolume = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                };
+
+                //Read Start Markers
+                for (int j = 0; j < StartMarkersCount; j++)
+                {
+                    StreamStartMarker StartMarker = new StreamStartMarker
+                    {
+                        Name = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                        Position = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                        Type = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                        LoopStart = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                        LoopMarkerCount = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                        MarkerPos = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                    };
+
+                    //Add marker
+                    MusicData.StartMarkers.Add(StartMarker);
+                }
+
+                //Read Markers
+                for (int k = 0; k < MarkersCount; k++)
+                {
+                    StreamMarker DataMarker = new StreamMarker
+                    {
+                        Name = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                        Position = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                        Type = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                        LoopStart = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
+                        LoopMarkerCount = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                    };
+
+                    //Add marker
+                    MusicData.Markers.Add(DataMarker);
+                }
+
+                //Read Section 2
+                uint TracksLength = headerData.FileLength2 / 2;
+                bool InterleavedStereo = true;
+                int IndexLC = 0, IndexRC = 0;
+
+                //Seek Position
+                binaryReader.BaseStream.Seek(headerData.FileStart2, SeekOrigin.Begin);
+
+                //Save offset
+                MusicData.AudioOffset = (uint)binaryReader.BaseStream.Position;
+
+                //Init arrays
+                MusicData.SampleByteData_LeftChannel = new byte[TracksLength];
+                MusicData.SampleByteData_RightChannel = new byte[TracksLength];
+
+                //Read Stereo interleaving
+                while (binaryReader.BaseStream.Position < (headerData.FileStart2 + headerData.FileLength2))
+                {
+                    if (InterleavedStereo)
+                    {
+                        Buffer.BlockCopy(binaryReader.ReadBytes(interleave_block_size), 0, MusicData.SampleByteData_LeftChannel, IndexLC, interleave_block_size);
+                        IndexLC += interleave_block_size;
+                    }
+                    else
+                    {
+                        Buffer.BlockCopy(binaryReader.ReadBytes(interleave_block_size), 0, MusicData.SampleByteData_RightChannel, IndexRC, interleave_block_size);
+                        IndexRC += interleave_block_size;
+                    }
+                    InterleavedStereo = !InterleavedStereo;
+                }
+            }
+
+            return MusicData;
         }
     }
 

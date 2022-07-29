@@ -231,7 +231,7 @@ namespace sb_explorer
                         Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
                         decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
                     }
-                    else if(headerData.Platform.Contains("PS2"))
+                    else if (headerData.Platform.Contains("PS2"))
                     {
                         SonyAdpcm vagDecoder = new SonyAdpcm();
                         decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);

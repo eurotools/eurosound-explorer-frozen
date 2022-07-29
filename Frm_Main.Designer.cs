@@ -111,6 +111,7 @@ namespace sb_explorer
             // 
             this.MenuItem_File_ViewMusicFile.Index = 1;
             this.MenuItem_File_ViewMusicFile.Text = "View Music File *.sfx";
+            this.MenuItem_File_ViewMusicFile.Click += new System.EventHandler(this.MenuItem_File_ViewMusicFile_Click);
             // 
             // MenuItem_File_ViewProjectFile
             // 

@@ -69,6 +69,7 @@
     <Compile Include="Classes\BinaryFunctions.cs" />
     <Compile Include="Classes\Decoders\DspAdpcm.cs" />
     <Compile Include="Classes\Decoders\Eurocom_ImaAdpcm.cs" />
+    <Compile Include="Classes\Decoders\XboxAdpcm.cs" />
     <Compile Include="Classes\Hashcodes.cs" />
     <Compile Include="Controls\EuroSound_WaveViewer.cs">
       <SubType>UserControl</SubType>
@@ -116,6 +117,12 @@
     <Compile Include="Forms\ADPCM_Validator_PC.Designer.cs">
       <DependentUpon>ADPCM_Validator_PC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Frm_ViewMusicFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Frm_ViewMusicFile.Designer.cs">
+      <DependentUpon>Frm_ViewMusicFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm_Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +144,7 @@
     <Compile Include="MusX Readers\MusxHeader.cs" />
     <Compile Include="MusX Readers\NewMusX.cs" />
     <Compile Include="Objects\HexData.cs" />
+    <Compile Include="Objects\MusicSample.cs" />
     <Compile Include="Objects\MusXHeaderData.cs" />
     <Compile Include="Objects\Sample.cs" />
     <Compile Include="Objects\SamplePoolItem.cs" />
@@ -164,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ADPCM_Validator_PC.resx">
       <DependentUpon>ADPCM_Validator_PC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Frm_ViewMusicFile.resx">
+      <DependentUpon>Frm_ViewMusicFile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Main.resx">
       <DependentUpon>Frm_Main.cs</DependentUpon>

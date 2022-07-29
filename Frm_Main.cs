@@ -81,6 +81,48 @@ namespace sb_explorer
             }
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_File_ViewMusicFile_Click(object sender, EventArgs e)
+        {
+            if (OpenFileDiag_SfxFiles.ShowDialog() == DialogResult.OK)
+            {
+                headerData = new MusXHeaderData();
+
+                //Read Header and make sure is a valid MUSX file
+                MusxHeader sfxHeaderData = new MusxHeader();
+                if (sfxHeaderData.ReadStreamBankHeader(OpenFileDiag_SfxFiles.FileName, headerData))
+                {
+                    //Initialize reader
+                    NewMusX musicFilesReader = new NewMusX();
+                    MusicSample musicDat = null;
+
+                    //Read file
+                    if (headerData.FileVersion != 201)
+                    {
+                        switch (headerData.Platform)
+                        {
+                            case "PC__":
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDiag_SfxFiles.FileName, headerData, 32);
+                                break;
+                            case "PS2_":
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDiag_SfxFiles.FileName, headerData, 128);
+                                break;
+                            case "GC__":
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDiag_SfxFiles.FileName, headerData, 32);
+                                break;
+                            case "XB__":
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDiag_SfxFiles.FileName, headerData, 32);
+                                break;
+                        }
+                    }
+
+                    Frm_ViewMusicFile musicsForm = new Frm_ViewMusicFile(musicDat, OpenFileDiag_SfxFiles.FileName);
+                    musicsForm.ShowDialog();
+                }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
         private void button1_Click(object sender, EventArgs e)
         {
             // Create a file to write to.

@@ -72,6 +72,10 @@ namespace sb_explorer
                             DspAdpcm gameCubeDecoder = new DspAdpcm();
                             decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
                             break;
+                        case "XB__":
+                            Eurocom_ImaAdpcm xboxDecoder = new Eurocom_ImaAdpcm();
+                            decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(wavHeaderData[selectedIndex].EncodedData));
+                            break;
                     }
                 }
 

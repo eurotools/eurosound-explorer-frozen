@@ -146,6 +146,7 @@ namespace sb_explorer
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MediaPlayer_Stereo";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Media Player";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MediaPlayer_Stereo_FormClosing);

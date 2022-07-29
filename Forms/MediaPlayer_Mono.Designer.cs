@@ -91,6 +91,7 @@ namespace sb_explorer
             this.Button_SaveRaw.TabIndex = 1;
             this.Button_SaveRaw.Text = "Save Raw";
             this.Button_SaveRaw.UseVisualStyleBackColor = true;
+            this.Button_SaveRaw.Visible = false;
             this.Button_SaveRaw.Click += new System.EventHandler(this.Button_SaveRaw_Click);
             // 
             // WavesViewer

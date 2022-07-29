@@ -33,7 +33,7 @@ namespace sb_explorer
                     {
                         //Platform PS2_ PC__ GC__ XB__
                         headerData.Platform = Encoding.ASCII.GetString(BReader.ReadBytes(4));
-                        headerData.Timespan = BReader.ReadUInt32();
+                        headerData.Timespan = BReader.ReadUInt32(); //Seconds from 1/1/2000, 1:00:00 (946684800)
 
                         //Seems padding but when the platform is PC__ or GC__ is set to 1
                         BReader.ReadUInt32();
@@ -96,7 +96,7 @@ namespace sb_explorer
                     headerData.FileSize = BReader.ReadUInt32();
 
                     //Fields in the new versions
-                    if (headerData.FileVersion != 201)
+                    if (headerData.FileVersion > 1 && headerData.FileVersion < 10)
                     {
                         //Platform PS2_ PC__ GC__ XB__
                         headerData.Platform = Encoding.ASCII.GetString(BReader.ReadBytes(4));
@@ -125,10 +125,13 @@ namespace sb_explorer
                     //Size of the second section, in bytes. 
                     headerData.FileLength2 = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
 
-                    //Unused offset. Set to zero.
-                    headerData.FileStart3 = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
-                    //Unused. Set to zero.
-                    headerData.FileLength3 = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                    if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
+                    {
+                        //Unused offset. Set to zero.
+                        headerData.FileStart3 = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                        //Unused. Set to zero.
+                        headerData.FileLength3 = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                    }
                 }
 
                 //Close

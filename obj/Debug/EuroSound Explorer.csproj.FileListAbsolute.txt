@@ -18,3 +18,24 @@ C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.Frm_
 C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.MediaPlayer_Stereo.resources
 C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.ADPCM_Validator_PC.resources
 C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.AssemblyReference.cache
+F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.exe
+F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.pdb
+F:\Repositories\eurosound_explorer\bin\Debug\NAudio.dll
+F:\Repositories\eurosound_explorer\bin\Debug\NAudio.xml
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_HashCodes.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_HexEditor.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_Samples_Properties.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_StreamData.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_WavHeaderData.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.ADPCM_Validator_PC.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_Main.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_MediaPlayer_Mono.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.MediaPlayer_Stereo.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Properties.Resources.resources
+F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.GenerateResource.cache
+F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.CoreCompileInputs.cache
+F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.CopyComplete
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.exe
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.pdb
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ViewMusicFile.resources
+F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.AssemblyReference.cache

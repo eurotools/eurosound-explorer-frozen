@@ -197,7 +197,7 @@ namespace sb_explorer
                             }
                             else
                             {
-                                uint hashcodeToCheck = (uint)(0x1AF00000 | (ushort)samplePoolItem.FileRef);
+                                uint hashcodeToCheck = (uint)(0x2D700000 | (ushort)samplePoolItem.FileRef);
                                 if (MusXheaderData.FileVersion == 201)
                                 {
                                     hashcodeToCheck = (uint)(0x1A000000 | (ushort)samplePoolItem.FileRef);
