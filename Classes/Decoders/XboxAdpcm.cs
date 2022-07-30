@@ -50,7 +50,6 @@
 
             ImaAdpcmState state = new ImaAdpcmState();
             inp = 0;
-            inputbuffer = 0;
 
             valpred = state.valprev;
             index = state.index;
