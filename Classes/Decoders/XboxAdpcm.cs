@@ -66,17 +66,21 @@
                     remainingSamples = 64;
                     valpred = (short)(adpcmData[inp++] | (sbyte)adpcmData[inp++] << 8);
                     index = adpcmData[inp]; inp += 2;
+
+                    if (index > 88)
+                        index = 0;
                 }
 
+                inputbuffer = adpcmData[inp];
                 /* Step 1 - get the delta value */
                 if (bufferstep)
                 {
-                    delta = inputbuffer & 0xf;
+                    inp++;
+                    delta = (inputbuffer >> 4) & 0xf;
                 }
                 else
                 {
-                    inputbuffer = adpcmData[inp++];
-                    delta = (inputbuffer >> 4) & 0xf;
+                    delta = inputbuffer & 0xf;
                 }
                 bufferstep = !bufferstep;
 
@@ -115,10 +119,10 @@
 
                 /* Step 7 - Output value */
                 outBuff[outIndex++] = (short)valpred;
+                
+                state.valprev = valpred;
+                state.index = index;
             }
-            state.valprev = valpred;
-            state.index = index;
-
 
             return outBuff;
         }
