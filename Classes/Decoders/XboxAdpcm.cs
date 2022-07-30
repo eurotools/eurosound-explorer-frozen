@@ -117,11 +117,10 @@
                 step = stepsizeTable[index];
 
                 /* Step 7 - Output value */
-                outBuff[outIndex++] = (short)valpred;
-                
-                state.valprev = valpred;
-                state.index = index;
+                outBuff[outIndex++] = (short)valpred;               
             }
+            state.valprev = valpred;
+            state.index = index;
 
             return outBuff;
         }

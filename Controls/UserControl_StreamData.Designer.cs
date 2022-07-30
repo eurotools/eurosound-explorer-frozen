@@ -197,7 +197,7 @@ namespace sb_explorer
             this.ListView_StreamData_Markers.HideSelection = false;
             this.ListView_StreamData_Markers.Location = new System.Drawing.Point(3, 32);
             this.ListView_StreamData_Markers.Name = "ListView_StreamData_Markers";
-            this.ListView_StreamData_Markers.Size = new System.Drawing.Size(393, 201);
+            this.ListView_StreamData_Markers.Size = new System.Drawing.Size(393, 170);
             this.ListView_StreamData_Markers.TabIndex = 5;
             this.ListView_StreamData_Markers.UseCompatibleStateImageBehavior = false;
             this.ListView_StreamData_Markers.View = System.Windows.Forms.View.Details;
@@ -282,8 +282,9 @@ namespace sb_explorer
             // 
             // OpenFileDialog_StreamData
             // 
-            this.OpenFileDialog_StreamData.Filter = "Stream Files (*StreamData.sfx)|*.sfx|Stream Files (HC0?FFFF.sfx)|*.sfx|All Files " +
-    "(*.*)|*.*";
+            this.OpenFileDialog_StreamData.Filter = "Stream Files (*StreamData.sfx)|*StreamData.sfx|Stream Files (HC0?FFFF.sfx)|HC0?FF" +
+    "FF.sfx|All Files (*.*)|*.*";
+            this.OpenFileDialog_StreamData.FilterIndex = 0;
             // 
             // ListView_StreamData
             // 

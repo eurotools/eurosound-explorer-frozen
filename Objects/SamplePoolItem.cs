@@ -12,6 +12,8 @@
         public sbyte VolumeOffset;
         public sbyte Pan;
         public sbyte PanOffset;
+        public short OldMusXPitch;
+        public short OldMusXPitchOffset;
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------

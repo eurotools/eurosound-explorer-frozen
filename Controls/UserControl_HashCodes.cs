@@ -78,7 +78,7 @@ namespace sb_explorer
                     Sample sampleData = samplesDictionary[selectedHashCode];
 
                     //Update Textboxes
-                    if (MusXheaderData.FileVersion == 201 && MusXheaderData.FileVersion == 1)
+                    if (MusXheaderData.FileVersion == 201 || MusXheaderData.FileVersion == 1)
                     {
                         switch (sampleData.TrackingType)
                         {
@@ -127,13 +127,21 @@ namespace sb_explorer
                     samplePropsControl.Textbox_MinDelay.Text = sampleData.MinDelay.ToString();
                     samplePropsControl.Textbox_MaxDelay.Text = sampleData.MaxDelay.ToString();
                     samplePropsControl.Textbox_ReverbSend.Text = sampleData.ReverbSend.ToString();
-                    samplePropsControl.Textbox_GroupHashcode.Text = sampleData.GroupHashCode.ToString("X");
                     samplePropsControl.Textbox_MaxVoices.Text = sampleData.MaxVoices.ToString();
                     samplePropsControl.Textbox_Priority.Text = sampleData.Priority.ToString();
                     samplePropsControl.Textbox_Ducker.Text = sampleData.Ducker.ToString();
                     samplePropsControl.Textbox_MasterVolume.Text = sampleData.MasterVolume.ToString();
-                    samplePropsControl.Textbox_GroupMaxChannels.Text = sampleData.GroupMaxChannels.ToString();
-                    if (MusXheaderData.FileVersion > 6)
+                    if (MusXheaderData.FileVersion > 2 && MusXheaderData.FileVersion < 10)
+                    {
+                        samplePropsControl.Textbox_GroupHashcode.Text = sampleData.GroupHashCode.ToString("X");
+                        samplePropsControl.Textbox_GroupMaxChannels.Text = sampleData.GroupMaxChannels.ToString();
+                    }
+                    else
+                    {
+                        samplePropsControl.Textbox_GroupHashcode.Text = "N/A";
+                        samplePropsControl.Textbox_GroupMaxChannels.Text = "N/A";
+                    }
+                    if (MusXheaderData.FileVersion > 6 && MusXheaderData.FileVersion < 10)
                     {
                         samplePropsControl.Textbox_Doppler.Text = sampleData.DopplerValue.ToString();
                         samplePropsControl.Textbox_UserValue.Text = sampleData.UserValue.ToString();
@@ -144,7 +152,7 @@ namespace sb_explorer
                         samplePropsControl.Textbox_UserValue.Text = "N/A";
                     }
                     samplePropsControl.Textbox_DuckerLength.Text = sampleData.DuckerLenght.ToString();
-                    if (MusXheaderData.FileVersion > 6)
+                    if (MusXheaderData.FileVersion > 6 && MusXheaderData.FileVersion < 10)
                     {
                         samplePropsControl.Textbox_SFXDucker.Text = sampleData.SFXDucker.ToString();
                         samplePropsControl.Textbox_Spare.Text = sampleData.Spare.ToString();
@@ -154,7 +162,7 @@ namespace sb_explorer
                         samplePropsControl.Textbox_SFXDucker.Text = "N/A";
                         samplePropsControl.Textbox_Spare.Text = "N/A";
                     }
-                    if (MusXheaderData.FileVersion == 201 && MusXheaderData.FileVersion == 1)
+                    if (MusXheaderData.FileVersion == 201 || MusXheaderData.FileVersion == 1)
                     {
                         samplePropsControl.Textbox_InnerRadius.Text = sampleData.InnerRadius.ToString();
                         samplePropsControl.Textbox_OuterRadius.Text = sampleData.OuterRadius.ToString();
@@ -245,10 +253,10 @@ namespace sb_explorer
                         }
                         listViewItem.SubItems[1].Text = samplePoolItem.Volume.ToString();
                         listViewItem.SubItems[2].Text = samplePoolItem.VolumeOffset.ToString();
-                        if (MusXheaderData.FileVersion == 201)
+                        if (MusXheaderData.FileVersion == 201 || MusXheaderData.FileVersion == 1)
                         {
-                            listViewItem.SubItems[3].Text = decimal.Divide(samplePoolItem.Pitch, 1024).ToString();
-                            listViewItem.SubItems[4].Text = decimal.Divide(samplePoolItem.PitchOffset, 1024).ToString();
+                            listViewItem.SubItems[3].Text = decimal.Divide(samplePoolItem.OldMusXPitch, 1024).ToString();
+                            listViewItem.SubItems[4].Text = decimal.Divide(samplePoolItem.OldMusXPitchOffset, 1024).ToString();
                         }
                         else
                         {

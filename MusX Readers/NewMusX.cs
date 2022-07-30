@@ -167,7 +167,7 @@ namespace sb_explorer
                     };
 
                     //Store current position
-                    long pos = BReader.BaseStream.Position;
+                    long prevPos = BReader.BaseStream.Position;
 
                     //Read audio pcm data
                     BReader.BaseStream.Seek(headerData.SampleDataStart + wavHeaderData.Address, SeekOrigin.Begin);
@@ -189,7 +189,7 @@ namespace sb_explorer
                     wavesList.Add(wavHeaderData);
 
                     //Return to previous position
-                    BReader.BaseStream.Seek(pos, SeekOrigin.Begin);
+                    BReader.BaseStream.Seek(prevPos, SeekOrigin.Begin);
                 }
             }
         }

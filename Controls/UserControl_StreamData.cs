@@ -43,10 +43,10 @@ namespace sb_explorer
                 }
 
                 //Read File
-                if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData))
+                if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData) && headerData.Platform != null)
                 {
                     streamedSamples = new List<StreamSample>();
-                    if ((headerData.FileVersion == 201 || headerData.FileVersion == 1) && headerData.Platform != null)
+                    if ((headerData.FileVersion == 201 || headerData.FileVersion == 1))
                     {
                         //Read file data
                         OldMusX streamsReader = new OldMusX();

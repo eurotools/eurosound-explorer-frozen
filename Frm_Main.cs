@@ -25,16 +25,37 @@ namespace sb_explorer
         {
             if (OpenFileDiag_SoundbankFiles.ShowDialog() == DialogResult.OK)
             {
-                headerData = new MusXHeaderData();
                 samplesList = new SortedDictionary<uint, Sample>();
                 wavesList = new List<WavHeaderData>();
+                MusxHeader sfxHeaderData = new MusxHeader();
+                int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDiag_SoundbankFiles.FileName);
 
                 //Read Header and make sure is a valid MUSX file
-                MusxHeader sfxHeaderData = new MusxHeader();
-                if (sfxHeaderData.ReadSoundBankHeader(OpenFileDiag_SoundbankFiles.FileName, ref headerData))
+                headerData = new MusXHeaderData();
+                if ((fileVersion == 201 || fileVersion == 1) && fileVersion > 0)
                 {
-                    if (headerData.FileVersion != 201)
+                    Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDiag_SoundbankFiles.FileName);
+                    if (specifyPlatform.ShowDialog() == DialogResult.OK)
                     {
+                        headerData.Platform = specifyPlatform.Combobox_Platform.Text;
+                    }
+                }
+
+                //Read file
+                if (sfxHeaderData.ReadSoundBankHeader(OpenFileDiag_SoundbankFiles.FileName, headerData) && headerData.Platform != null)
+                {
+                    if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
+                    {
+                        //Read file data
+                        OldMusX newSoundbanksFile = new OldMusX();
+                        newSoundbanksFile.ReadSoundbank(OpenFileDiag_SoundbankFiles.FileName, headerData, samplesList, wavesList);
+
+                        //Update Flags
+                        UserControl_SampleProperties.CheckedListBox_SampleFlags.Items.Clear();
+                        UserControl_SampleProperties.CheckedListBox_SampleFlags.Items.AddRange(new string[] { "MaxReject", "NextFreeOneToUse", "IgnoreAge", "MultiSample", "RandomPick", "Shuffled", "Loop", "Polyphonic", "UnderWater", "PauseInNis", "HasSubSfx", "StealOnLouder", "TreatLikeMusic", "UserFlags14", "UserFlags15", "UserFlags16" });
+                    }
+                    else
+                    { 
                         //Read file data
                         NewMusX newSoundbanksFile = new NewMusX();
                         newSoundbanksFile.ReadSoundbank(OpenFileDiag_SoundbankFiles.FileName, headerData, samplesList, wavesList);

@@ -30,7 +30,7 @@ namespace sb_explorer
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        internal bool ReadSoundBankHeader(string filePath, ref MusXHeaderData headerData)
+        internal bool ReadSoundBankHeader(string filePath, MusXHeaderData headerData)
         {
             bool fileIsCorrect = false;
 
