@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace sb_explorer
+﻿namespace sb_explorer
 {
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
@@ -24,7 +17,7 @@ namespace sb_explorer
             -1, -1, -1, -1, 2, 4, 6, 8,
             -1, -1, -1, -1, 2, 4, 6, 8,
         };
-        
+
         //-------------------------------------------------------------------------------------------------------------------------------
         private readonly int[] stepsizeTable = {
             7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
@@ -39,94 +32,93 @@ namespace sb_explorer
         };
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        public byte[] Decode(byte[] ImaFileData)
+        public short[] Decode(byte[] adpcmData)
         {
-            byte[] outBuff;
-            int sign;               /* Current adpcm sign bit */
-            int delta;              /* Current adpcm output value */
-            int step;               /* Stepsize */
-            int valpred;            /* Predicted value */
-            int vpdiff;             /* Current change to valpred */
-            int index;              /* Current step change index */
-            int inputbuffer;        /* place to keep next 4-bit value */
+            int numSamples = adpcmData.Length * 64 /36;
+            short[] outBuff = new short[numSamples];
+            int inp;           		/* Input buffer pointer */
+            int outIndex = 0;   	/* Output buffer pointer */
+            int sign;           	/* Current adpcm sign bit */
+            int delta;          	/* Current adpcm output value */
+            int step;           	/* Stepsize */
+            int valpred;        	/* Predicted value */
+            int vpdiff;         	/* Current change to valpred */
+            int index;          	/* Current step change index */
+            int inputbuffer;        /* Place to keep next 4-bit value */
+            int remainingSamples;   /* Countdown remaining samples for the output buffer */
+            bool bufferstep;		/* Toggle between inputbuffer/input */
 
-            using (BinaryReader BReader = new BinaryReader(new MemoryStream(ImaFileData)))
-            using (MemoryStream pcmStream = new MemoryStream())
-            using (BinaryWriter pcmWriter = new BinaryWriter(pcmStream))
+            ImaAdpcmState state = new ImaAdpcmState();
+            inp = 0;
+            inputbuffer = 0;
+
+            valpred = state.valprev;
+            index = state.index;
+            step = stepsizeTable[index];
+            remainingSamples = 0;
+
+            bufferstep = false;
+
+            for (; numSamples > 0; numSamples--)
             {
-                ImaAdpcmState state = new ImaAdpcmState();
-                while (BReader.BaseStream.Position < BReader.BaseStream.Length)
+                if (--remainingSamples <= 0)
                 {
-                    valpred = BReader.ReadInt16();
-                    index = BReader.ReadInt16();
-                    step = stepsizeTable[index];
-
-                    for (int j = 0; j < 8; j++)
-                    {
-                        bool bufferstep = false;
-                        for (int k = 0; k < 8; k++)
-                        {
-                            /* Step 1 - get the delta value */
-                            inputbuffer = BReader.ReadByte();
-                            BReader.BaseStream.Position -= 1;
-
-                            if (bufferstep)
-                            {
-                                delta = (inputbuffer >> 4) & 0xf;
-                                BReader.BaseStream.Position++;
-                            }
-                            else
-                            {
-                                delta = inputbuffer & 0xf;
-                            }
-                            bufferstep = !bufferstep;
-
-                            /* Step 2 - Find new index value (for later) */
-                            index += indexTable[delta & 7];
-                            if (index < 0) index = 0;
-                            if (index > 88) index = 88;
-
-                            /* Step 3 - Separate sign and magnitude */
-                            sign = delta & 8;
-                            delta &= 7;
-
-                            /* Step 4 - Compute difference and new predicted value */
-                            /*
-                            ** Computes 'vpdiff = (delta+0.5)*step/4', but see comment
-                            ** in adpcm_coder.
-                            */
-                            vpdiff = step >> 3;
-                            if ((delta & 4) != 0) vpdiff += step;
-                            if ((delta & 2) != 0) vpdiff += step >> 1;
-                            if ((delta & 1) != 0) vpdiff += step >> 2;
-
-                            if (sign != 0)
-                                valpred -= vpdiff;
-                            else
-                                valpred += vpdiff;
-
-                            /* Step 5 - clamp output value */
-                            if (valpred > short.MaxValue)
-                                valpred = short.MaxValue;
-                            else if (valpred < short.MinValue)
-                                valpred = short.MinValue;
-
-                            /* Step 6 - Update step value */
-                            step = stepsizeTable[index];
-
-                            /* Step 7 - Output value */
-                            pcmWriter.Write((short)valpred);
-                        }
-                        state.valprev = valpred;
-                        state.index = index;
-                    }
+                    remainingSamples = 64;
+                    valpred = (short)(adpcmData[inp++] | (sbyte)adpcmData[inp++] << 8);
+                    index = adpcmData[inp]; inp += 2;
                 }
-                outBuff = pcmStream.ToArray();
 
-                pcmWriter.Close();
-                pcmStream.Close();
-                BReader.Close();
+                /* Step 1 - get the delta value */
+                if (bufferstep)
+                {
+                    delta = inputbuffer & 0xf;
+                }
+                else
+                {
+                    inputbuffer = adpcmData[inp++];
+                    delta = (inputbuffer >> 4) & 0xf;
+                }
+                bufferstep = !bufferstep;
+
+                /* Step 2 - Find new index value (for later) */
+                index += indexTable[delta];
+                if (index < 0) index = 0;
+                if (index > 88) index = 88;
+
+                /* Step 3 - Separate sign and magnitude */
+                sign = delta & 8;
+                delta &= 7;
+
+                /* Step 4 - Compute difference and new predicted value */
+                /*
+                ** Computes 'vpdiff = (delta+0.5)*step/4', but see comment
+                ** in adpcm_coder.
+                */
+                vpdiff = step >> 3;
+                if ((delta & 4) != 0) vpdiff += step;
+                if ((delta & 2) != 0) vpdiff += step >> 1;
+                if ((delta & 1) != 0) vpdiff += step >> 2;
+
+                if (sign != 0)
+                    valpred -= vpdiff;
+                else
+                    valpred += vpdiff;
+
+                /* Step 5 - clamp output value */
+                if (valpred > short.MaxValue)
+                    valpred = short.MaxValue;
+                else if (valpred < short.MinValue)
+                    valpred = short.MinValue;
+
+                /* Step 6 - Update step value */
+                step = stepsizeTable[index];
+
+                /* Step 7 - Output value */
+                outBuff[outIndex++] = (short)valpred;
             }
+            state.valprev = valpred;
+            state.index = index;
+
 
             return outBuff;
         }

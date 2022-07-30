@@ -24,24 +24,43 @@ namespace sb_explorer
         {
             if (OpenFileDialog_StreamData.ShowDialog() == DialogResult.OK)
             {
+                //Update textbox
                 Textbox_StreamFilePath.Text = OpenFileDialog_StreamData.FileName;
 
-                //Read file
-                headerData = new MusXHeaderData();
+                //Get file version
+                MusxHeader sfxHeaderData = new MusxHeader();
+                int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDialog_StreamData.FileName);
 
                 //Read Header and make sure is a valid MUSX file
-                MusxHeader sfxHeaderData = new MusxHeader();
+                headerData = new MusXHeaderData();
+                if ((fileVersion == 201 || fileVersion == 1) && fileVersion > 0)
+                {
+                    Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDialog_StreamData.FileName);
+                    if (specifyPlatform.ShowDialog() == DialogResult.OK)
+                    {
+                        headerData.Platform = specifyPlatform.Combobox_Platform.Text;
+                    }
+                }
+
+                //Read File
                 if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData))
                 {
                     streamedSamples = new List<StreamSample>();
-
-                    if (headerData.FileVersion != 201)
+                    if ((headerData.FileVersion == 201 || headerData.FileVersion == 1) && headerData.Platform != null)
                     {
                         //Read file data
-                        NewMusX newSoundbanksFile = new NewMusX();
-                        newSoundbanksFile.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
+                        OldMusX streamsReader = new OldMusX();
+                        streamsReader.LoadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
 
-                        //Enable validation tool
+                        Button_ValidateADPCM.Enabled = false;
+                    }
+                    else
+                    {
+                        //Read file data
+                        NewMusX streamsReader = new NewMusX();
+                        streamsReader.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
+
+                        //Enable validation tool - Only For Custom EuroCom ADPCM
                         if (headerData.Platform.Contains("PC"))
                         {
                             Button_ValidateADPCM.Enabled = true;
@@ -224,14 +243,32 @@ namespace sb_explorer
                 int selectedIndex = (int)ListView_StreamData.SelectedItems[0].Tag;
                 byte[] decodedData = null;
 
-                if (headerData.FileVersion != 201)
+                if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
                 {
-                    if (headerData.Platform.Contains("PC") || headerData.Platform.Contains("GC"))
+                    if (headerData.Platform.Equals("PC") || headerData.Platform.Equals("GC"))
+                    {
+                        ImaAdpcm imaFile = new ImaAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(imaFile.Decode(streamedSamples[selectedIndex].SampleByteData, streamedSamples[selectedIndex].SampleByteData.Length * 2));
+                    }
+                    else if (headerData.Platform.Equals("PS2"))
+                    {
+                        SonyAdpcm vagDecoder = new SonyAdpcm();
+                        decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
+                    }
+                    else if (headerData.Platform.Equals("XB"))
+                    {
+                        XboxAdpcm xboxDecoder = new XboxAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(streamedSamples[selectedIndex].SampleByteData));
+                    }
+                }
+                else
+                {
+                    if (headerData.Platform.Equals("PC__") || headerData.Platform.Equals("GC__") || headerData.Platform.Equals("XB__"))
                     {
                         Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
                         decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
                     }
-                    else if (headerData.Platform.Contains("PS2"))
+                    else if (headerData.Platform.Equals("PS2_"))
                     {
                         SonyAdpcm vagDecoder = new SonyAdpcm();
                         decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);

@@ -282,7 +282,8 @@ namespace sb_explorer
             // 
             // OpenFileDialog_StreamData
             // 
-            this.OpenFileDialog_StreamData.Filter = "SFX Files (*.sfx)|*.sfx|All Files (*.*)|*.*";
+            this.OpenFileDialog_StreamData.Filter = "Stream Files (*StreamData.sfx)|*.sfx|Stream Files (HC0?FFFF.sfx)|*.sfx|All Files " +
+    "(*.*)|*.*";
             // 
             // ListView_StreamData
             // 

@@ -197,10 +197,18 @@ namespace sb_explorer
                             }
                             else
                             {
-                                uint hashcodeToCheck = (uint)(0x2D700000 | (ushort)samplePoolItem.FileRef);
-                                if (MusXheaderData.FileVersion == 201)
+                                uint hashcodeToCheck;
+                                switch (MusXheaderData.FileVersion)
                                 {
-                                    hashcodeToCheck = (uint)(0x1A000000 | (ushort)samplePoolItem.FileRef);
+                                    case 201:
+                                        hashcodeToCheck = (uint)(0x1A000000 | (ushort)samplePoolItem.FileRef);
+                                        break;
+                                    case 6:
+                                        hashcodeToCheck = (uint)(0x2D700000 | (ushort)samplePoolItem.FileRef);
+                                        break;
+                                    default:
+                                        hashcodeToCheck = (uint)(0x1AF00000 | (ushort)samplePoolItem.FileRef);
+                                        break;
                                 }
 
                                 if (Hashcodes.sound_HashCodes.ContainsKey(hashcodeToCheck))

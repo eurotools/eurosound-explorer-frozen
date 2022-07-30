@@ -23,7 +23,7 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void MenuItem_File_LoadSoundBank_Click(object sender, EventArgs e)
         {
-            if (OpenFileDiag_SfxFiles.ShowDialog() == DialogResult.OK)
+            if (OpenFileDiag_SoundbankFiles.ShowDialog() == DialogResult.OK)
             {
                 headerData = new MusXHeaderData();
                 samplesList = new SortedDictionary<uint, Sample>();
@@ -31,13 +31,13 @@ namespace sb_explorer
 
                 //Read Header and make sure is a valid MUSX file
                 MusxHeader sfxHeaderData = new MusxHeader();
-                if (sfxHeaderData.ReadSoundBankHeader(OpenFileDiag_SfxFiles.FileName, headerData))
+                if (sfxHeaderData.ReadSoundBankHeader(OpenFileDiag_SoundbankFiles.FileName, ref headerData))
                 {
                     if (headerData.FileVersion != 201)
                     {
                         //Read file data
                         NewMusX newSoundbanksFile = new NewMusX();
-                        newSoundbanksFile.ReadSoundbank(OpenFileDiag_SfxFiles.FileName, headerData, samplesList, wavesList);
+                        newSoundbanksFile.ReadSoundbank(OpenFileDiag_SoundbankFiles.FileName, headerData, samplesList, wavesList);
 
                         //Update Flags
                         UserControl_SampleProperties.CheckedListBox_SampleFlags.Items.Clear();
@@ -50,7 +50,7 @@ namespace sb_explorer
                     StatusLabel_Platform.Text = "Platform: " + headerData.Platform;
 
                     //Update Main Textboxes
-                    Textbox_SoundbankName.Text = OpenFileDiag_SfxFiles.FileName;
+                    Textbox_SoundbankName.Text = OpenFileDiag_SoundbankFiles.FileName;
                     Textbox_HashcodeName.Text = string.Empty;
 
                     //Hashcodes listview
@@ -84,64 +84,75 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void MenuItem_File_ViewMusicFile_Click(object sender, EventArgs e)
         {
-            if (OpenFileDiag_SfxFiles.ShowDialog() == DialogResult.OK)
+            if (OpenFileDialog_MusicFiles.ShowDialog() == DialogResult.OK)
             {
-                headerData = new MusXHeaderData();
+                MusxHeader sfxHeaderData = new MusxHeader();
+                int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDialog_MusicFiles.FileName);
 
                 //Read Header and make sure is a valid MUSX file
-                MusxHeader sfxHeaderData = new MusxHeader();
-                if (sfxHeaderData.ReadStreamBankHeader(OpenFileDiag_SfxFiles.FileName, headerData))
+                headerData = new MusXHeaderData();
+                if ((fileVersion == 201 || fileVersion == 1) && fileVersion > 0)
                 {
-                    //Initialize reader
-                    NewMusX musicFilesReader = new NewMusX();
+                    Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDialog_MusicFiles.FileName);
+                    if (specifyPlatform.ShowDialog() == DialogResult.OK)
+                    {
+                        headerData.Platform = specifyPlatform.Combobox_Platform.Text;
+                    }
+                }
+
+                //Read file
+                if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_MusicFiles.FileName, headerData) && headerData.Platform != null)
+                {
                     MusicSample musicDat = null;
 
-                    //Read file
-                    if (headerData.FileVersion != 201)
+                    //Sphinx & Athens 2004
+                    if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
                     {
+                        OldMusX musicFilesReader = new OldMusX();
+                        switch (headerData.Platform)
+                        {
+                            case "PC":
+                                musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 1);
+                                break;
+                            case "PS2":
+                                musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 128);
+                                break;
+                            case "GC":
+                                musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 1);
+                                break;
+                            case "XB":
+                                musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 4);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        NewMusX musicFilesReader = new NewMusX();
                         switch (headerData.Platform)
                         {
                             case "PC__":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDiag_SfxFiles.FileName, headerData, 32);
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
                                 break;
                             case "PS2_":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDiag_SfxFiles.FileName, headerData, 128);
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 128);
                                 break;
                             case "GC__":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDiag_SfxFiles.FileName, headerData, 32);
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
                                 break;
                             case "XB__":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDiag_SfxFiles.FileName, headerData, 32);
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
+                                break;
+                            case "XB1_":
+                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
                                 break;
                         }
                     }
 
-                    Frm_ViewMusicFile musicsForm = new Frm_ViewMusicFile(musicDat, OpenFileDiag_SfxFiles.FileName);
-                    musicsForm.ShowDialog();
-                }
-            }
-        }
-
-        //-------------------------------------------------------------------------------------------------------------------------------
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // Create a file to write to.
-            using (StreamWriter sw = File.CreateText(@"C:\Users\Jordi Martinez\Desktop\Soundbanks Tests\list.txt"))
-            {
-                string[] SFXFiles = Directory.GetFiles(@"C:\Users\Jordi Martinez\Desktop\Soundbanks Tests\PS2 - Robots [PAL] [Es,Fr,De,En,It]", "*.sfx", SearchOption.AllDirectories);
-                for (int i = 0; i < SFXFiles.Length; i++)
-                {
-                    string pathToRead = SFXFiles[i];
-                    FileInfo fi = new FileInfo(pathToRead);
-                    string[] breakPath = pathToRead.Split('\\');
-                    string[] shortPath = new string[breakPath.Length - 7];
-                    Array.Copy(breakPath, 7, shortPath, 0, shortPath.Length);
-
-                    using (BinaryReader BReader = new BinaryReader(File.Open(pathToRead, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    //Open form
+                    if (musicDat != null)
                     {
-                        BReader.BaseStream.Seek(20, SeekOrigin.Begin);
-                        uint timestamp = BReader.ReadUInt32();
-                        sw.WriteLine(string.Format("{0};{1};{2};{3}", Path.GetDirectoryName(string.Join("\\", shortPath)), Path.GetFileName(pathToRead), timestamp.ToString("X8"), fi.Length.ToString() + " Bytes"));
+                        Frm_ViewMusicFile musicsForm = new Frm_ViewMusicFile(musicDat, OpenFileDialog_MusicFiles.FileName);
+                        musicsForm.ShowDialog();
                     }
                 }
             }

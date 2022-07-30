@@ -410,6 +410,23 @@ namespace sb_explorer
             // CheckedListBox_SampleFlags
             // 
             this.CheckedListBox_SampleFlags.ForeColor = System.Drawing.Color.Blue;
+            this.CheckedListBox_SampleFlags.Items.AddRange(new object[] {
+            "MaxReject",
+            "UnPausable",
+            "IgnoreMasterVolume",
+            "MultiSample",
+            "RandomPick",
+            "Shuffled",
+            "Loop",
+            "Polyphonic",
+            "UnderWater",
+            "PauseInstant",
+            "HasSubSfx",
+            "StealOnLouder",
+            "TreatLikeMusic",
+            "KillMeOwnGroup",
+            "GroupStealReject",
+            "OneInstancePerFrame"});
             this.CheckedListBox_SampleFlags.Location = new System.Drawing.Point(6, 179);
             this.CheckedListBox_SampleFlags.Name = "CheckedListBox_SampleFlags";
             this.CheckedListBox_SampleFlags.SelectionMode = System.Windows.Forms.SelectionMode.None;

@@ -58,24 +58,20 @@ namespace sb_explorer
                 MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
                 if (MusXheaderData.FileVersion != 201)
                 {
-                    switch (MusXheaderData.Platform)
+                    if (MusXheaderData.Platform.Equals("PC__") || MusXheaderData.Platform.Equals("XB__"))
                     {
-                        case "PS2_":
-                            SonyAdpcm vagDecoder = new SonyAdpcm();
-                            decodedData = vagDecoder.Decode(wavHeaderData[selectedIndex].EncodedData);
-                            break;
-                        case "PC__":
-                            Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
-                            decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(wavHeaderData[selectedIndex].EncodedData));
-                            break;
-                        case "GC__":
-                            DspAdpcm gameCubeDecoder = new DspAdpcm();
-                            decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
-                            break;
-                        case "XB__":
-                            Eurocom_ImaAdpcm xboxDecoder = new Eurocom_ImaAdpcm();
-                            decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(wavHeaderData[selectedIndex].EncodedData));
-                            break;
+                        Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(wavHeaderData[selectedIndex].EncodedData));
+                    }
+                    else if (MusXheaderData.Platform.Equals("GC__"))
+                    {
+                        DspAdpcm gameCubeDecoder = new DspAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
+                    }
+                    else if (MusXheaderData.Platform.Equals("PS2_"))
+                    {
+                        SonyAdpcm vagDecoder = new SonyAdpcm();
+                        decodedData = vagDecoder.Decode(wavHeaderData[selectedIndex].EncodedData);
                     }
                 }
 

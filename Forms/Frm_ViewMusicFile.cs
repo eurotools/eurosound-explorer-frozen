@@ -193,7 +193,7 @@ namespace sb_explorer
                 {
                     Textbox_AdpcmStatus.Text = "ADPCM data is *INVALID*";
                     Textbox_AdpcmStatus.ForeColor = Color.Red;
-                }                
+                }
             }
             else
             {
@@ -210,7 +210,29 @@ namespace sb_explorer
             byte[] decodedDataR = null;
             int frequency = 32000;
 
-            if (MusXheaderData.FileVersion != 201)
+            if (MusXheaderData.FileVersion == 201 || MusXheaderData.FileVersion == 1)
+            {
+                if (MusXheaderData.Platform.Equals("PC") || MusXheaderData.Platform.Contains("GC"))
+                {
+                    ImaAdpcm eurocomDAT = new ImaAdpcm();
+                    decodedDataL = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(musicFileData.SampleByteData_LeftChannel, musicFileData.SampleByteData_LeftChannel.Length * 2));
+                    decodedDataR = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(musicFileData.SampleByteData_RightChannel, musicFileData.SampleByteData_RightChannel.Length * 2));
+                }
+                else if (MusXheaderData.Platform.Equals("PS2"))
+                {
+                    SonyAdpcm vagDecoder = new SonyAdpcm();
+                    decodedDataL = vagDecoder.Decode(musicFileData.SampleByteData_LeftChannel);
+                    decodedDataR = vagDecoder.Decode(musicFileData.SampleByteData_RightChannel);
+                }
+                else if (MusXheaderData.Platform.Equals("XB"))
+                {
+                    frequency = 44100;
+                    XboxAdpcm xboxDecoder = new XboxAdpcm();
+                    decodedDataL = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(musicFileData.SampleByteData_LeftChannel));
+                    decodedDataR = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(musicFileData.SampleByteData_RightChannel));
+                }
+            }
+            else
             {
                 if (MusXheaderData.Platform.Equals("PC__") || MusXheaderData.Platform.Contains("GC__"))
                 {
@@ -224,7 +246,7 @@ namespace sb_explorer
                     decodedDataL = vagDecoder.Decode(musicFileData.SampleByteData_LeftChannel);
                     decodedDataR = vagDecoder.Decode(musicFileData.SampleByteData_RightChannel);
                 }
-                else if(MusXheaderData.Platform.Equals("XB__"))
+                else if (MusXheaderData.Platform.Equals("XB__") || MusXheaderData.Platform.Equals("XB1_"))
                 {
                     frequency = 44100;
                     Eurocom_ImaAdpcm xboxDecoder = new Eurocom_ImaAdpcm();

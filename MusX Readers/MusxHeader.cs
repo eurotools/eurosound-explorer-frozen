@@ -9,7 +9,28 @@ namespace sb_explorer
     internal class MusxHeader
     {
         //-------------------------------------------------------------------------------------------------------------------------------
-        internal bool ReadSoundBankHeader(string filePath, MusXHeaderData headerData)
+        internal int ReadFileVersion(string filePath)
+        {
+            int fileVersion = -1;
+
+            using (BinaryReader BReader = new BinaryReader(File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)))
+            {
+                //Magic value MUSX
+                string Magic = Encoding.ASCII.GetString(BReader.ReadBytes(4));
+                if (Magic.Equals("MUSX"))
+                {
+                    BReader.BaseStream.Seek(4, SeekOrigin.Current);
+
+                    //Current version of the file
+                    fileVersion = BReader.ReadInt32();
+                }
+            }
+
+            return fileVersion;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        internal bool ReadSoundBankHeader(string filePath, ref MusXHeaderData headerData)
         {
             bool fileIsCorrect = false;
 
@@ -107,12 +128,12 @@ namespace sb_explorer
                         BReader.ReadUInt32();
                         //Padding??
                         BReader.ReadUInt32();
+                    }
 
-                        //Big endian
-                        if (headerData.Platform.Equals("GC__") || headerData.Platform.Equals("XB2_"))
-                        {
-                            headerData.IsBigEndian = true;
-                        }
+                    //Big endian
+                    if (headerData.Platform.Contains("GC"))
+                    {
+                        headerData.IsBigEndian = true;
                     }
 
                     //Points to the stream look-up file details

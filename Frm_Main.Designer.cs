@@ -46,7 +46,6 @@ namespace sb_explorer
             this.MenuItem_About_About = new System.Windows.Forms.MenuItem();
             this.SplitContainer_HashCodes = new System.Windows.Forms.SplitContainer();
             this.UserControl_Hashcode = new sb_explorer.UserControl_HashCodes();
-            this.button1 = new System.Windows.Forms.Button();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.TabPage_HexView = new System.Windows.Forms.TabPage();
             this.UserControl_HexEditor = new sb_explorer.UserControl_HexEditor();
@@ -65,8 +64,9 @@ namespace sb_explorer
             this.StatusLabel_SoundhDir = new System.Windows.Forms.StatusBarPanel();
             this.Textbox_SoundbankName = new System.Windows.Forms.TextBox();
             this.Label_SoundBank_Name = new System.Windows.Forms.Label();
-            this.OpenFileDiag_SfxFiles = new System.Windows.Forms.OpenFileDialog();
+            this.OpenFileDiag_SoundbankFiles = new System.Windows.Forms.OpenFileDialog();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.OpenFileDialog_MusicFiles = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_HashCodes)).BeginInit();
             this.SplitContainer_HashCodes.Panel1.SuspendLayout();
             this.SplitContainer_HashCodes.Panel2.SuspendLayout();
@@ -183,7 +183,6 @@ namespace sb_explorer
             // 
             // SplitContainer_HashCodes.Panel2
             // 
-            this.SplitContainer_HashCodes.Panel2.Controls.Add(this.button1);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.TabControl);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Button_ReloadSoundbank);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Textbox_HashcodeName);
@@ -192,7 +191,7 @@ namespace sb_explorer
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.StatusBar);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Textbox_SoundbankName);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Label_SoundBank_Name);
-            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1221, 866);
+            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1221, 833);
             this.SplitContainer_HashCodes.SplitterDistance = 252;
             this.SplitContainer_HashCodes.TabIndex = 0;
             // 
@@ -201,18 +200,8 @@ namespace sb_explorer
             this.UserControl_Hashcode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UserControl_Hashcode.Location = new System.Drawing.Point(0, 0);
             this.UserControl_Hashcode.Name = "UserControl_Hashcode";
-            this.UserControl_Hashcode.Size = new System.Drawing.Size(252, 866);
+            this.UserControl_Hashcode.Size = new System.Drawing.Size(252, 833);
             this.UserControl_Hashcode.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(278, 775);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // TabControl
             // 
@@ -322,7 +311,7 @@ namespace sb_explorer
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(0, 844);
+            this.StatusBar.Location = new System.Drawing.Point(0, 811);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.StatusLabel_HashCode,
@@ -378,15 +367,16 @@ namespace sb_explorer
             this.Label_SoundBank_Name.TabIndex = 1;
             this.Label_SoundBank_Name.Text = "Soundbank filename";
             // 
-            // OpenFileDiag_SfxFiles
+            // OpenFileDialog_MusicFiles
             // 
-            this.OpenFileDiag_SfxFiles.Filter = "SFX Files (*.sfx)|*.sfx|All Files (*.*)|*.*";
+            this.OpenFileDialog_MusicFiles.Filter = "MUS Files (_MUS_*.sfx)|_MUS_*.sfx|MUS Files (HCE??0??.sfx)|HCE??0??.sfx|All Files" +
+    " (*.*)|*.*";
             // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1221, 866);
+            this.ClientSize = new System.Drawing.Size(1221, 833);
             this.Controls.Add(this.SplitContainer_HashCodes);
             this.Menu = this.MainMenu;
             this.Name = "Frm_Main";
@@ -436,7 +426,7 @@ namespace sb_explorer
         private System.Windows.Forms.MenuItem MenuItem_About_About;
         private System.Windows.Forms.TabPage TabPage_HexView;
         private System.Windows.Forms.TabPage TabPage_StreamData;
-        private System.Windows.Forms.OpenFileDialog OpenFileDiag_SfxFiles;
+        private System.Windows.Forms.OpenFileDialog OpenFileDiag_SoundbankFiles;
         protected internal UserControl_Samples_Properties UserControl_SampleProperties;
         protected internal UserControl_StreamData userControl_StreamData1;
         protected internal UserControl_WavHeaderData UserControl_WavHeaderData;
@@ -446,7 +436,7 @@ namespace sb_explorer
         protected internal UserControl_HexEditor UserControl_HexEditor;
         protected internal System.Windows.Forms.TabControl TabControl;
         protected internal System.Windows.Forms.TabPage TabPage_WavHeaderData;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.OpenFileDialog OpenFileDialog_MusicFiles;
     }
 }
 

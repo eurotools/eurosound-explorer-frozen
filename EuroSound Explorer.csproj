@@ -117,6 +117,12 @@
     <Compile Include="Forms\ADPCM_Validator_PC.Designer.cs">
       <DependentUpon>ADPCM_Validator_PC.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Frm_ChoosePlatform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Frm_ChoosePlatform.Designer.cs">
+      <DependentUpon>Frm_ChoosePlatform.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Frm_ViewMusicFile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,7 @@
     </Compile>
     <Compile Include="MusX Readers\MusxHeader.cs" />
     <Compile Include="MusX Readers\NewMusX.cs" />
+    <Compile Include="MusX Readers\OldMusX.cs" />
     <Compile Include="Objects\HexData.cs" />
     <Compile Include="Objects\MusicSample.cs" />
     <Compile Include="Objects\MusXHeaderData.cs" />
@@ -172,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ADPCM_Validator_PC.resx">
       <DependentUpon>ADPCM_Validator_PC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Frm_ChoosePlatform.resx">
+      <DependentUpon>Frm_ChoosePlatform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Frm_ViewMusicFile.resx">
       <DependentUpon>Frm_ViewMusicFile.cs</DependentUpon>

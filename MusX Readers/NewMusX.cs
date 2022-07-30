@@ -20,14 +20,19 @@ namespace sb_explorer
                 for (int i = 0; i < sfxCount; i++)
                 {
                     uint hashcode;
-                    if (headerData.FileVersion == 201)
+                    switch (headerData.FileVersion)
                     {
-                        hashcode = 0x1A000000 | BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                        case 201:
+                            hashcode = 0x1A000000 | BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                            break;
+                        case 6:
+                            hashcode = 0x2D700000 | BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                            break;
+                        default:
+                            hashcode = 0x1AF00000 | BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
+                            break;
                     }
-                    else
-                    {
-                        hashcode = 0x2D700000 | BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
-                    }
+
                     uint sfxPos = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
                     long prevPos = BReader.BaseStream.Position;
 
@@ -53,12 +58,12 @@ namespace sb_explorer
                     //Read flags and sample pool
                     if (headerData.Platform.Equals("PS2_") || headerData.Platform.Equals("XB__"))
                     {
+                        startOffset = BReader.BaseStream.Position - (headerData.SFXStart + sfxPos);
                         sample.GroupHashCode = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian);
                         sample.GroupMaxChannels = (sbyte)(sample.GroupHashCode & 15);
                         sample.GroupHashCode >>= 4;
 
                         //Read Flags
-                        startOffset = BReader.BaseStream.Position - (headerData.SFXStart + sfxPos);
                         sample.Flags = BinaryFunctions.FlipUShort(BReader.ReadUInt16(), headerData.IsBigEndian);
                         sample.HexViewerData.FlagsDataLength = startOffset;
 
@@ -169,7 +174,7 @@ namespace sb_explorer
                     wavHeaderData.EncodedData = BReader.ReadBytes(wavHeaderData.SampleSize);
 
                     //Read coeffs
-                    if (headerData.Platform.Contains("GC"))
+                    if (headerData.Platform.Equals("GC__"))
                     {
                         BReader.BaseStream.Seek(headerData.SpecialSampleInfoStart + wavHeaderData.PSI_SampleHeader, SeekOrigin.Begin);
                         BReader.BaseStream.Seek(28, SeekOrigin.Current);
