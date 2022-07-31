@@ -200,8 +200,8 @@ namespace sb_explorer
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.StatusBar);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Textbox_SoundbankName);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Label_SoundBank_Name);
-            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1221, 870);
-            this.SplitContainer_HashCodes.SplitterDistance = 252;
+            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1166, 807);
+            this.SplitContainer_HashCodes.SplitterDistance = 210;
             this.SplitContainer_HashCodes.TabIndex = 0;
             // 
             // UserControl_Hashcode
@@ -209,7 +209,7 @@ namespace sb_explorer
             this.UserControl_Hashcode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UserControl_Hashcode.Location = new System.Drawing.Point(0, 0);
             this.UserControl_Hashcode.Name = "UserControl_Hashcode";
-            this.UserControl_Hashcode.Size = new System.Drawing.Size(252, 870);
+            this.UserControl_Hashcode.Size = new System.Drawing.Size(210, 807);
             this.UserControl_Hashcode.TabIndex = 0;
             // 
             // TabControl
@@ -222,7 +222,7 @@ namespace sb_explorer
             this.TabControl.Location = new System.Drawing.Point(554, 3);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(408, 803);
+            this.TabControl.Size = new System.Drawing.Size(395, 803);
             this.TabControl.TabIndex = 7;
             // 
             // TabPage_HexView
@@ -232,7 +232,7 @@ namespace sb_explorer
             this.TabPage_HexView.Location = new System.Drawing.Point(4, 22);
             this.TabPage_HexView.Name = "TabPage_HexView";
             this.TabPage_HexView.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_HexView.Size = new System.Drawing.Size(400, 777);
+            this.TabPage_HexView.Size = new System.Drawing.Size(387, 777);
             this.TabPage_HexView.TabIndex = 0;
             this.TabPage_HexView.Text = "Hex View";
             // 
@@ -241,7 +241,7 @@ namespace sb_explorer
             this.UserControl_HexEditor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UserControl_HexEditor.Location = new System.Drawing.Point(3, 3);
             this.UserControl_HexEditor.Name = "UserControl_HexEditor";
-            this.UserControl_HexEditor.Size = new System.Drawing.Size(394, 771);
+            this.UserControl_HexEditor.Size = new System.Drawing.Size(381, 771);
             this.UserControl_HexEditor.TabIndex = 0;
             // 
             // TabPage_WavHeaderData
@@ -321,7 +321,7 @@ namespace sb_explorer
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(0, 848);
+            this.StatusBar.Location = new System.Drawing.Point(0, 785);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.StatusLabel_HashCode,
@@ -329,7 +329,7 @@ namespace sb_explorer
             this.StatusLabel_Platform,
             this.StatusLabel_SoundhDir});
             this.StatusBar.ShowPanels = true;
-            this.StatusBar.Size = new System.Drawing.Size(965, 22);
+            this.StatusBar.Size = new System.Drawing.Size(952, 22);
             this.StatusBar.TabIndex = 0;
             this.StatusBar.Text = "statusBar1";
             // 
@@ -398,7 +398,7 @@ namespace sb_explorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1221, 870);
+            this.ClientSize = new System.Drawing.Size(1166, 807);
             this.Controls.Add(this.SplitContainer_HashCodes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.MainMenu;

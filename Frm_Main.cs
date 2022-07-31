@@ -29,25 +29,25 @@ namespace sb_explorer
         {
             if (OpenFileDiag_SoundbankFiles.ShowDialog() == DialogResult.OK)
             {
-                LoadSoundbank();
+                LoadSoundbank(OpenFileDiag_SoundbankFiles.FileName);
             }
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        private void LoadSoundbank()
+        private void LoadSoundbank(string filePath)
         {
             try
             {
                 samplesList = new SortedDictionary<uint, Sample>();
                 wavesList = new List<WavHeaderData>();
                 MusxHeader sfxHeaderData = new MusxHeader();
-                int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDiag_SoundbankFiles.FileName);
+                int fileVersion = sfxHeaderData.ReadFileVersion(filePath);
 
                 //Read Header and make sure is a valid MUSX file
                 headerData = new MusXHeaderData();
                 if (fileVersion == 201 || fileVersion == 1)
                 {
-                    Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDiag_SoundbankFiles.FileName);
+                    Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(filePath);
                     if (specifyPlatform.ShowDialog() == DialogResult.OK)
                     {
                         headerData.Platform = specifyPlatform.Combobox_Platform.Text;
@@ -55,13 +55,13 @@ namespace sb_explorer
                 }
 
                 //Read file
-                if (sfxHeaderData.ReadSoundBankHeader(OpenFileDiag_SoundbankFiles.FileName, headerData) && headerData.Platform != null)
+                if (sfxHeaderData.ReadSoundBankHeader(filePath, headerData) && headerData.Platform != null)
                 {
                     if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
                     {
                         //Read file data
                         OldMusX newSoundbanksFile = new OldMusX();
-                        newSoundbanksFile.ReadSoundbank(OpenFileDiag_SoundbankFiles.FileName, headerData, samplesList, wavesList);
+                        newSoundbanksFile.ReadSoundbank(filePath, headerData, samplesList, wavesList);
 
                         //Update Flags
                         UserControl_SampleProperties.CheckedListBox_SampleFlags.Items.Clear();
@@ -71,7 +71,7 @@ namespace sb_explorer
                     {
                         //Read file data
                         NewMusX newSoundbanksFile = new NewMusX();
-                        newSoundbanksFile.ReadSoundbank(OpenFileDiag_SoundbankFiles.FileName, headerData, samplesList, wavesList);
+                        newSoundbanksFile.ReadSoundbank(filePath, headerData, samplesList, wavesList);
 
                         //Update Flags
                         UserControl_SampleProperties.CheckedListBox_SampleFlags.Items.Clear();
@@ -84,7 +84,7 @@ namespace sb_explorer
                     StatusLabel_Platform.Text = "Platform: " + headerData.Platform;
 
                     //Update Main Textboxes
-                    Textbox_SoundbankName.Text = OpenFileDiag_SoundbankFiles.FileName;
+                    Textbox_SoundbankName.Text = filePath;
                     Textbox_HashcodeName.Text = string.Empty;
 
                     //Hashcodes listview
@@ -101,7 +101,10 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void Button_ReloadSoundbank_Click(object sender, EventArgs e)
         {
-            LoadSoundbank();
+            if (!string.IsNullOrEmpty(Textbox_SoundbankName.Text))
+            {
+                LoadSoundbank(Textbox_SoundbankName.Text);
+            }
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------

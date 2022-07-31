@@ -20,7 +20,6 @@ C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.ADPC
 C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.AssemblyReference.cache
 F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.exe
 F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.pdb
-F:\Repositories\eurosound_explorer\bin\Debug\NAudio.dll
 F:\Repositories\eurosound_explorer\bin\Debug\NAudio.xml
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_HashCodes.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_HexEditor.resources
@@ -43,3 +42,5 @@ F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.exe.config
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_About.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.FindHashCode.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ViewProjectFile.resources
+F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.Fody.CopyLocal.cache
+F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.Fody.RuntimeCopyLocal.cache
