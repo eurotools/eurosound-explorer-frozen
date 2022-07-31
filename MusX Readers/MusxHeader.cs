@@ -50,7 +50,7 @@ namespace sb_explorer
                     headerData.FileSize = BReader.ReadUInt32();
 
                     //Fields in the new versions
-                    if (headerData.FileVersion != 201)
+                    if (headerData.FileVersion > 3 && headerData.FileVersion < 10)
                     {
                         //Platform PS2_ PC__ GC__ XB__
                         headerData.Platform = Encoding.ASCII.GetString(BReader.ReadBytes(4));
@@ -60,12 +60,12 @@ namespace sb_explorer
                         BReader.ReadUInt32();
                         //Padding??
                         BReader.ReadUInt32();
+                    }
 
-                        //Big endian
-                        if (headerData.Platform.Equals("GC__") || headerData.Platform.Equals("XB2_"))
-                        {
-                            headerData.IsBigEndian = true;
-                        }
+                    //Big endian
+                    if (headerData.Platform.Contains("GC"))
+                    {
+                        headerData.IsBigEndian = true;
                     }
 
                     //Section where soundbanks are stored
@@ -117,7 +117,7 @@ namespace sb_explorer
                     headerData.FileSize = BReader.ReadUInt32();
 
                     //Fields in the new versions
-                    if (headerData.FileVersion > 1 && headerData.FileVersion < 10)
+                    if (headerData.FileVersion > 3 && headerData.FileVersion < 10)
                     {
                         //Platform PS2_ PC__ GC__ XB__
                         headerData.Platform = Encoding.ASCII.GetString(BReader.ReadBytes(4));

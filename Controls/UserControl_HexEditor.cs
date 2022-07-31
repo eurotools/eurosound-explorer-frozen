@@ -74,14 +74,7 @@ namespace sb_explorer
                         ListView_HexEditor.Items[rowIndex].SubItems[i].ForeColor = SystemColors.WindowText;
                     }
 
-                    if (fileVersion == 201)
-                    {
-                        if (currentByte > dataToDisplay.FlagsDataLength && currentByte <= dataToDisplay.SamplePoolDataLength)
-                        {
-                            ListView_HexEditor.Items[rowIndex].SubItems[i].ForeColor = Color.Blue;
-                        }
-                    }
-                    else
+                    if (fileVersion > 3 && fileVersion < 10)
                     {
                         if (currentByte > dataToDisplay.FlagsDataLength && currentByte <= dataToDisplay.UserFlagsDataLength)
                         {
@@ -92,12 +85,28 @@ namespace sb_explorer
                             ListView_HexEditor.Items[rowIndex].SubItems[i].ForeColor = Color.Purple;
                         }
                     }
+                    else
+                    {
+                        if (currentByte > dataToDisplay.FlagsDataLength && currentByte <= dataToDisplay.SamplePoolDataLength)
+                        {
+                            ListView_HexEditor.Items[rowIndex].SubItems[i].ForeColor = Color.Blue;
+                        }
+                    }
                     if (currentByte > dataToDisplay.SamplePoolDataLength)
                     {
                         ListView_HexEditor.Items[rowIndex].SubItems[i].ForeColor = Color.Green;
                     }
 
                 }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_HexContextMenu_ChangeFont_Click(object sender, EventArgs e)
+        {
+            if (HexViewfontDialog.ShowDialog() == DialogResult.OK)
+            {
+                ListView_HexEditor.Font = HexViewfontDialog.Font;
             }
         }
     }

@@ -205,6 +205,7 @@ namespace sb_explorer
                             }
                             else
                             {
+                                //Find HashCode Section
                                 uint hashcodeToCheck;
                                 switch (MusXheaderData.FileVersion)
                                 {
@@ -219,9 +220,11 @@ namespace sb_explorer
                                         break;
                                 }
 
+                                //Print HashCode
                                 if (Hashcodes.sound_HashCodes.ContainsKey(hashcodeToCheck))
                                 {
                                     listViewItem.Text = Hashcodes.sound_HashCodes[hashcodeToCheck].ToString();
+                                    listViewItem.SubItems[0].ForeColor = SystemColors.ControlText;
                                 }
                                 else
                                 {
@@ -270,7 +273,6 @@ namespace sb_explorer
                         listViewItem.SubItems[6].Text = samplePoolItem.PanOffset.ToString();
                         listViewItem.Tag = samplePoolItem.FileRef;
 
-
                         //Add item to listview
                         samplePropsControl.ListView_SamplePool.Items.Add(listViewItem);
                     }
@@ -278,6 +280,24 @@ namespace sb_explorer
                     //Update Hex Viewer
                     ((Frm_Main)Application.OpenForms["Frm_Main"]).UserControl_HexEditor.UpdateHexViewer(sampleData.HexViewerData, MusXheaderData.FileVersion);
                 }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void ContextMenuItem_CopyName_Click(object sender, EventArgs e)
+        {
+            if (ListView_HashCodes.SelectedItems.Count != 0)
+            {
+                Clipboard.SetText(ListView_HashCodes.SelectedItems[0].SubItems[2].Text);
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void ContextMenuItem_CopyHashCode_Click(object sender, EventArgs e)
+        {
+            if (ListView_HashCodes.SelectedItems.Count != 0)
+            {
+                Clipboard.SetText(ListView_HashCodes.SelectedItems[0].SubItems[0].Text);
             }
         }
     }

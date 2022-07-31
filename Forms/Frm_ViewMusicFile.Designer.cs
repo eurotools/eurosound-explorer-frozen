@@ -29,6 +29,7 @@ namespace sb_explorer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ViewMusicFile));
             this.Label_BaseVolume = new System.Windows.Forms.Label();
             this.Textbox_BaseVolume = new System.Windows.Forms.TextBox();
             this.Label_MusicLength = new System.Windows.Forms.Label();
@@ -354,9 +355,11 @@ namespace sb_explorer
             this.Controls.Add(this.Textbox_BaseVolume);
             this.Controls.Add(this.Label_BaseVolume);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_ViewMusicFile";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "View Music";

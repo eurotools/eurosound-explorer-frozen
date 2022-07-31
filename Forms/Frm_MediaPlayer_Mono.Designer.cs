@@ -29,13 +29,14 @@ namespace sb_explorer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_MediaPlayer_Mono));
             this.Button_SaveWav = new System.Windows.Forms.Button();
             this.Button_Close = new System.Windows.Forms.Button();
             this.Button_Play = new System.Windows.Forms.Button();
             this.Button_Stop = new System.Windows.Forms.Button();
             this.SaveFileDlg_SaveFile = new System.Windows.Forms.SaveFileDialog();
             this.Button_SaveRaw = new System.Windows.Forms.Button();
-            this.WavesViewer = new sb_explorer.Controls.EuroSound_WaveViewer();
+            this.WavesViewer = new sb_explorer.Controls.UserControl_WaveViewer();
             this.SuspendLayout();
             // 
             // Button_SaveWav
@@ -91,6 +92,7 @@ namespace sb_explorer
             this.Button_SaveRaw.TabIndex = 1;
             this.Button_SaveRaw.Text = "Save Raw";
             this.Button_SaveRaw.UseVisualStyleBackColor = true;
+            this.Button_SaveRaw.Visible = false;
             this.Button_SaveRaw.Click += new System.EventHandler(this.Button_SaveRaw_Click);
             // 
             // WavesViewer
@@ -121,9 +123,11 @@ namespace sb_explorer
             this.Controls.Add(this.Button_Play);
             this.Controls.Add(this.Button_Stop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_MediaPlayer_Mono";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Media Player";
@@ -139,7 +143,7 @@ namespace sb_explorer
         private System.Windows.Forms.Button Button_Close;
         private System.Windows.Forms.Button Button_Play;
         private System.Windows.Forms.Button Button_Stop;
-        private Controls.EuroSound_WaveViewer WavesViewer;
+        private Controls.UserControl_WaveViewer WavesViewer;
         private System.Windows.Forms.SaveFileDialog SaveFileDlg_SaveFile;
         private System.Windows.Forms.Button Button_SaveRaw;
     }

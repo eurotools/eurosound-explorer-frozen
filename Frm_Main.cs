@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace sb_explorer
@@ -13,6 +15,8 @@ namespace sb_explorer
         internal MusXHeaderData headerData;
         internal SortedDictionary<uint, Sample> samplesList;
         internal List<WavHeaderData> wavesList;
+        private IEnumerator SearchEnumerator;
+        private Regex SearchRegEx;
 
         //-------------------------------------------------------------------------------------------------------------------------------
         public Frm_Main()
@@ -25,6 +29,15 @@ namespace sb_explorer
         {
             if (OpenFileDiag_SoundbankFiles.ShowDialog() == DialogResult.OK)
             {
+                LoadSoundbank();
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void LoadSoundbank()
+        {
+            try
+            {
                 samplesList = new SortedDictionary<uint, Sample>();
                 wavesList = new List<WavHeaderData>();
                 MusxHeader sfxHeaderData = new MusxHeader();
@@ -32,7 +45,7 @@ namespace sb_explorer
 
                 //Read Header and make sure is a valid MUSX file
                 headerData = new MusXHeaderData();
-                if ((fileVersion == 201 || fileVersion == 1) && fileVersion > 0)
+                if (fileVersion == 201 || fileVersion == 1)
                 {
                     Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDiag_SoundbankFiles.FileName);
                     if (specifyPlatform.ShowDialog() == DialogResult.OK)
@@ -55,7 +68,7 @@ namespace sb_explorer
                         UserControl_SampleProperties.CheckedListBox_SampleFlags.Items.AddRange(new string[] { "MaxReject", "NextFreeOneToUse", "IgnoreAge", "MultiSample", "RandomPick", "Shuffled", "Loop", "Polyphonic", "UnderWater", "PauseInNis", "HasSubSfx", "StealOnLouder", "TreatLikeMusic", "UserFlags14", "UserFlags15", "UserFlags16" });
                     }
                     else
-                    { 
+                    {
                         //Read file data
                         NewMusX newSoundbanksFile = new NewMusX();
                         newSoundbanksFile.ReadSoundbank(OpenFileDiag_SoundbankFiles.FileName, headerData, samplesList, wavesList);
@@ -78,104 +91,248 @@ namespace sb_explorer
                     UserControl_Hashcode.UpdateHashcodesListView(samplesList);
                     UserControl_WavHeaderData.UpdateWavHeaderData(wavesList);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void Button_ReloadSoundbank_Click(object sender, EventArgs e)
+        {
+            LoadSoundbank();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_File_ViewMusicFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (OpenFileDialog_MusicFiles.ShowDialog() == DialogResult.OK)
+                {
+                    MusxHeader sfxHeaderData = new MusxHeader();
+                    int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDialog_MusicFiles.FileName);
+
+                    //Read Header and make sure is a valid MUSX file
+                    headerData = new MusXHeaderData();
+                    if (fileVersion == 201 || fileVersion == 1)
+                    {
+                        Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDialog_MusicFiles.FileName);
+                        if (specifyPlatform.ShowDialog() == DialogResult.OK)
+                        {
+                            headerData.Platform = specifyPlatform.Combobox_Platform.Text;
+                        }
+                    }
+
+                    //Read file
+                    if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_MusicFiles.FileName, headerData) && headerData.Platform != null)
+                    {
+                        MusicSample musicDat = null;
+
+                        //Sphinx & Athens 2004
+                        if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
+                        {
+                            OldMusX musicFilesReader = new OldMusX();
+                            switch (headerData.Platform)
+                            {
+                                case "PC":
+                                    musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 1);
+                                    break;
+                                case "PS2":
+                                    musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 128);
+                                    break;
+                                case "GC":
+                                    musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 1);
+                                    break;
+                                case "XB":
+                                    musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 4);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            NewMusX musicFilesReader = new NewMusX();
+                            switch (headerData.Platform)
+                            {
+                                case "PC__":
+                                    musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
+                                    break;
+                                case "PS2_":
+                                    musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 128);
+                                    break;
+                                case "GC__":
+                                    musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
+                                    break;
+                                case "XB__":
+                                    musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
+                                    break;
+                                case "XB1_":
+                                    musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
+                                    break;
+                            }
+                        }
+
+                        //Open form
+                        if (musicDat != null)
+                        {
+                            Frm_ViewMusicFile musicsForm = new Frm_ViewMusicFile(musicDat, OpenFileDialog_MusicFiles.FileName);
+                            musicsForm.ShowDialog();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_File_ViewProjectFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (OpenFileDiag_ProjectFiles.ShowDialog() == DialogResult.OK)
+                {
+                    MusxHeader sfxHeaderData = new MusxHeader();
+                    int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDiag_ProjectFiles.FileName);
+
+                    //Read Header and make sure is a valid MUSX file
+                    headerData = new MusXHeaderData();
+
+                    //Read file
+                    if (sfxHeaderData.ReadSoundBankHeader(OpenFileDiag_ProjectFiles.FileName, headerData) && headerData.Platform != null)
+                    {
+                        Frm_ViewProjectFile projectFile = new Frm_ViewProjectFile(OpenFileDiag_ProjectFiles.FileName);
+                        projectFile.ShowDialog();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
         private void MenuItem_File_SetSoundH_Click(object sender, EventArgs e)
         {
-            if (FolderBrowserDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                string filePath = Path.Combine(FolderBrowserDialog.SelectedPath, "Sound.h");
-                if (File.Exists(filePath))
+                if (FolderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Hashcodes.Read_Sound_h(filePath);
+                    string filePath = Path.Combine(FolderBrowserDialog.SelectedPath, "Sound.h");
+                    if (File.Exists(filePath))
+                    {
+                        Hashcodes.Read_Sound_h(filePath);
 
-                    //Enable search menu items
-                    MenuItem_View_FindHashCode.Enabled = true;
-                    MenuItem_View_FindNext.Enabled = true;
+                        //Enable search menu items
+                        MenuItem_View_FindHashCode.Enabled = true;
+                        MenuItem_View_FindNext.Enabled = true;
 
-                    //Update hashcodes
-                    UserControl_Hashcode.UpdateHashcodesListView(samplesList);
+                        //Update hashcodes
+                        UserControl_Hashcode.UpdateHashcodesListView(samplesList);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_View_FindHashCode_Click(object sender, EventArgs e)
+        {
+            //Show form
+            using (FindHashCode findHashcode = new FindHashCode())
+            {
+                if (findHashcode.ShowDialog() == DialogResult.OK)
+                {
+                    UserControl_Hashcode.ListView_HashCodes.Focus();
+                    SearchHashcodes(findHashcode.Textbox_TextSearch.Text);
                 }
             }
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        private void MenuItem_File_ViewMusicFile_Click(object sender, EventArgs e)
+        public void SearchHashcodes(string str)
         {
-            if (OpenFileDialog_MusicFiles.ShowDialog() == DialogResult.OK)
+            //Start iterating
+            SearchEnumerator = UserControl_Hashcode.ListView_HashCodes.Items.GetEnumerator();
+            SearchRegEx = new Regex(str, RegexOptions.IgnoreCase);
+            if (!SearchEnumerator.MoveNext())
             {
-                MusxHeader sfxHeaderData = new MusxHeader();
-                int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDialog_MusicFiles.FileName);
+                return;
+            }
 
-                //Read Header and make sure is a valid MUSX file
-                headerData = new MusXHeaderData();
-                if ((fileVersion == 201 || fileVersion == 1) && fileVersion > 0)
+            //Search items
+            ListViewItem listViewItem;
+            while (true)
+            {
+                listViewItem = SearchEnumerator.Current as ListViewItem;
+                if (SearchRegEx.Match(listViewItem.SubItems[2].Text).Success)
                 {
-                    Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDialog_MusicFiles.FileName);
-                    if (specifyPlatform.ShowDialog() == DialogResult.OK)
+                    break;
+                }
+                if (!SearchEnumerator.MoveNext())
+                {
+                    return;
+                }
+            }
+
+            //Select item
+            UserControl_Hashcode.ListView_HashCodes.EnsureVisible(listViewItem.Index);
+            if (UserControl_Hashcode.ListView_HashCodes.SelectedItems.Count != 0)
+            {
+                UserControl_Hashcode.ListView_HashCodes.SelectedItems[0].Selected = false;
+            }
+            listViewItem.Selected = true;
+            listViewItem.Focused = true;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_View_FindNext_Click(object sender, EventArgs e)
+        {
+            //Check that the search is not null
+            if (SearchEnumerator == null || SearchRegEx == null)
+            {
+                return;
+            }
+
+            //Select item
+            if (SearchEnumerator.MoveNext())
+            {
+                do
+                {
+                    ListViewItem listViewItem = SearchEnumerator.Current as ListViewItem;
+                    if (SearchRegEx.Match(listViewItem.SubItems[2].Text).Success)
                     {
-                        headerData.Platform = specifyPlatform.Combobox_Platform.Text;
+                        UserControl_Hashcode.ListView_HashCodes.EnsureVisible(listViewItem.Index);
+                        if (UserControl_Hashcode.ListView_HashCodes.SelectedItems.Count != 0)
+                        {
+                            UserControl_Hashcode.ListView_HashCodes.SelectedItems[0].Selected = false;
+                        }
+                        listViewItem.Selected = true;
+                        listViewItem.Focused = true;
+                        return;
                     }
                 }
+                while (SearchEnumerator.MoveNext());
+            }
 
-                //Read file
-                if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_MusicFiles.FileName, headerData) && headerData.Platform != null)
-                {
-                    MusicSample musicDat = null;
+            //Inform user
+            MessageBox.Show("No more occurrences Found!", "Find Hashcodes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            SearchEnumerator = UserControl_Hashcode.ListView_HashCodes.Items.GetEnumerator();
+        }
 
-                    //Sphinx & Athens 2004
-                    if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
-                    {
-                        OldMusX musicFilesReader = new OldMusX();
-                        switch (headerData.Platform)
-                        {
-                            case "PC":
-                                musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 1);
-                                break;
-                            case "PS2":
-                                musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 128);
-                                break;
-                            case "GC":
-                                musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 1);
-                                break;
-                            case "XB":
-                                musicDat = musicFilesReader.ReadMusicBank(OpenFileDialog_MusicFiles.FileName, headerData, 4);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        NewMusX musicFilesReader = new NewMusX();
-                        switch (headerData.Platform)
-                        {
-                            case "PC__":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
-                                break;
-                            case "PS2_":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 128);
-                                break;
-                            case "GC__":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
-                                break;
-                            case "XB__":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
-                                break;
-                            case "XB1_":
-                                musicDat = musicFilesReader.ReadMusicFile(OpenFileDialog_MusicFiles.FileName, headerData, 32);
-                                break;
-                        }
-                    }
-
-                    //Open form
-                    if (musicDat != null)
-                    {
-                        Frm_ViewMusicFile musicsForm = new Frm_ViewMusicFile(musicDat, OpenFileDialog_MusicFiles.FileName);
-                        musicsForm.ShowDialog();
-                    }
-                }
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_About_About_Click(object sender, EventArgs e)
+        {
+            using (Frm_About aboutForm = new Frm_About())
+            {
+                aboutForm.ShowDialog();
             }
         }
     }

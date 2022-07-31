@@ -77,14 +77,14 @@
     <Compile Include="Classes\Decoders\Eurocom_ImaAdpcm.cs" />
     <Compile Include="Classes\Decoders\XboxAdpcm.cs" />
     <Compile Include="Classes\Hashcodes.cs" />
-    <Compile Include="Controls\EuroSound_WaveViewer.cs">
+    <Compile Include="Controls\UserControl_WaveViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ListView_ColumnSortingClick.cs">
+    <Compile Include="Controls\UserControl_ListViewColumnSortingClick.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\ListView_ColumnSortingClick.Designer.cs">
-      <DependentUpon>ListView_ColumnSortingClick.cs</DependentUpon>
+    <Compile Include="Controls\UserControl_ListViewColumnSortingClick.Designer.cs">
+      <DependentUpon>UserControl_ListViewColumnSortingClick.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\UserControl_HashCodes.cs">
       <SubType>UserControl</SubType>
@@ -117,11 +117,17 @@
       <DependentUpon>UserControl_WavHeaderData.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Decoders\ImaAdpcm.cs" />
-    <Compile Include="Forms\ADPCM_Validator_PC.cs">
+    <Compile Include="Forms\Frm_AdpcmValidator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ADPCM_Validator_PC.Designer.cs">
-      <DependentUpon>ADPCM_Validator_PC.cs</DependentUpon>
+    <Compile Include="Forms\Frm_AdpcmValidator.Designer.cs">
+      <DependentUpon>Frm_AdpcmValidator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Frm_FindHashCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Frm_FindHashCode.Designer.cs">
+      <DependentUpon>Frm_FindHashCode.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Frm_ChoosePlatform.cs">
       <SubType>Form</SubType>
@@ -135,23 +141,35 @@
     <Compile Include="Forms\Frm_ViewMusicFile.Designer.cs">
       <DependentUpon>Frm_ViewMusicFile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Frm_About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_About.Designer.cs">
+      <DependentUpon>Frm_About.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm_Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Frm_Main.Designer.cs">
       <DependentUpon>Frm_Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MediaPlayer_Mono.cs">
+    <Compile Include="Forms\Frm_MediaPlayer_Mono.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MediaPlayer_Mono.Designer.cs">
-      <DependentUpon>MediaPlayer_Mono.cs</DependentUpon>
+    <Compile Include="Forms\Frm_MediaPlayer_Mono.Designer.cs">
+      <DependentUpon>Frm_MediaPlayer_Mono.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MediaPlayer_Stereo.cs">
+    <Compile Include="Forms\Frm_MediaPlayer_Stereo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MediaPlayer_Stereo.Designer.cs">
-      <DependentUpon>MediaPlayer_Stereo.cs</DependentUpon>
+    <Compile Include="Forms\Frm_MediaPlayer_Stereo.Designer.cs">
+      <DependentUpon>Frm_MediaPlayer_Stereo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_ViewProjectFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_ViewProjectFile.Designer.cs">
+      <DependentUpon>Frm_ViewProjectFile.cs</DependentUpon>
     </Compile>
     <Compile Include="MusX Readers\MusxHeader.cs" />
     <Compile Include="MusX Readers\NewMusX.cs" />
@@ -159,6 +177,7 @@
     <Compile Include="Objects\HexData.cs" />
     <Compile Include="Objects\MusicSample.cs" />
     <Compile Include="Objects\MusXHeaderData.cs" />
+    <Compile Include="Objects\ProjectFile.cs" />
     <Compile Include="Objects\Sample.cs" />
     <Compile Include="Objects\SamplePoolItem.cs" />
     <Compile Include="Classes\Decoders\SonyAdpcm.cs" />
@@ -183,8 +202,11 @@
     <EmbeddedResource Include="Controls\UserControl_WavHeaderData.resx">
       <DependentUpon>UserControl_WavHeaderData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ADPCM_Validator_PC.resx">
-      <DependentUpon>ADPCM_Validator_PC.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Frm_AdpcmValidator.resx">
+      <DependentUpon>Frm_AdpcmValidator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Frm_FindHashCode.resx">
+      <DependentUpon>Frm_FindHashCode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Frm_ChoosePlatform.resx">
       <DependentUpon>Frm_ChoosePlatform.cs</DependentUpon>
@@ -192,14 +214,20 @@
     <EmbeddedResource Include="Forms\Frm_ViewMusicFile.resx">
       <DependentUpon>Frm_ViewMusicFile.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Frm_About.resx">
+      <DependentUpon>Frm_About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frm_Main.resx">
       <DependentUpon>Frm_Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MediaPlayer_Mono.resx">
-      <DependentUpon>MediaPlayer_Mono.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Frm_MediaPlayer_Mono.resx">
+      <DependentUpon>Frm_MediaPlayer_Mono.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MediaPlayer_Stereo.resx">
-      <DependentUpon>MediaPlayer_Stereo.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Frm_MediaPlayer_Stereo.resx">
+      <DependentUpon>Frm_MediaPlayer_Stereo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_ViewProjectFile.resx">
+      <DependentUpon>Frm_ViewProjectFile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

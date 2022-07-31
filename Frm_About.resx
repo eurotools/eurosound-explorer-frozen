@@ -117,7 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="SaveFileDlg_SaveFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAIAICAQAAEABADoAgAAJgAAABAQEAABAAQAKAEAAA4DAAAoAAAAIAAAAEAAAAABAAQAAAAAAAAC
+        AAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAgAAAgAAAAICAAIAAAACAAIAAgIAAAICAgADAwMAAAAD/AAD/
+        AAAA//8A/wAAAP8A/wD//wAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAcAAAAAAAAAAAAAAAAAAABwAAAAd3d3d3d3d3d3d3cHAHdwBERERERERERERERAcAREcAT/
+        ////////////CAD/9HAE////////////8IAP//RwBP///////////wgA///0cAT///////////BwD///
+        9HAE////gAAA//8HAP////RwBP//8Ad3d4//AA/////0cAT/+AcAAAd3AA//////9HAE/wAA///wB3D/
+        //////RwBPAA////j/AHj//////0cASAD/////6PB3//////9HAEAH/4AI//jvB4//////RwBAD/8AAP
+        j/7wd//////0cAAH//AADw///wf/////9HAAB//4AA8P/+8H//////RwAAf///8PD/+PB//////0cAAH
+        +P//CH///wj/////9HAAB3/v/wD///8P//////RwBPB/j/8A///wf//////0cASAd+joCIiIgIiIiIiI
+        hHAERAd0jkRERARERERERERwBExAd3xMTHBMTE7Ozkl0cATMzAB3d3AMzMzMzMzMxAAAREREAAAERERE
+        REREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////////
+        ///////v////x8AAAIGAAAEBgAACAYAABAGAAAgBgAAQAYB8IAGBgCABggDAAYwAAAGYAAABkAAAAaAA
+        AAGgAAABwAAAAcAAAAHAAAABwAAAAcAAAAGAAAABgAAAAYAAAAGAAAABgAAAA8AAAAf/////////////
+        //8oAAAAEAAAACAAAAABAAQAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAgAAAAICAAIAA
+        AACAAIAAgIAAAICAgADAwMAAAAD/AAD/AAAA//8A/wAAAP8A/wD//wAA////AAAAAAAAAAAAB3d3d3d3
+        d3dERERERERER0////////hHT///////+EdP///////4R0////////hHT///////+EdP///////4R0//
+        //////hHT///////+EdIiIiIiIiIR0zMzMzMzMxHxERERERERMAAAAAAAAAAAAAAAAAAAAAA//8AAIAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAD//wAA//8AAA==
+</value>
+  </data>
 </root>

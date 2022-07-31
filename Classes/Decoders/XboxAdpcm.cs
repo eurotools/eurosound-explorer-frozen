@@ -34,7 +34,7 @@
         //-------------------------------------------------------------------------------------------------------------------------------
         public short[] Decode(byte[] adpcmData)
         {
-            int numSamples = adpcmData.Length * 64 /36;
+            int numSamples = adpcmData.Length * 64 / 36;
             short[] outBuff = new short[numSamples];
             int inp;           		/* Input buffer pointer */
             int outIndex = 0;   	/* Output buffer pointer */
@@ -117,7 +117,7 @@
                 step = stepsizeTable[index];
 
                 /* Step 7 - Output value */
-                outBuff[outIndex++] = (short)valpred;               
+                outBuff[outIndex++] = (short)valpred;
             }
             state.valprev = valpred;
             state.index = index;

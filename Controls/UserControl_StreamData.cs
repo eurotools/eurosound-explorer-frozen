@@ -22,57 +22,64 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void Button_LoadStreamData_Click(object sender, EventArgs e)
         {
-            if (OpenFileDialog_StreamData.ShowDialog() == DialogResult.OK)
+            try
             {
-                //Update textbox
-                Textbox_StreamFilePath.Text = OpenFileDialog_StreamData.FileName;
-
-                //Get file version
-                MusxHeader sfxHeaderData = new MusxHeader();
-                int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDialog_StreamData.FileName);
-
-                //Read Header and make sure is a valid MUSX file
-                headerData = new MusXHeaderData();
-                if ((fileVersion == 201 || fileVersion == 1) && fileVersion > 0)
+                if (OpenFileDialog_StreamData.ShowDialog() == DialogResult.OK)
                 {
-                    Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDialog_StreamData.FileName);
-                    if (specifyPlatform.ShowDialog() == DialogResult.OK)
-                    {
-                        headerData.Platform = specifyPlatform.Combobox_Platform.Text;
-                    }
-                }
+                    //Update textbox
+                    Textbox_StreamFilePath.Text = OpenFileDialog_StreamData.FileName;
 
-                //Read File
-                if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData) && headerData.Platform != null)
-                {
-                    streamedSamples = new List<StreamSample>();
-                    if ((headerData.FileVersion == 201 || headerData.FileVersion == 1))
-                    {
-                        //Read file data
-                        OldMusX streamsReader = new OldMusX();
-                        streamsReader.LoadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
+                    //Get file version
+                    MusxHeader sfxHeaderData = new MusxHeader();
+                    int fileVersion = sfxHeaderData.ReadFileVersion(OpenFileDialog_StreamData.FileName);
 
-                        Button_ValidateADPCM.Enabled = false;
-                    }
-                    else
+                    //Read Header and make sure is a valid MUSX file
+                    headerData = new MusXHeaderData();
+                    if ((fileVersion == 201 || fileVersion == 1) && fileVersion > 0)
                     {
-                        //Read file data
-                        NewMusX streamsReader = new NewMusX();
-                        streamsReader.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
-
-                        //Enable validation tool - Only For Custom EuroCom ADPCM
-                        if (headerData.Platform.Contains("PC"))
+                        Frm_ChoosePlatform specifyPlatform = new Frm_ChoosePlatform(OpenFileDialog_StreamData.FileName);
+                        if (specifyPlatform.ShowDialog() == DialogResult.OK)
                         {
-                            Button_ValidateADPCM.Enabled = true;
+                            headerData.Platform = specifyPlatform.Combobox_Platform.Text;
+                        }
+                    }
+
+                    //Read File
+                    if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData) && headerData.Platform != null)
+                    {
+                        streamedSamples = new List<StreamSample>();
+                        if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
+                        {
+                            //Read file data
+                            OldMusX streamsReader = new OldMusX();
+                            streamsReader.LoadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
+
+                            Button_ValidateADPCM.Enabled = false;
                         }
                         else
                         {
-                            Button_ValidateADPCM.Enabled = false;
-                        }
-                    }
+                            //Read file data
+                            NewMusX streamsReader = new NewMusX();
+                            streamsReader.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
 
-                    PrintSamplesData(streamedSamples);
+                            //Enable validation tool - Only For Custom EuroCom ADPCM
+                            if (headerData.Platform.Contains("PC"))
+                            {
+                                Button_ValidateADPCM.Enabled = true;
+                            }
+                            else
+                            {
+                                Button_ValidateADPCM.Enabled = false;
+                            }
+                        }
+
+                        PrintSamplesData(streamedSamples);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

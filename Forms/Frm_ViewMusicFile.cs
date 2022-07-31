@@ -180,7 +180,7 @@ namespace sb_explorer
 
             //ADPCM Validate
             MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
-            if ((MusXheaderData.Platform.Contains("PC") || MusXheaderData.Platform.Contains("GC")) && MusXheaderData.FileVersion > 1 && MusXheaderData.FileVersion < 10)
+            if ((MusXheaderData.Platform.Contains("PC") || MusXheaderData.Platform.Contains("GC")) && MusXheaderData.FileVersion > 3 && MusXheaderData.FileVersion < 10)
             {
                 byte[] ImaDataLeft = musicFileData.SampleByteData_LeftChannel;
                 byte[] ImaDataRight = musicFileData.SampleByteData_RightChannel;

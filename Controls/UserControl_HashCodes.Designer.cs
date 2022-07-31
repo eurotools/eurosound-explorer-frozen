@@ -33,6 +33,9 @@ namespace sb_explorer
             this.Col_HashCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Col_Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Col_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ContextMenu_CopyHashCodeInfo = new System.Windows.Forms.ContextMenu();
+            this.ContextMenuItem_CopyName = new System.Windows.Forms.MenuItem();
+            this.ContextMenuItem_CopyHashCode = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // ListView_HashCodes
@@ -41,6 +44,7 @@ namespace sb_explorer
             this.Col_HashCode,
             this.Col_Status,
             this.Col_Name});
+            this.ListView_HashCodes.ContextMenu = this.ContextMenu_CopyHashCodeInfo;
             this.ListView_HashCodes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListView_HashCodes.FullRowSelect = true;
             this.ListView_HashCodes.HideSelection = false;
@@ -67,6 +71,24 @@ namespace sb_explorer
             this.Col_Name.Text = "Name";
             this.Col_Name.Width = 100;
             // 
+            // ContextMenu_CopyHashCodeInfo
+            // 
+            this.ContextMenu_CopyHashCodeInfo.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.ContextMenuItem_CopyName,
+            this.ContextMenuItem_CopyHashCode});
+            // 
+            // ContextMenuItem_CopyName
+            // 
+            this.ContextMenuItem_CopyName.Index = 0;
+            this.ContextMenuItem_CopyName.Text = "Copy Name";
+            this.ContextMenuItem_CopyName.Click += new System.EventHandler(this.ContextMenuItem_CopyName_Click);
+            // 
+            // ContextMenuItem_CopyHashCode
+            // 
+            this.ContextMenuItem_CopyHashCode.Index = 1;
+            this.ContextMenuItem_CopyHashCode.Text = "Copy HashCode";
+            this.ContextMenuItem_CopyHashCode.Click += new System.EventHandler(this.ContextMenuItem_CopyHashCode_Click);
+            // 
             // UserControl_HashCodes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -83,5 +105,8 @@ namespace sb_explorer
         private System.Windows.Forms.ColumnHeader Col_Status;
         private System.Windows.Forms.ColumnHeader Col_Name;
         protected internal ListView_ColumnSortingClick ListView_HashCodes;
+        private System.Windows.Forms.ContextMenu ContextMenu_CopyHashCodeInfo;
+        private System.Windows.Forms.MenuItem ContextMenuItem_CopyName;
+        private System.Windows.Forms.MenuItem ContextMenuItem_CopyHashCode;
     }
 }

@@ -49,6 +49,9 @@ namespace sb_explorer
             this.HexViewer_Byte7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.HexViewer_Byte8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.HexViewer_ASCII = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ContextMenu_HexView_ChangeFont = new System.Windows.Forms.ContextMenu();
+            this.MenuItem_HexContextMenu_ChangeFont = new System.Windows.Forms.MenuItem();
+            this.HexViewfontDialog = new System.Windows.Forms.FontDialog();
             this.SuspendLayout();
             // 
             // Label_HexViewer_Key
@@ -156,6 +159,7 @@ namespace sb_explorer
             this.HexViewer_Byte7,
             this.HexViewer_Byte8,
             this.HexViewer_ASCII});
+            this.ListView_HexEditor.ContextMenu = this.ContextMenu_HexView_ChangeFont;
             this.ListView_HexEditor.Font = new System.Drawing.Font("Courier New", 8.25F);
             this.ListView_HexEditor.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.ListView_HexEditor.HideSelection = false;
@@ -216,6 +220,24 @@ namespace sb_explorer
             this.HexViewer_ASCII.Text = "ASCII";
             this.HexViewer_ASCII.Width = 77;
             // 
+            // ContextMenu_HexView_ChangeFont
+            // 
+            this.ContextMenu_HexView_ChangeFont.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.MenuItem_HexContextMenu_ChangeFont});
+            // 
+            // MenuItem_HexContextMenu_ChangeFont
+            // 
+            this.MenuItem_HexContextMenu_ChangeFont.Index = 0;
+            this.MenuItem_HexContextMenu_ChangeFont.Text = "Change Font";
+            this.MenuItem_HexContextMenu_ChangeFont.Click += new System.EventHandler(this.MenuItem_HexContextMenu_ChangeFont_Click);
+            // 
+            // HexViewfontDialog
+            // 
+            this.HexViewfontDialog.FixedPitchOnly = true;
+            this.HexViewfontDialog.FontMustExist = true;
+            this.HexViewfontDialog.MaxSize = 10;
+            this.HexViewfontDialog.ShowEffects = false;
+            // 
             // UserControl_HexEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -231,7 +253,7 @@ namespace sb_explorer
             this.Controls.Add(this.Button_HexViewer_HeaderData);
             this.Controls.Add(this.ListView_HexEditor);
             this.Name = "UserControl_HexEditor";
-            this.Size = new System.Drawing.Size(386, 550);
+            this.Size = new System.Drawing.Size(386, 546);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,5 +281,8 @@ namespace sb_explorer
         private System.Windows.Forms.ColumnHeader HexViewer_Byte7;
         private System.Windows.Forms.ColumnHeader HexViewer_Byte8;
         private System.Windows.Forms.ColumnHeader HexViewer_ASCII;
+        private System.Windows.Forms.FontDialog HexViewfontDialog;
+        private System.Windows.Forms.ContextMenu ContextMenu_HexView_ChangeFont;
+        private System.Windows.Forms.MenuItem MenuItem_HexContextMenu_ChangeFont;
     }
 }

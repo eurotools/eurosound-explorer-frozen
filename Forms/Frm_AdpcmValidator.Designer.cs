@@ -29,6 +29,7 @@ namespace sb_explorer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ADPCM_Validator_PC));
             this.ProgressBar_Validation = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
@@ -46,9 +47,11 @@ namespace sb_explorer
             this.ClientSize = new System.Drawing.Size(384, 93);
             this.Controls.Add(this.ProgressBar_Validation);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ADPCM_Validator_PC";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Validating ADPCM data";

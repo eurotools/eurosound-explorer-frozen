@@ -29,6 +29,7 @@ namespace sb_explorer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_ChoosePlatform));
             this.Label_Explanation = new System.Windows.Forms.Label();
             this.Button_Cancel = new System.Windows.Forms.Button();
             this.Button_OK = new System.Windows.Forms.Button();
@@ -133,9 +134,11 @@ namespace sb_explorer
             this.Controls.Add(this.Textbox_FilePath);
             this.Controls.Add(this.Label_FilePath);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Frm_ChoosePlatform";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Specify File Platform";

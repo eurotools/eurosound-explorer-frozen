@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace sb_explorer.Controls
 {
-    public class EuroSound_WaveViewer : UserControl
+    public class UserControl_WaveViewer : UserControl
     {
         #region declarations
         public float PenWidth { get; set; }
@@ -42,7 +42,7 @@ namespace sb_explorer.Controls
 
         #endregion declarations
 
-        public EuroSound_WaveViewer()
+        public UserControl_WaveViewer()
         {
             //This call is required by the Windows.Forms Form Designer.
             InitializeComponent();

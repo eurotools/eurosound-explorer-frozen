@@ -29,12 +29,13 @@ namespace sb_explorer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MediaPlayer_Stereo));
             this.Button_SaveWav = new System.Windows.Forms.Button();
             this.Button_Close = new System.Windows.Forms.Button();
             this.Button_Stop = new System.Windows.Forms.Button();
             this.Button_Play = new System.Windows.Forms.Button();
-            this.WavesViewerLeft = new sb_explorer.Controls.EuroSound_WaveViewer();
-            this.WavesViewerRight = new sb_explorer.Controls.EuroSound_WaveViewer();
+            this.WavesViewerLeft = new sb_explorer.Controls.UserControl_WaveViewer();
+            this.WavesViewerRight = new sb_explorer.Controls.UserControl_WaveViewer();
             this.Label_RightChannel = new System.Windows.Forms.Label();
             this.Label_LeftChannel = new System.Windows.Forms.Label();
             this.SaveFileDlg_SaveFile = new System.Windows.Forms.SaveFileDialog();
@@ -143,9 +144,11 @@ namespace sb_explorer
             this.Controls.Add(this.Button_Stop);
             this.Controls.Add(this.Button_Play);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MediaPlayer_Stereo";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Media Player";
@@ -162,8 +165,8 @@ namespace sb_explorer
         private System.Windows.Forms.Button Button_Close;
         private System.Windows.Forms.Button Button_Stop;
         private System.Windows.Forms.Button Button_Play;
-        private Controls.EuroSound_WaveViewer WavesViewerLeft;
-        private Controls.EuroSound_WaveViewer WavesViewerRight;
+        private Controls.UserControl_WaveViewer WavesViewerLeft;
+        private Controls.UserControl_WaveViewer WavesViewerRight;
         private System.Windows.Forms.Label Label_RightChannel;
         private System.Windows.Forms.Label Label_LeftChannel;
         private System.Windows.Forms.SaveFileDialog SaveFileDlg_SaveFile;

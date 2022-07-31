@@ -40,4 +40,6 @@ F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.pdb
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ViewMusicFile.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ChoosePlatform.resources
 F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.exe.config
-F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.AssemblyReference.cache
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_About.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.FindHashCode.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ViewProjectFile.resources

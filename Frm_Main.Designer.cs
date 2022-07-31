@@ -68,6 +68,7 @@ namespace sb_explorer
             this.OpenFileDiag_SoundbankFiles = new System.Windows.Forms.OpenFileDialog();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.OpenFileDialog_MusicFiles = new System.Windows.Forms.OpenFileDialog();
+            this.OpenFileDiag_ProjectFiles = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_HashCodes)).BeginInit();
             this.SplitContainer_HashCodes.Panel1.SuspendLayout();
             this.SplitContainer_HashCodes.Panel2.SuspendLayout();
@@ -118,6 +119,7 @@ namespace sb_explorer
             // 
             this.MenuItem_File_ViewProjectFile.Index = 2;
             this.MenuItem_File_ViewProjectFile.Text = "View Project File *.sfx";
+            this.MenuItem_File_ViewProjectFile.Click += new System.EventHandler(this.MenuItem_File_ViewProjectFile_Click);
             // 
             // MenuItem_File_Separator1
             // 
@@ -138,6 +140,7 @@ namespace sb_explorer
             // MenuItem_File_Exit
             // 
             this.MenuItem_File_Exit.Index = 6;
+            this.MenuItem_File_Exit.Shortcut = System.Windows.Forms.Shortcut.CtrlQ;
             this.MenuItem_File_Exit.Text = "Exit";
             // 
             // MenuItem_View
@@ -152,13 +155,17 @@ namespace sb_explorer
             // 
             this.MenuItem_View_FindHashCode.Enabled = false;
             this.MenuItem_View_FindHashCode.Index = 0;
+            this.MenuItem_View_FindHashCode.Shortcut = System.Windows.Forms.Shortcut.CtrlF;
             this.MenuItem_View_FindHashCode.Text = "Find Hashcode";
+            this.MenuItem_View_FindHashCode.Click += new System.EventHandler(this.MenuItem_View_FindHashCode_Click);
             // 
             // MenuItem_View_FindNext
             // 
             this.MenuItem_View_FindNext.Enabled = false;
             this.MenuItem_View_FindNext.Index = 1;
+            this.MenuItem_View_FindNext.Shortcut = System.Windows.Forms.Shortcut.F3;
             this.MenuItem_View_FindNext.Text = "Find Next";
+            this.MenuItem_View_FindNext.Click += new System.EventHandler(this.MenuItem_View_FindNext_Click);
             // 
             // MenuItem_About
             // 
@@ -171,6 +178,7 @@ namespace sb_explorer
             // 
             this.MenuItem_About_About.Index = 0;
             this.MenuItem_About_About.Text = "About";
+            this.MenuItem_About_About.Click += new System.EventHandler(this.MenuItem_About_About_Click);
             // 
             // SplitContainer_HashCodes
             // 
@@ -192,7 +200,7 @@ namespace sb_explorer
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.StatusBar);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Textbox_SoundbankName);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Label_SoundBank_Name);
-            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1221, 891);
+            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1221, 870);
             this.SplitContainer_HashCodes.SplitterDistance = 252;
             this.SplitContainer_HashCodes.TabIndex = 0;
             // 
@@ -201,7 +209,7 @@ namespace sb_explorer
             this.UserControl_Hashcode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UserControl_Hashcode.Location = new System.Drawing.Point(0, 0);
             this.UserControl_Hashcode.Name = "UserControl_Hashcode";
-            this.UserControl_Hashcode.Size = new System.Drawing.Size(252, 891);
+            this.UserControl_Hashcode.Size = new System.Drawing.Size(252, 870);
             this.UserControl_Hashcode.TabIndex = 0;
             // 
             // TabControl
@@ -283,6 +291,7 @@ namespace sb_explorer
             this.Button_ReloadSoundbank.TabIndex = 6;
             this.Button_ReloadSoundbank.Text = "Reload";
             this.Button_ReloadSoundbank.UseVisualStyleBackColor = true;
+            this.Button_ReloadSoundbank.Click += new System.EventHandler(this.Button_ReloadSoundbank_Click);
             // 
             // Textbox_HashcodeName
             // 
@@ -312,7 +321,7 @@ namespace sb_explorer
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(0, 869);
+            this.StatusBar.Location = new System.Drawing.Point(0, 848);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.StatusLabel_HashCode,
@@ -380,11 +389,16 @@ namespace sb_explorer
     " (*.*)|*.*";
             this.OpenFileDialog_MusicFiles.FilterIndex = 0;
             // 
+            // OpenFileDiag_ProjectFiles
+            // 
+            this.OpenFileDiag_ProjectFiles.Filter = "Project Files (__projectdetails.sfx)|__projectdetails.sfx|All Files (*.*)|*.*";
+            this.OpenFileDiag_ProjectFiles.FilterIndex = 0;
+            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1221, 891);
+            this.ClientSize = new System.Drawing.Size(1221, 870);
             this.Controls.Add(this.SplitContainer_HashCodes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.MainMenu;
@@ -446,6 +460,7 @@ namespace sb_explorer
         protected internal System.Windows.Forms.TabControl TabControl;
         protected internal System.Windows.Forms.TabPage TabPage_WavHeaderData;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog_MusicFiles;
+        private System.Windows.Forms.OpenFileDialog OpenFileDiag_ProjectFiles;
     }
 }
 
