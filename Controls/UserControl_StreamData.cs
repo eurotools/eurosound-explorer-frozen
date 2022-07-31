@@ -10,6 +10,7 @@ namespace sb_explorer
     //-------------------------------------------------------------------------------------------------------------------------------
     public partial class UserControl_StreamData : UserControl
     {
+        internal int frequency = 22050;
         internal List<StreamSample> streamedSamples;
         private MusXHeaderData headerData;
 
@@ -26,6 +27,9 @@ namespace sb_explorer
             {
                 if (OpenFileDialog_StreamData.ShowDialog() == DialogResult.OK)
                 {
+                    //Reset frequency variable 
+                    frequency = 22050;
+
                     //Update textbox
                     Textbox_StreamFilePath.Text = OpenFileDialog_StreamData.FileName;
 
@@ -70,6 +74,15 @@ namespace sb_explorer
                             else
                             {
                                 Button_ValidateADPCM.Enabled = false;
+                            }
+
+                            //For batman begins they changed the frequency to 16000
+                            if (headerData.Platform.Contains("GC"))
+                            {
+                                if (MessageBox.Show("The current game is Batman Begins?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                                {
+                                    frequency = 16000;
+                                }
                             }
                         }
 
@@ -270,7 +283,12 @@ namespace sb_explorer
                 }
                 else
                 {
-                    if (headerData.Platform.Equals("PC__") || headerData.Platform.Equals("GC__") || headerData.Platform.Equals("XB__"))
+                    if (headerData.Platform.Equals("PC__") || headerData.Platform.Equals("XB__"))
+                    {
+                        Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
+                    }
+                    if (headerData.Platform.Equals("GC__"))
                     {
                         Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
                         decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
@@ -285,7 +303,7 @@ namespace sb_explorer
                 //Show player
                 if (decodedData != null)
                 {
-                    Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, streamedSamples[selectedIndex].SampleByteData, 22050);
+                    Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, streamedSamples[selectedIndex].SampleByteData, frequency);
                     sfxPlayer.ShowDialog();
                 }
             }

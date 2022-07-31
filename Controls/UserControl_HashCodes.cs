@@ -141,7 +141,7 @@ namespace sb_explorer
                         samplePropsControl.Textbox_GroupHashcode.Text = "N/A";
                         samplePropsControl.Textbox_GroupMaxChannels.Text = "N/A";
                     }
-                    if (MusXheaderData.FileVersion > 6 && MusXheaderData.FileVersion < 10)
+                    if (MusXheaderData.FileVersion > 5 && MusXheaderData.FileVersion < 15)
                     {
                         samplePropsControl.Textbox_Doppler.Text = sampleData.DopplerValue.ToString();
                         samplePropsControl.Textbox_UserValue.Text = sampleData.UserValue.ToString();
@@ -152,7 +152,7 @@ namespace sb_explorer
                         samplePropsControl.Textbox_UserValue.Text = "N/A";
                     }
                     samplePropsControl.Textbox_DuckerLength.Text = sampleData.DuckerLenght.ToString();
-                    if (MusXheaderData.FileVersion > 6 && MusXheaderData.FileVersion < 10)
+                    if (MusXheaderData.FileVersion > 5 && MusXheaderData.FileVersion < 15)
                     {
                         samplePropsControl.Textbox_SFXDucker.Text = sampleData.SFXDucker.ToString();
                         samplePropsControl.Textbox_Spare.Text = sampleData.Spare.ToString();
@@ -177,6 +177,12 @@ namespace sb_explorer
                     for (int i = 0; i < samplePropsControl.CheckedListBox_SampleFlags.Items.Count; i++)
                     {
                         samplePropsControl.CheckedListBox_SampleFlags.SetItemChecked(i, Convert.ToBoolean((sampleData.Flags >> i) & 1));
+                    }
+
+                    //Update User Flags
+                    for (int i = 0; i < samplePropsControl.CheckedListBox_UserFlags.Items.Count; i++)
+                    {
+                        samplePropsControl.CheckedListBox_UserFlags.SetItemChecked(i, Convert.ToBoolean((sampleData.UserFlags >> i) & 1));
                     }
 
                     //Update Sample Pool
