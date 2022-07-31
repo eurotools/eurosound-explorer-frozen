@@ -18,13 +18,13 @@ This version will have support for the following games:
 - - [x] Xbox
 - - [x] GameCube
 
-- [x] Robots 2005 - GC/PC/PS2/XB
+- [x] Robots 2005
 - - [x] GameCube
 - - [x] PC
 - - [x] PlayStation 2
 - - [x] Xbox
 
-- [x] Ice Age 2: The Meltdown - PC/PS2/XB/WII
+- [x] Ice Age 2: The Meltdown
 - - [x] PC
 - - [x] PlayStation 2
 - - [x] Xbox
