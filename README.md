@@ -24,7 +24,7 @@ This version will have support for the following games:
 - - [x] PlayStation 2
 - - [x] Xbox
 
--[x] Predator: Concrete Jungle
+- [x] Predator: Concrete Jungle
 - - [x] PlayStation 2
 - - [x] Xbox
 
