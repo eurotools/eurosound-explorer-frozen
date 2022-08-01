@@ -94,6 +94,13 @@ namespace sb_explorer
             }
             catch (Exception ex)
             {
+                //Clear all controls
+                UserControl_Hashcode.ListView_HashCodes.Items.Clear();
+                UserControl_SampleProperties.ClearControls();
+                UserControl_HexEditor.ListView_HexEditor.Items.Clear();
+                UserControl_WavHeaderData.ListView_WavData.Items.Clear();
+
+                //Inform user about this error
                 MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
