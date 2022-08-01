@@ -270,49 +270,56 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         internal void DecodeAndShowPlayer(int selectedIndex, List<SfxStream> streamedSamples)
         {
-            byte[] decodedData = null;
-            if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
+            if (selectedIndex < streamedSamples.Count)
             {
-                if (headerData.Platform.Equals("PC") || headerData.Platform.Equals("GC"))
+                byte[] decodedData = null;
+                if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
                 {
-                    ImaAdpcm imaFile = new ImaAdpcm();
-                    decodedData = AudioFunctions.ShortArrayToByteArray(imaFile.Decode(streamedSamples[selectedIndex].SampleByteData, streamedSamples[selectedIndex].SampleByteData.Length * 2));
+                    if (headerData.Platform.Equals("PC") || headerData.Platform.Equals("GC"))
+                    {
+                        ImaAdpcm imaFile = new ImaAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(imaFile.Decode(streamedSamples[selectedIndex].SampleByteData, streamedSamples[selectedIndex].SampleByteData.Length * 2));
+                    }
+                    else if (headerData.Platform.Equals("PS2"))
+                    {
+                        SonyAdpcm vagDecoder = new SonyAdpcm();
+                        decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
+                    }
+                    else if (headerData.Platform.Equals("XB"))
+                    {
+                        XboxAdpcm xboxDecoder = new XboxAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(streamedSamples[selectedIndex].SampleByteData));
+                    }
                 }
-                else if (headerData.Platform.Equals("PS2"))
+                else
                 {
-                    SonyAdpcm vagDecoder = new SonyAdpcm();
-                    decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
+                    if (headerData.Platform.Equals("PC__") || headerData.Platform.Equals("XB__"))
+                    {
+                        Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
+                    }
+                    if (headerData.Platform.Equals("GC__"))
+                    {
+                        Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
+                    }
+                    else if (headerData.Platform.Equals("PS2_"))
+                    {
+                        SonyAdpcm vagDecoder = new SonyAdpcm();
+                        decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
+                    }
                 }
-                else if (headerData.Platform.Equals("XB"))
+
+                //Show player
+                if (decodedData != null)
                 {
-                    XboxAdpcm xboxDecoder = new XboxAdpcm();
-                    decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(streamedSamples[selectedIndex].SampleByteData));
+                    Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, streamedSamples[selectedIndex].SampleByteData, frequency);
+                    sfxPlayer.ShowDialog();
                 }
             }
             else
             {
-                if (headerData.Platform.Equals("PC__") || headerData.Platform.Equals("XB__"))
-                {
-                    Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
-                    decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
-                }
-                if (headerData.Platform.Equals("GC__"))
-                {
-                    Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
-                    decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
-                }
-                else if (headerData.Platform.Equals("PS2_"))
-                {
-                    SonyAdpcm vagDecoder = new SonyAdpcm();
-                    decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
-                }
-            }
-
-            //Show player
-            if (decodedData != null)
-            {
-                Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, streamedSamples[selectedIndex].SampleByteData, frequency);
-                sfxPlayer.ShowDialog();
+                MessageBox.Show("Invalid index, overflows the streams list.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
