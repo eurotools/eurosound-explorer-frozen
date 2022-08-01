@@ -74,7 +74,7 @@ namespace sb_explorer
                         ListView_HexEditor.Items[rowIndex].SubItems[i].ForeColor = SystemColors.WindowText;
                     }
 
-                    if (fileVersion > 3 && fileVersion < 10)
+                    if (fileVersion > 4 && fileVersion < 10)
                     {
                         if (currentByte > dataToDisplay.FlagsDataLength && currentByte <= dataToDisplay.UserFlagsDataLength)
                         {

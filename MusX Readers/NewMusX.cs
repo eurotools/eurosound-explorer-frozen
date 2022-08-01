@@ -56,26 +56,26 @@ namespace sb_explorer
                     sample.HexViewerData.HeaderDataLength = startOffset;
 
                     //Read flags and sample pool
-                    if (headerData.Platform.Contains("PS2") || (headerData.Platform.Contains("XB") && headerData.FileVersion < 5))
+                    if (headerData.Platform.Contains("PS2") || (headerData.Platform.Contains("XB") && headerData.FileVersion < 5) || (headerData.Platform.Contains("GC") && headerData.FileVersion < 5))
                     {
                         startOffset = BReader.BaseStream.Position - (headerData.SFXStart + curSfxPos);
-                        sample.GroupHashCode = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian);
+                        sample.GroupHashCode = BReader.ReadInt16();
                         sample.GroupMaxChannels = (sbyte)(sample.GroupHashCode & 15);
                         sample.GroupHashCode >>= 4;
 
                         //Read Flags
-                        sample.Flags = BinaryFunctions.FlipUShort(BReader.ReadUInt16(), headerData.IsBigEndian);
+                        sample.Flags = BReader.ReadUInt16();
                         sample.HexViewerData.FlagsDataLength = startOffset;
 
                         //Read UserFlags
-                        startOffset = BReader.BaseStream.Position - (headerData.SFXStart + curSfxPos);
-                        if (headerData.Platform.Contains("PS2") & headerData.FileVersion > 4)
+                        if (headerData.FileVersion > 4)
                         {
+                            startOffset = BReader.BaseStream.Position - (headerData.SFXStart + curSfxPos);
                             sample.UserFlags = BinaryFunctions.FlipUShort(BReader.ReadUInt16(), headerData.IsBigEndian);
                             sample.DopplerValue = BReader.ReadSByte();
                             sample.UserValue = BReader.ReadSByte();
+                            sample.HexViewerData.UserFlagsDataLength = startOffset;
                         }
-                        sample.HexViewerData.UserFlagsDataLength = startOffset;
                     }
                     else
                     {
@@ -96,20 +96,21 @@ namespace sb_explorer
                         sample.HexViewerData.FlagsDataLength = startOffset;
 
                         //User Flags
-                        startOffset = BReader.BaseStream.Position - (headerData.SFXStart + curSfxPos);
-                        for (int j = 0; j < 16; j++)
+                        if (headerData.FileVersion > 4)
                         {
-                            sbyte flagState = BReader.ReadSByte();
-                            if (flagState == 1)
+                            startOffset = BReader.BaseStream.Position - (headerData.SFXStart + curSfxPos);
+                            for (int j = 0; j < 16; j++)
                             {
-                                sample.UserFlags = (ushort)(sample.UserFlags | (flagState << j));
+                                sbyte flagState = BReader.ReadSByte();
+                                if (flagState == 1)
+                                {
+                                    sample.UserFlags = (ushort)(sample.UserFlags | (flagState << j));
+                                }
                             }
+                            sample.DopplerValue = BReader.ReadSByte();
+                            sample.UserValue = BReader.ReadSByte();
+                            sample.HexViewerData.UserFlagsDataLength = startOffset;
                         }
-
-                        sample.DopplerValue = BReader.ReadSByte();
-                        sample.UserValue = BReader.ReadSByte();
-
-                        sample.HexViewerData.UserFlagsDataLength = startOffset;
                     }
 
                     if (headerData.FileVersion > 5)
