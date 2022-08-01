@@ -4,7 +4,7 @@ The EuroSound Explorer is a tool that can be used to open and see the SFX files 
 - Musicbanks
 
 This version will have support for the following games:
-- [x]Buffy the Vampire Slayer: Chaos Bleeds
+- [x] Buffy the Vampire Slayer: Chaos Bleeds
 - - [x] GameCube
 - - [x] PlayStation 2
 - - [x] Xbox
