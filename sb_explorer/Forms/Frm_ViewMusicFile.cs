@@ -198,7 +198,7 @@ namespace sb_explorer
             }
             else
             {
-                Textbox_AdpcmStatus.Text = "Cannot validate PS2 adpcm...";
+                Textbox_AdpcmStatus.Text = "Cannot validate " + headerFileData.Platform.Trim('_') + " adpcm... The file format does not seem to be Eurocom ADPCM codec.";
                 Textbox_AdpcmStatus.ForeColor = SystemColors.ControlText;
             }
         }

@@ -52,56 +52,62 @@ namespace sb_explorer
             if (ListView_WavData.SelectedItems.Count == 1)
             {
                 int selectedIndex = (int)ListView_WavData.SelectedItems[0].Tag;
-                byte[] decodedData = null;
-                List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;
+                OpenMediaPlayer(selectedIndex);
+            }
+        }
 
-                MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
-                if (MusXheaderData.FileVersion > 3 && MusXheaderData.FileVersion < 10)
+        //-------------------------------------------------------------------------------------------------------------------------------
+        internal void OpenMediaPlayer(int selectedIndex)
+        {
+            byte[] decodedData = null;
+            List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;
+
+            MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
+            if (MusXheaderData.FileVersion > 3 && MusXheaderData.FileVersion < 10)
+            {
+                if (MusXheaderData.Platform.Equals("PC__") || MusXheaderData.Platform.Equals("XB__") || MusXheaderData.Platform.Equals("XB1_"))
                 {
-                    if (MusXheaderData.Platform.Equals("PC__") || MusXheaderData.Platform.Equals("XB__") || MusXheaderData.Platform.Equals("XB1_"))
-                    {
-                        Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
-                        decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(wavHeaderData[selectedIndex].EncodedData));
-                    }
-                    else if (MusXheaderData.Platform.Equals("GC__"))
-                    {
-                        DspAdpcm gameCubeDecoder = new DspAdpcm();
-                        decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
-                    }
-                    else if (MusXheaderData.Platform.Equals("PS2_"))
-                    {
+                    Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
+                    decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(wavHeaderData[selectedIndex].EncodedData));
+                }
+                else if (MusXheaderData.Platform.Equals("GC__"))
+                {
+                    DspAdpcm gameCubeDecoder = new DspAdpcm();
+                    decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
+                }
+                else if (MusXheaderData.Platform.Equals("PS2_"))
+                {
+                    SonyAdpcm vagDecoder = new SonyAdpcm();
+                    decodedData = vagDecoder.Decode(wavHeaderData[selectedIndex].EncodedData);
+                }
+            }
+            else
+            {
+                switch (MusXheaderData.Platform)
+                {
+                    case "PC":
+                        decodedData = wavHeaderData[selectedIndex].EncodedData;
+                        break;
+                    case "PS2":
                         SonyAdpcm vagDecoder = new SonyAdpcm();
                         decodedData = vagDecoder.Decode(wavHeaderData[selectedIndex].EncodedData);
-                    }
+                        break;
+                    case "GC":
+                        DspAdpcm gameCubeDecoder = new DspAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
+                        break;
+                    case "XB":
+                        XboxAdpcm xboxDecoder = new XboxAdpcm();
+                        decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(wavHeaderData[selectedIndex].EncodedData));
+                        break;
                 }
-                else
-                {
-                    switch (MusXheaderData.Platform)
-                    {
-                        case "PC":
-                            decodedData = wavHeaderData[selectedIndex].EncodedData;
-                            break;
-                        case "PS2":
-                            SonyAdpcm vagDecoder = new SonyAdpcm();
-                            decodedData = vagDecoder.Decode(wavHeaderData[selectedIndex].EncodedData);
-                            break;
-                        case "GC":
-                            DspAdpcm gameCubeDecoder = new DspAdpcm();
-                            decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
-                            break;
-                        case "XB":
-                            XboxAdpcm xboxDecoder = new XboxAdpcm();
-                            decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(wavHeaderData[selectedIndex].EncodedData));
-                            break;
-                    }
-                }
+            }
 
-                //Show player
-                if (decodedData != null)
-                {
-                    Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].Frequency);
-                    sfxPlayer.ShowDialog();
-                }
+            //Show player
+            if (decodedData != null)
+            {
+                Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].Frequency);
+                sfxPlayer.ShowDialog();
             }
         }
     }

@@ -67,6 +67,8 @@ namespace sb_explorer
                             itemToCheck.Selected = true;
                             itemToCheck.Focused = true;
                             itemToCheck.EnsureVisible();
+
+                            ((Frm_Main)Application.OpenForms["Frm_Main"]).UserControl_WavHeaderData.OpenMediaPlayer((int)itemToCheck.Tag);
                             break;
                         }
                     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace sb_explorer
 {
@@ -139,7 +140,10 @@ namespace sb_explorer
                     sample.HexViewerData.SamplePoolDataLength = startOffset;
 
                     //Save in dictionary
-                    samplesDictionary.Add(hashcode, sample);
+                    if (!samplesDictionary.ContainsKey(hashcode))
+                    { 
+                        samplesDictionary.Add(hashcode, sample);
+                    }
 
                     //Read data to show in the Hex viewer
                     sample.HexViewerData.BinaryLength = (int)(BReader.BaseStream.Position - (curSfxPos + headerData.SFXStart));

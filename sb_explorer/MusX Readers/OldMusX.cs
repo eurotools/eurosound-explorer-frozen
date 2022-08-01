@@ -77,7 +77,10 @@ namespace sb_explorer
                     sample.HexViewerData.SamplePoolDataLength = startOffset;
 
                     //Save in dictionary
-                    samplesDictionary.Add(hashcode, sample);
+                    if (!samplesDictionary.ContainsKey(hashcode))
+                    {
+                        samplesDictionary.Add(hashcode, sample);
+                    }
 
                     //Read data to show in the Hex viewer
                     sample.HexViewerData.BinaryLength = (int)(BReader.BaseStream.Position - (sfxPos + headerData.SFXStart));
