@@ -242,14 +242,7 @@ namespace sb_explorer
                         }
                         else if (samplePoolItem.FileRef < 0)
                         {
-                            if (MusXheaderData.FileVersion == 201)
-                            {
-                                listViewItem.Text = "Stream: " + samplePoolItem.FileRef;
-                            }
-                            else
-                            {
-                                listViewItem.Text = "Stream: " + (samplePoolItem.FileRef & 16383U);
-                            }
+                            listViewItem.Text = "Stream: " + samplePoolItem.FileRef;
                         }
                         else
                         {

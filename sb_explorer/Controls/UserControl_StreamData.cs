@@ -11,7 +11,6 @@ namespace sb_explorer
     public partial class UserControl_StreamData : UserControl
     {
         internal int frequency = 22050;
-        internal List<SfxStream> streamedSamples;
         private MusXHeaderData headerData;
 
         //-------------------------------------------------------------------------------------------------------------------------------
@@ -51,12 +50,12 @@ namespace sb_explorer
                     //Read File
                     if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData) && headerData.Platform != null)
                     {
-                        streamedSamples = new List<SfxStream>();
+                        ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples = new List<SfxStream>();
                         if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
                         {
                             //Read file data
                             OldMusX streamsReader = new OldMusX();
-                            streamsReader.LoadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
+                            streamsReader.LoadStreamFile(OpenFileDialog_StreamData.FileName, headerData, ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples);
 
                             Button_ValidateADPCM.Enabled = false;
                         }
@@ -64,7 +63,7 @@ namespace sb_explorer
                         {
                             //Read file data
                             NewMusX streamsReader = new NewMusX();
-                            streamsReader.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, streamedSamples);
+                            streamsReader.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples);
 
                             //Enable validation tool - Only For Custom EuroCom ADPCM
                             if (headerData.Platform.Contains("PC"))
@@ -86,12 +85,13 @@ namespace sb_explorer
                             }
                         }
 
-                        PrintSamplesData(streamedSamples);
+                        PrintSamplesData(((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples);
                     }
                 }
             }
             catch (Exception ex)
             {
+                ListView_StreamData.Items.Clear();
                 MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -99,6 +99,7 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void ListView_StreamData_SelectedIndexChanged(object sender, EventArgs e)
         {
+            List<SfxStream> streamedSamples = ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples;
             if (ListView_StreamData.SelectedItems.Count == 1 && streamedSamples != null)
             {
                 //Print markers data
@@ -258,54 +259,60 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void ListView_StreamData_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            List<SfxStream> streamedSamples = ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples;
             if (ListView_StreamData.SelectedItems.Count == 1 && streamedSamples != null)
             {
                 int selectedIndex = (int)ListView_StreamData.SelectedItems[0].Tag;
-                byte[] decodedData = null;
+                DecodeAndShowPlayer(selectedIndex, streamedSamples);
+            }
+        }
 
-                if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
+        //-------------------------------------------------------------------------------------------------------------------------------
+        internal void DecodeAndShowPlayer(int selectedIndex, List<SfxStream> streamedSamples)
+        {
+            byte[] decodedData = null;
+            if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
+            {
+                if (headerData.Platform.Equals("PC") || headerData.Platform.Equals("GC"))
                 {
-                    if (headerData.Platform.Equals("PC") || headerData.Platform.Equals("GC"))
-                    {
-                        ImaAdpcm imaFile = new ImaAdpcm();
-                        decodedData = AudioFunctions.ShortArrayToByteArray(imaFile.Decode(streamedSamples[selectedIndex].SampleByteData, streamedSamples[selectedIndex].SampleByteData.Length * 2));
-                    }
-                    else if (headerData.Platform.Equals("PS2"))
-                    {
-                        SonyAdpcm vagDecoder = new SonyAdpcm();
-                        decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
-                    }
-                    else if (headerData.Platform.Equals("XB"))
-                    {
-                        XboxAdpcm xboxDecoder = new XboxAdpcm();
-                        decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(streamedSamples[selectedIndex].SampleByteData));
-                    }
+                    ImaAdpcm imaFile = new ImaAdpcm();
+                    decodedData = AudioFunctions.ShortArrayToByteArray(imaFile.Decode(streamedSamples[selectedIndex].SampleByteData, streamedSamples[selectedIndex].SampleByteData.Length * 2));
                 }
-                else
+                else if (headerData.Platform.Equals("PS2"))
                 {
-                    if (headerData.Platform.Equals("PC__") || headerData.Platform.Equals("XB__"))
-                    {
-                        Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
-                        decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
-                    }
-                    if (headerData.Platform.Equals("GC__"))
-                    {
-                        Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
-                        decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
-                    }
-                    else if (headerData.Platform.Equals("PS2_"))
-                    {
-                        SonyAdpcm vagDecoder = new SonyAdpcm();
-                        decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
-                    }
+                    SonyAdpcm vagDecoder = new SonyAdpcm();
+                    decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
                 }
+                else if (headerData.Platform.Equals("XB"))
+                {
+                    XboxAdpcm xboxDecoder = new XboxAdpcm();
+                    decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(streamedSamples[selectedIndex].SampleByteData));
+                }
+            }
+            else
+            {
+                if (headerData.Platform.Equals("PC__") || headerData.Platform.Equals("XB__"))
+                {
+                    Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
+                    decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
+                }
+                if (headerData.Platform.Equals("GC__"))
+                {
+                    Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
+                    decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(streamedSamples[selectedIndex].SampleByteData));
+                }
+                else if (headerData.Platform.Equals("PS2_"))
+                {
+                    SonyAdpcm vagDecoder = new SonyAdpcm();
+                    decodedData = vagDecoder.Decode(streamedSamples[selectedIndex].SampleByteData);
+                }
+            }
 
-                //Show player
-                if (decodedData != null)
-                {
-                    Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, streamedSamples[selectedIndex].SampleByteData, frequency);
-                    sfxPlayer.ShowDialog();
-                }
+            //Show player
+            if (decodedData != null)
+            {
+                Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, streamedSamples[selectedIndex].SampleByteData, frequency);
+                sfxPlayer.ShowDialog();
             }
         }
 

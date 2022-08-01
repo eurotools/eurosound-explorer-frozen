@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 
 namespace sb_explorer
 {
@@ -141,7 +140,7 @@ namespace sb_explorer
 
                     //Save in dictionary
                     if (!samplesDictionary.ContainsKey(hashcode))
-                    { 
+                    {
                         samplesDictionary.Add(hashcode, sample);
                     }
 

@@ -52,12 +52,12 @@ namespace sb_explorer
             if (ListView_WavData.SelectedItems.Count == 1)
             {
                 int selectedIndex = (int)ListView_WavData.SelectedItems[0].Tag;
-                OpenMediaPlayer(selectedIndex);
+                DecodeAndShowPlayer(selectedIndex);
             }
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        internal void OpenMediaPlayer(int selectedIndex)
+        internal void DecodeAndShowPlayer(int selectedIndex)
         {
             byte[] decodedData = null;
             List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;

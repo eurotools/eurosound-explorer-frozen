@@ -14,6 +14,7 @@ namespace sb_explorer
     {
         internal MusXHeaderData headerData;
         internal SortedDictionary<uint, SfxSound> samplesList;
+        internal List<SfxStream> streamedSamples;
         internal List<SfxData> wavesList;
         private IEnumerator SearchEnumerator;
         private Regex SearchRegEx;
