@@ -45,6 +45,10 @@ namespace sb_explorer
             this.MenuItem_View_FindNext = new System.Windows.Forms.MenuItem();
             this.MenuItem_About = new System.Windows.Forms.MenuItem();
             this.MenuItem_About_About = new System.Windows.Forms.MenuItem();
+            this.OpenFileDiag_SoundbankFiles = new System.Windows.Forms.OpenFileDialog();
+            this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.OpenFileDialog_MusicFiles = new System.Windows.Forms.OpenFileDialog();
+            this.OpenFileDiag_ProjectFiles = new System.Windows.Forms.OpenFileDialog();
             this.SplitContainer_HashCodes = new System.Windows.Forms.SplitContainer();
             this.UserControl_Hashcode = new sb_explorer.UserControl_HashCodes();
             this.TabControl = new System.Windows.Forms.TabControl();
@@ -54,7 +58,6 @@ namespace sb_explorer
             this.UserControl_WavHeaderData = new sb_explorer.UserControl_WavHeaderData();
             this.TabPage_StreamData = new System.Windows.Forms.TabPage();
             this.userControl_StreamData1 = new sb_explorer.UserControl_StreamData();
-            this.Button_ReloadSoundbank = new System.Windows.Forms.Button();
             this.Textbox_HashcodeName = new System.Windows.Forms.TextBox();
             this.UserControl_SampleProperties = new sb_explorer.UserControl_Samples_Properties();
             this.Label_HashCodeName = new System.Windows.Forms.Label();
@@ -65,10 +68,7 @@ namespace sb_explorer
             this.StatusLabel_SoundhDir = new System.Windows.Forms.StatusBarPanel();
             this.Textbox_SoundbankName = new System.Windows.Forms.TextBox();
             this.Label_SoundBank_Name = new System.Windows.Forms.Label();
-            this.OpenFileDiag_SoundbankFiles = new System.Windows.Forms.OpenFileDialog();
-            this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.OpenFileDialog_MusicFiles = new System.Windows.Forms.OpenFileDialog();
-            this.OpenFileDiag_ProjectFiles = new System.Windows.Forms.OpenFileDialog();
+            this.Button_ReloadSoundbank = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_HashCodes)).BeginInit();
             this.SplitContainer_HashCodes.Panel1.SuspendLayout();
             this.SplitContainer_HashCodes.Panel2.SuspendLayout();
@@ -180,6 +180,23 @@ namespace sb_explorer
             this.MenuItem_About_About.Text = "About";
             this.MenuItem_About_About.Click += new System.EventHandler(this.MenuItem_About_About_Click);
             // 
+            // OpenFileDiag_SoundbankFiles
+            // 
+            this.OpenFileDiag_SoundbankFiles.Filter = "SFX Files (???_SB_*.sfx)|???_SB_*.sfx|SFX Files (HC0?00??.sfx)|HC0?00??.sfx|All F" +
+    "iles (*.*)|*.*";
+            this.OpenFileDiag_SoundbankFiles.FilterIndex = 0;
+            // 
+            // OpenFileDialog_MusicFiles
+            // 
+            this.OpenFileDialog_MusicFiles.Filter = "MUS Files (_MUS_*.sfx)|_MUS_*.sfx|MUS Files (HCE??0??.sfx)|HCE??0??.sfx|All Files" +
+    " (*.*)|*.*";
+            this.OpenFileDialog_MusicFiles.FilterIndex = 0;
+            // 
+            // OpenFileDiag_ProjectFiles
+            // 
+            this.OpenFileDiag_ProjectFiles.Filter = "Project Files (__projectdetails.sfx)|__projectdetails.sfx|All Files (*.*)|*.*";
+            this.OpenFileDiag_ProjectFiles.FilterIndex = 0;
+            // 
             // SplitContainer_HashCodes
             // 
             this.SplitContainer_HashCodes.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -192,15 +209,15 @@ namespace sb_explorer
             // 
             // SplitContainer_HashCodes.Panel2
             // 
+            this.SplitContainer_HashCodes.Panel2.Controls.Add(this.StatusBar);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.TabControl);
-            this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Button_ReloadSoundbank);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Textbox_HashcodeName);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.UserControl_SampleProperties);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Label_HashCodeName);
-            this.SplitContainer_HashCodes.Panel2.Controls.Add(this.StatusBar);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Textbox_SoundbankName);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Label_SoundBank_Name);
-            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1166, 845);
+            this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Button_ReloadSoundbank);
+            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1166, 852);
             this.SplitContainer_HashCodes.SplitterDistance = 210;
             this.SplitContainer_HashCodes.TabIndex = 0;
             // 
@@ -209,7 +226,7 @@ namespace sb_explorer
             this.UserControl_Hashcode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UserControl_Hashcode.Location = new System.Drawing.Point(0, 0);
             this.UserControl_Hashcode.Name = "UserControl_Hashcode";
-            this.UserControl_Hashcode.Size = new System.Drawing.Size(210, 845);
+            this.UserControl_Hashcode.Size = new System.Drawing.Size(210, 852);
             this.UserControl_Hashcode.TabIndex = 0;
             // 
             // TabControl
@@ -283,16 +300,6 @@ namespace sb_explorer
             this.userControl_StreamData1.Size = new System.Drawing.Size(381, 771);
             this.userControl_StreamData1.TabIndex = 0;
             // 
-            // Button_ReloadSoundbank
-            // 
-            this.Button_ReloadSoundbank.Location = new System.Drawing.Point(11, 745);
-            this.Button_ReloadSoundbank.Name = "Button_ReloadSoundbank";
-            this.Button_ReloadSoundbank.Size = new System.Drawing.Size(112, 32);
-            this.Button_ReloadSoundbank.TabIndex = 6;
-            this.Button_ReloadSoundbank.Text = "Reload";
-            this.Button_ReloadSoundbank.UseVisualStyleBackColor = true;
-            this.Button_ReloadSoundbank.Click += new System.EventHandler(this.Button_ReloadSoundbank_Click);
-            // 
             // Textbox_HashcodeName
             // 
             this.Textbox_HashcodeName.BackColor = System.Drawing.SystemColors.Window;
@@ -321,7 +328,7 @@ namespace sb_explorer
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(0, 823);
+            this.StatusBar.Location = new System.Drawing.Point(0, 830);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.StatusLabel_HashCode,
@@ -377,28 +384,21 @@ namespace sb_explorer
             this.Label_SoundBank_Name.TabIndex = 1;
             this.Label_SoundBank_Name.Text = "Soundbank filename";
             // 
-            // OpenFileDiag_SoundbankFiles
+            // Button_ReloadSoundbank
             // 
-            this.OpenFileDiag_SoundbankFiles.Filter = "SFX Files (???_SB_*.sfx)|???_SB_*.sfx|SFX Files (HC0?00??.sfx)|HC0?00??.sfx|All F" +
-    "iles (*.*)|*.*";
-            this.OpenFileDiag_SoundbankFiles.FilterIndex = 0;
-            // 
-            // OpenFileDialog_MusicFiles
-            // 
-            this.OpenFileDialog_MusicFiles.Filter = "MUS Files (_MUS_*.sfx)|_MUS_*.sfx|MUS Files (HCE??0??.sfx)|HCE??0??.sfx|All Files" +
-    " (*.*)|*.*";
-            this.OpenFileDialog_MusicFiles.FilterIndex = 0;
-            // 
-            // OpenFileDiag_ProjectFiles
-            // 
-            this.OpenFileDiag_ProjectFiles.Filter = "Project Files (__projectdetails.sfx)|__projectdetails.sfx|All Files (*.*)|*.*";
-            this.OpenFileDiag_ProjectFiles.FilterIndex = 0;
+            this.Button_ReloadSoundbank.Location = new System.Drawing.Point(11, 745);
+            this.Button_ReloadSoundbank.Name = "Button_ReloadSoundbank";
+            this.Button_ReloadSoundbank.Size = new System.Drawing.Size(112, 32);
+            this.Button_ReloadSoundbank.TabIndex = 6;
+            this.Button_ReloadSoundbank.Text = "Reload";
+            this.Button_ReloadSoundbank.UseVisualStyleBackColor = true;
+            this.Button_ReloadSoundbank.Click += new System.EventHandler(this.Button_ReloadSoundbank_Click);
             // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1166, 845);
+            this.ClientSize = new System.Drawing.Size(1166, 852);
             this.Controls.Add(this.SplitContainer_HashCodes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.MainMenu;
@@ -448,7 +448,6 @@ namespace sb_explorer
         private System.Windows.Forms.MenuItem MenuItem_View_FindNext;
         private System.Windows.Forms.MenuItem MenuItem_About_About;
         private System.Windows.Forms.TabPage TabPage_HexView;
-        private System.Windows.Forms.TabPage TabPage_StreamData;
         private System.Windows.Forms.OpenFileDialog OpenFileDiag_SoundbankFiles;
         protected internal UserControl_Samples_Properties UserControl_SampleProperties;
         protected internal UserControl_StreamData userControl_StreamData1;
@@ -461,6 +460,7 @@ namespace sb_explorer
         protected internal System.Windows.Forms.TabPage TabPage_WavHeaderData;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog_MusicFiles;
         private System.Windows.Forms.OpenFileDialog OpenFileDiag_ProjectFiles;
+        protected internal System.Windows.Forms.TabPage TabPage_StreamData;
     }
 }
 

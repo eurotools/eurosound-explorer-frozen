@@ -44,6 +44,7 @@ namespace sb_explorer
         {
             TabControl tabPanel = ((Frm_Main)Application.OpenForms["Frm_Main"]).TabControl;
             TabPage Tab_Wav_Head_Data = ((Frm_Main)Application.OpenForms["Frm_Main"]).TabPage_WavHeaderData;
+            TabPage Tab_Stream_Data = ((Frm_Main)Application.OpenForms["Frm_Main"]).TabPage_StreamData;
             ListView_ColumnSortingClick ListView_WavData = ((Frm_Main)Application.OpenForms["Frm_Main"]).UserControl_WavHeaderData.ListView_WavData;
             ListView_ColumnSortingClick ListView_StreamData = ((Frm_Main)Application.OpenForms["Frm_Main"]).userControl_StreamData1.ListView_StreamData;
 
@@ -78,9 +79,16 @@ namespace sb_explorer
                 else if (fileRef < 0 && CheckedListBox_SampleFlags.GetItemCheckState(10) == CheckState.Unchecked)
                 {
                     List<SfxStream> streamedSamples = ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples;
+
                     if (streamedSamples != null && streamedSamples.Count > 0)
                     {
-                        short positiveNumber = Math.Abs(fileRef);
+                        short positiveNumber= (short)(Math.Abs(fileRef) - 1);
+
+                        //Select tab
+                        if (tabPanel.SelectedTab != Tab_Stream_Data)
+                        {
+                            tabPanel.SelectedTab = Tab_Stream_Data;
+                        }
 
                         //Unselect all items
                         ListView_StreamData.SelectedItems.Clear();

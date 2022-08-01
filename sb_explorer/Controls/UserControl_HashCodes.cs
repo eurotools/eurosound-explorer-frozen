@@ -190,24 +190,23 @@ namespace sb_explorer
                     foreach (SfxSample samplePoolItem in sampleData.samplesList)
                     {
                         ListViewItem listViewItem = new ListViewItem(new string[] { "", "", "", "", "", "", "" });
+                        short finalFileRef = samplePoolItem.FileRef;
 
                         //Check for SubSFX
                         if (Convert.ToBoolean((sampleData.Flags >> 10) & 1))
                         {
-                            if (samplePoolItem.FileRef < 0)
+                            if (finalFileRef < 0)
                             {
-                                if (MusXheaderData.FileVersion == 201)
+                                //Apply 0x3FFF and turn it into negative to be detected by the tool as a stream file.
+                                if (MusXheaderData.FileVersion > 5)
                                 {
-                                    listViewItem.Text = "Stream: " + samplePoolItem.FileRef;
+                                    finalFileRef = (short)((samplePoolItem.FileRef & 0x3FFF) * -1);
                                 }
-                                else
-                                {
-                                    listViewItem.Text = "Stream: " + (samplePoolItem.FileRef & 16383U);
-                                }
+                                listViewItem.Text = "Stream: " + finalFileRef;
                             }
                             else if (Hashcodes.sound_HashCodes == null)
                             {
-                                listViewItem.Text = samplePoolItem.FileRef.ToString();
+                                listViewItem.Text = finalFileRef.ToString();
                             }
                             else
                             {
@@ -216,13 +215,13 @@ namespace sb_explorer
                                 switch (MusXheaderData.FileVersion)
                                 {
                                     case 201:
-                                        hashcodeToCheck = (uint)(0x1A000000 | (ushort)samplePoolItem.FileRef);
+                                        hashcodeToCheck = (uint)(0x1A000000 | (ushort)finalFileRef);
                                         break;
                                     case 6:
-                                        hashcodeToCheck = (uint)(0x2D700000 | (ushort)samplePoolItem.FileRef);
+                                        hashcodeToCheck = (uint)(0x2D700000 | (ushort)finalFileRef);
                                         break;
                                     default:
-                                        hashcodeToCheck = (uint)(0x1AF00000 | (ushort)samplePoolItem.FileRef);
+                                        hashcodeToCheck = (uint)(0x1AF00000 | (ushort)finalFileRef);
                                         break;
                                 }
 
@@ -240,18 +239,23 @@ namespace sb_explorer
                                 }
                             }
                         }
-                        else if (samplePoolItem.FileRef < 0)
+                        else if (finalFileRef < 0)
                         {
-                            listViewItem.Text = "Stream: " + samplePoolItem.FileRef;
+                            //Apply 0x3FFF and turn it into negative to be detected by the tool as a stream file.
+                            if (MusXheaderData.FileVersion > 5)
+                            {
+                                finalFileRef = (short)((samplePoolItem.FileRef & 0x3FFF) * -1);
+                            }
+                            listViewItem.Text = "Stream: " + finalFileRef;
                         }
                         else
                         {
-                            if ((uint)samplePoolItem.FileRef > wavHeaderData.Count)
+                            if (finalFileRef > wavHeaderData.Count)
                             {
                                 listViewItem.UseItemStyleForSubItems = false;
                                 listViewItem.SubItems[0].ForeColor = Color.Red;
                             }
-                            listViewItem.Text = "Wav: " + samplePoolItem.FileRef;
+                            listViewItem.Text = "Wav: " + finalFileRef;
                         }
                         listViewItem.SubItems[1].Text = samplePoolItem.Volume.ToString();
                         listViewItem.SubItems[2].Text = samplePoolItem.VolumeOffset.ToString();
@@ -270,7 +274,7 @@ namespace sb_explorer
                         }
                         listViewItem.SubItems[5].Text = samplePoolItem.Pan.ToString();
                         listViewItem.SubItems[6].Text = samplePoolItem.PanOffset.ToString();
-                        listViewItem.Tag = samplePoolItem.FileRef;
+                        listViewItem.Tag = finalFileRef;
 
                         //Add item to listview
                         samplePropsControl.ListView_SamplePool.Items.Add(listViewItem);
