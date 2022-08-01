@@ -3,37 +3,37 @@
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
-    internal class MusXHeaderData
+    public class MusXHeaderData
     {
-        internal bool IsBigEndian;
-        internal uint FileHashCode;
-        internal uint FileVersion;
-        internal uint FileSize;
-        internal string Platform;
-        internal uint Timespan;
+        public bool IsBigEndian;
+        public uint FileHashCode;
+        public uint FileVersion;
+        public uint FileSize;
+        public string Platform;
+        public uint Timespan;
 
         //Soundbanks
-        internal uint SFXStart;
-        internal uint SFXLenght;
+        public uint SFXStart;
+        public uint SFXLenght;
 
-        internal uint SampleInfoStart;
-        internal uint SampleInfoLenght;
+        public uint SampleInfoStart;
+        public uint SampleInfoLenght;
 
-        internal uint SpecialSampleInfoStart;
-        internal uint SpecialSampleInfoLength;
+        public uint SpecialSampleInfoStart;
+        public uint SpecialSampleInfoLength;
 
-        internal uint SampleDataStart;
-        internal uint SampleDataLength;
+        public uint SampleDataStart;
+        public uint SampleDataLength;
 
         //Streambank
-        internal uint FileStart1;
-        internal uint FileLength1;
+        public uint FileStart1;
+        public uint FileLength1;
 
-        internal uint FileStart2;
-        internal uint FileLength2;
+        public uint FileStart2;
+        public uint FileLength2;
 
-        internal uint FileStart3;
-        internal uint FileLength3;
+        public uint FileStart3;
+        public uint FileLength3;
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------

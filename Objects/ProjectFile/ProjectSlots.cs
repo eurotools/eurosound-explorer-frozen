@@ -3,20 +3,11 @@
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
-    public class WavHeaderData
+    public class ProjectSlots
     {
-        public int Flags;
-        public int Address;
+        public int SlotNumber;
         public int MemorySize;
-        public int Frequency;
-        public int SampleSize;
-        public int PSI_SampleHeader;
-        public int Channels;
-        public int Bits;
-        public int LoopStartOffset;
-        public int DurationInMilliseconds;
-        public byte[] EncodedData;
-        public short[] DspCoeffs;
+        public int Quantity;
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------

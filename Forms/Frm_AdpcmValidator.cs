@@ -20,7 +20,7 @@ namespace sb_explorer
         private void ADPCM_Validator_PC_Shown(object sender, EventArgs e)
         {
             UserControl_StreamData streamsListView = ((Frm_Main)Application.OpenForms["Frm_Main"]).userControl_StreamData1;
-            List<StreamSample> streamsList = ((Frm_Main)Application.OpenForms["Frm_Main"]).userControl_StreamData1.streamedSamples;
+            List<SfxStream> streamsList = ((Frm_Main)Application.OpenForms["Frm_Main"]).userControl_StreamData1.streamedSamples;
 
             for (int i = 0; i < streamsListView.ListView_StreamData.Items.Count; i++)
             {

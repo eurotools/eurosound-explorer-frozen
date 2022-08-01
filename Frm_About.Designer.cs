@@ -57,9 +57,9 @@ namespace sb_explorer
             this.Label_Credits.Name = "Label_Credits";
             this.Label_Credits.Size = new System.Drawing.Size(252, 164);
             this.Label_Credits.TabIndex = 1;
-            this.Label_Credits.Text = "Eurosound Soundbank Explorer\r\n\r\nOriginal version by:\r\nKevin Grantham (Eurocom)\r\n\r" +
-    "\nProgrammer:\r\nJordi Martínez (jmarti856)\r\n\r\nFile formats doc by:\r\nIsmael Ferrera" +
-    "s (Swyter)";
+            this.Label_Credits.Text = "Eurosound Soundbank Explorer\r\n\r\nRebuilt from the ground up by:\r\nJordi Martínez (j" +
+    "marti856)\r\n\r\nFile formats and support by:\r\nIsmael Ferreras (Swyter)\r\n\r\nOriginal " +
+    "version by\r\nKevin Grantham (Eurocom)";
             this.Label_Credits.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Button_OK

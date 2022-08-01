@@ -3,17 +3,16 @@
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
-    public class SamplePoolItem
+    public class Marker
     {
-        public short FileRef;
-        public sbyte Pitch;
-        public sbyte PitchOffset;
-        public sbyte Volume;
-        public sbyte VolumeOffset;
-        public sbyte Pan;
-        public sbyte PanOffset;
-        public short OldMusXPitch;
-        public short OldMusXPitchOffset;
+        public int Index;
+        public uint Position;
+        public byte Type;
+        public byte Flags;
+        public byte Extra;
+        public uint LoopStart;
+        public int LoopMarkerCount;
+        public int MarkerCount;
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------

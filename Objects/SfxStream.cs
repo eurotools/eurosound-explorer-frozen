@@ -5,11 +5,11 @@ namespace sb_explorer
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
-    public class StreamSample
+    public class SfxStream
     {
         //Markers
-        public List<StreamStartMarker> StartMarkers = new List<StreamStartMarker>();
-        public List<StreamMarker> Markers = new List<StreamMarker>();
+        public List<StartMarker> StartMarkers = new List<StartMarker>();
+        public List<Marker> Markers = new List<Marker>();
 
         //Audio Data
         public byte[] SampleByteData = new byte[0];
@@ -21,7 +21,7 @@ namespace sb_explorer
         public uint AudioOffset;
         public uint AudioSize;
         public uint StartMarkerOffset;
-        public uint BaseVolume = 100;
+        public uint BaseVolume;
         public uint StartMarkersCount;
         public uint MarkersCount;
     }

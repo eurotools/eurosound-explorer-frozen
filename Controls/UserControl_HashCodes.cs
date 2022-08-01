@@ -18,7 +18,7 @@ namespace sb_explorer
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        internal void UpdateHashcodesListView(SortedDictionary<uint, Sample> samplesList)
+        internal void UpdateHashcodesListView(SortedDictionary<uint, SfxSound> samplesList)
         {
             if (samplesList != null && samplesList.Count > 0)
             {
@@ -26,7 +26,7 @@ namespace sb_explorer
                 ListView_HashCodes.Items.Clear();
 
                 //Add HashCodes to ListView
-                foreach (KeyValuePair<uint, Sample> currentSample in samplesList)
+                foreach (KeyValuePair<uint, SfxSound> currentSample in samplesList)
                 {
                     //Check if hashcode exists
                     ListViewItem listViewItem = new ListViewItem(new string[] { string.Format("0x{0:X8}", currentSample.Key), "*", "" });
@@ -59,8 +59,8 @@ namespace sb_explorer
             if (ListView_HashCodes.SelectedItems.Count == 1)
             {
                 MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
-                SortedDictionary<uint, Sample> samplesDictionary = ((Frm_Main)Application.OpenForms["Frm_Main"]).samplesList;
-                List<WavHeaderData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;
+                SortedDictionary<uint, SfxSound> samplesDictionary = ((Frm_Main)Application.OpenForms["Frm_Main"]).samplesList;
+                List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;
                 UserControl_Samples_Properties samplePropsControl = ((Frm_Main)Application.OpenForms["Frm_Main"]).UserControl_SampleProperties;
 
                 //Update textbox name
@@ -75,7 +75,7 @@ namespace sb_explorer
                     samplePropsControl.ClearControls();
 
                     //Get sample data
-                    Sample sampleData = samplesDictionary[selectedHashCode];
+                    SfxSound sampleData = samplesDictionary[selectedHashCode];
 
                     //Update Textboxes
                     if (MusXheaderData.FileVersion == 201 || MusXheaderData.FileVersion == 1)
@@ -187,7 +187,7 @@ namespace sb_explorer
 
                     //Update Sample Pool
                     samplePropsControl.Textbox_SampleCount.Text = sampleData.samplesList.Count.ToString();
-                    foreach (SamplePoolItem samplePoolItem in sampleData.samplesList)
+                    foreach (SfxSample samplePoolItem in sampleData.samplesList)
                     {
                         ListViewItem listViewItem = new ListViewItem(new string[] { "", "", "", "", "", "", "" });
 

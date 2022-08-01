@@ -16,7 +16,7 @@ namespace sb_explorer
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        internal void UpdateWavHeaderData(List<WavHeaderData> wavesList)
+        internal void UpdateWavHeaderData(List<SfxData> wavesList)
         {
             if (wavesList.Count > 0)
             {
@@ -24,10 +24,10 @@ namespace sb_explorer
                 ListView_WavData.Items.Clear();
                 int index = 0;
 
-                foreach (WavHeaderData waveData in wavesList)
+                foreach (SfxData waveData in wavesList)
                 {
                     //Create item and add it to list
-                    ListViewItem listViewItem2 = new ListViewItem(new string[] { (index).ToString(), waveData.Flags.ToString(), waveData.Address.ToString(), waveData.MemorySize.ToString(), waveData.SampleSize.ToString(), waveData.Frequency.ToString(), waveData.LoopStartOffset.ToString(), waveData.DurationInMilliseconds.ToString() })
+                    ListViewItem listViewItem2 = new ListViewItem(new string[] { (index).ToString(), waveData.Flags.ToString(), waveData.Address.ToString(), waveData.MemorySize.ToString(), waveData.SampleSize.ToString(), waveData.Frequency.ToString(), waveData.LoopStartOffset.ToString(), waveData.Duration.ToString() })
                     {
                         Tag = index
                     };
@@ -53,7 +53,7 @@ namespace sb_explorer
             {
                 int selectedIndex = (int)ListView_WavData.SelectedItems[0].Tag;
                 byte[] decodedData = null;
-                List<WavHeaderData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;
+                List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;
 
                 MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
                 if (MusXheaderData.FileVersion > 3 && MusXheaderData.FileVersion < 10)

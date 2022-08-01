@@ -10,7 +10,7 @@ namespace sb_explorer
     internal class OldMusX
     {
         //-------------------------------------------------------------------------------------------------------------------------------
-        internal void ReadSoundbank(string filePath, MusXHeaderData headerData, SortedDictionary<uint, Sample> samplesDictionary, List<WavHeaderData> wavesList)
+        internal void ReadSoundbank(string filePath, MusXHeaderData headerData, SortedDictionary<uint, SfxSound> samplesDictionary, List<SfxData> wavesList)
         {
             using (BinaryReader BReader = new BinaryReader(File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
@@ -30,7 +30,7 @@ namespace sb_explorer
 
                     //Read sound properties
                     long startOffset = BReader.BaseStream.Position - (headerData.SFXStart + sfxPos);
-                    Sample sample = new Sample
+                    SfxSound sample = new SfxSound
                     {
                         DuckerLenght = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian),
                         MinDelay = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian),
@@ -59,7 +59,7 @@ namespace sb_explorer
                     for (int j = 0; j < sfxSamplesCount; j++)
                     {
                         //Read sample properties
-                        SamplePoolItem samplePoolItem = new SamplePoolItem()
+                        SfxSample samplePoolItem = new SfxSample()
                         {
                             FileRef = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian),
                             OldMusXPitch = BinaryFunctions.FlipShort(BReader.ReadInt16(), headerData.IsBigEndian),
@@ -93,7 +93,7 @@ namespace sb_explorer
                 uint waveCount = BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian);
                 for (int i = 0; i < waveCount; i++)
                 {
-                    WavHeaderData wavHeaderData = new WavHeaderData
+                    SfxData wavHeaderData = new SfxData
                     {
                         Flags = (ushort)BinaryFunctions.FlipUInt32(BReader.ReadUInt32(), headerData.IsBigEndian),
                         Address = BinaryFunctions.FlipInt32(BReader.ReadInt32(), headerData.IsBigEndian),
@@ -102,9 +102,9 @@ namespace sb_explorer
                         SampleSize = BinaryFunctions.FlipInt32(BReader.ReadInt32(), headerData.IsBigEndian),
                         Channels = BinaryFunctions.FlipInt32(BReader.ReadInt32(), headerData.IsBigEndian),
                         Bits = BinaryFunctions.FlipInt32(BReader.ReadInt32(), headerData.IsBigEndian),
-                        PSI_SampleHeader = BinaryFunctions.FlipInt32(BReader.ReadInt32(), headerData.IsBigEndian),
+                        PsiSampleHeader = BinaryFunctions.FlipInt32(BReader.ReadInt32(), headerData.IsBigEndian),
                         LoopStartOffset = BinaryFunctions.FlipInt32(BReader.ReadInt32(), headerData.IsBigEndian),
-                        DurationInMilliseconds = BReader.ReadInt32(),
+                        Duration = BReader.ReadInt32(),
                     };
 
                     //Store current position
@@ -117,7 +117,7 @@ namespace sb_explorer
                     //Read coeffs
                     if (headerData.Platform.Contains("GC"))
                     {
-                        BReader.BaseStream.Seek(headerData.SpecialSampleInfoStart + wavHeaderData.PSI_SampleHeader, SeekOrigin.Begin);
+                        BReader.BaseStream.Seek(headerData.SpecialSampleInfoStart + wavHeaderData.PsiSampleHeader, SeekOrigin.Begin);
                         BReader.BaseStream.Seek(28, SeekOrigin.Current);
                         wavHeaderData.DspCoeffs = new short[16];
                         for (int j = 0; j < wavHeaderData.DspCoeffs.Length; j++)
@@ -136,7 +136,7 @@ namespace sb_explorer
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        internal void LoadStreamFile(string filePath, MusXHeaderData headerData, List<StreamSample> StreamFileDictionaryData)
+        internal void LoadStreamFile(string filePath, MusXHeaderData headerData, List<SfxStream> StreamFileDictionaryData)
         {
             using (BinaryReader binaryReader = new BinaryReader(File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
@@ -156,7 +156,7 @@ namespace sb_explorer
                 for (int i = 0; i < storedElements.Length; i++)
                 {
                     binaryReader.BaseStream.Seek(headerData.FileStart2 + storedElements[i], SeekOrigin.Begin);
-                    StreamSample StreamSoundToAdd = new StreamSample
+                    SfxStream StreamSoundToAdd = new SfxStream
                     {
                         BlockPosition = storedElements[i],
                         MarkerSize = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
@@ -174,9 +174,9 @@ namespace sb_explorer
                     //Stream marker start data
                     for (int j = 0; j < StartMarkersCount; j++)
                     {
-                        StreamStartMarker StartMarker = new StreamStartMarker
+                        StartMarker StartMarker = new StartMarker
                         {
-                            Name = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                            Index = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
                             Position = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
                             Type = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
                             Flags = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
@@ -200,9 +200,9 @@ namespace sb_explorer
                     //Stream marker data 
                     for (int k = 0; k < MarkersCount; k++)
                     {
-                        StreamMarker DataMarker = new StreamMarker
+                        Marker DataMarker = new Marker
                         {
-                            Name = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                            Index = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
                             Position = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
                             Type = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
                             Flags = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
@@ -250,9 +250,9 @@ namespace sb_explorer
                 //Read Start Markers
                 for (int j = 0; j < StartMarkersCount; j++)
                 {
-                    StreamStartMarker StartMarker = new StreamStartMarker
+                    StartMarker StartMarker = new StartMarker
                     {
-                        Name = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                        Index = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
                         Position = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
                         Type = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
                         Flags = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
@@ -276,9 +276,9 @@ namespace sb_explorer
                 //Read Markers
                 for (int k = 0; k < MarkersCount; k++)
                 {
-                    StreamMarker DataMarker = new StreamMarker
+                    Marker DataMarker = new Marker
                     {
-                        Name = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
+                        Index = BinaryFunctions.FlipInt32(binaryReader.ReadInt32(), headerData.IsBigEndian),
                         Position = BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
                         Type = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),
                         Flags = (byte)BinaryFunctions.FlipUInt32(binaryReader.ReadUInt32(), headerData.IsBigEndian),

@@ -5,7 +5,7 @@ namespace sb_explorer
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
-    public class Sample
+    public class SfxSound
     {
         //Data for the HEX Editor
         public HexData HexViewerData = new HexData();
@@ -34,7 +34,7 @@ namespace sb_explorer
         public ushort UserFlags;
 
         //Samples
-        public List<SamplePoolItem> samplesList = new List<SamplePoolItem>();
+        public List<SfxSample> samplesList = new List<SfxSample>();
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------

@@ -3,16 +3,10 @@
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
-    public class StreamMarker
+    public class ProjectSoundBank
     {
-        public int Name;
-        public uint Position;
-        public byte Type;
-        public byte Flags;
-        public byte Extra;
-        public uint LoopStart;
-        public int LoopMarkerCount;
-        public int MarkerCount;
+        public int soundBankHashCode;
+        public int soundBankSlotNumber;
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------

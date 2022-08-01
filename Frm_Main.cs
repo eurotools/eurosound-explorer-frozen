@@ -13,8 +13,8 @@ namespace sb_explorer
     public partial class Frm_Main : Form
     {
         internal MusXHeaderData headerData;
-        internal SortedDictionary<uint, Sample> samplesList;
-        internal List<WavHeaderData> wavesList;
+        internal SortedDictionary<uint, SfxSound> samplesList;
+        internal List<SfxData> wavesList;
         private IEnumerator SearchEnumerator;
         private Regex SearchRegEx;
 
@@ -38,8 +38,8 @@ namespace sb_explorer
         {
             try
             {
-                samplesList = new SortedDictionary<uint, Sample>();
-                wavesList = new List<WavHeaderData>();
+                samplesList = new SortedDictionary<uint, SfxSound>();
+                wavesList = new List<SfxData>();
                 MusxHeader sfxHeaderData = new MusxHeader();
                 int fileVersion = sfxHeaderData.ReadFileVersion(filePath);
 
@@ -179,7 +179,7 @@ namespace sb_explorer
                         //Open form
                         if (musicDat != null)
                         {
-                            Frm_ViewMusicFile musicsForm = new Frm_ViewMusicFile(musicDat, OpenFileDialog_MusicFiles.FileName);
+                            Frm_ViewMusicFile musicsForm = new Frm_ViewMusicFile(musicDat, headerData, OpenFileDialog_MusicFiles.FileName);
                             musicsForm.ShowDialog();
                         }
                     }
@@ -207,8 +207,14 @@ namespace sb_explorer
                     //Read file
                     if (sfxHeaderData.ReadSoundBankHeader(OpenFileDiag_ProjectFiles.FileName, headerData) && headerData.Platform != null)
                     {
-                        Frm_ViewProjectFile projectFile = new Frm_ViewProjectFile(OpenFileDiag_ProjectFiles.FileName);
-                        projectFile.ShowDialog();
+                        //Read Data
+                        NewMusX projectFilesReader = new NewMusX();
+                        ProjectFile projectDat = projectFilesReader.ReadProjectFile(OpenFileDiag_ProjectFiles.FileName, headerData);
+                        //Show form
+                        using (Frm_ViewProjectFile projectFile = new Frm_ViewProjectFile(projectDat))
+                        {
+                            projectFile.ShowDialog();
+                        }
                     }
                 }
             }

@@ -11,7 +11,7 @@ namespace sb_explorer
     public partial class UserControl_StreamData : UserControl
     {
         internal int frequency = 22050;
-        internal List<StreamSample> streamedSamples;
+        internal List<SfxStream> streamedSamples;
         private MusXHeaderData headerData;
 
         //-------------------------------------------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ namespace sb_explorer
                     //Read File
                     if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData) && headerData.Platform != null)
                     {
-                        streamedSamples = new List<StreamSample>();
+                        streamedSamples = new List<SfxStream>();
                         if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
                         {
                             //Read file data
@@ -127,9 +127,9 @@ namespace sb_explorer
 
                         ushort errors = 0;
 
-                        StreamStartMarker musicMarkerStartData = streamedSamples[selectedIndex].StartMarkers[i];
+                        StartMarker musicMarkerStartData = streamedSamples[selectedIndex].StartMarkers[i];
                         listViewItem.Text = i.ToString();
-                        listViewItem.SubItems[1].Text = musicMarkerStartData.Name.ToString();
+                        listViewItem.SubItems[1].Text = musicMarkerStartData.Index.ToString();
                         listViewItem.SubItems[2].Text = musicMarkerStartData.Position.ToString();
                         switch (musicMarkerStartData.Type)
                         {
@@ -198,9 +198,9 @@ namespace sb_explorer
                         };
 
                         ushort errors = 0;
-                        StreamMarker musicMarkerStartData = streamedSamples[selectedIndex].Markers[i];
+                        Marker musicMarkerStartData = streamedSamples[selectedIndex].Markers[i];
                         listViewItem.Text = i.ToString();
-                        listViewItem.SubItems[1].Text = musicMarkerStartData.Name.ToString();
+                        listViewItem.SubItems[1].Text = musicMarkerStartData.Index.ToString();
                         listViewItem.SubItems[2].Text = musicMarkerStartData.Position.ToString();
                         switch (musicMarkerStartData.Type)
                         {
@@ -310,14 +310,14 @@ namespace sb_explorer
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        internal void PrintSamplesData(List<StreamSample> streamedSamples)
+        internal void PrintSamplesData(List<SfxStream> streamedSamples)
         {
             ListView_StreamData.BeginUpdate();
             ListView_StreamData.Items.Clear();
 
             for (int i = 0; i < streamedSamples.Count; i++)
             {
-                StreamSample currentSample = streamedSamples[i];
+                SfxStream currentSample = streamedSamples[i];
                 ushort errors = 0;
 
                 //Create item and add it to list

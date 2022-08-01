@@ -200,7 +200,7 @@ namespace sb_explorer
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.StatusBar);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Textbox_SoundbankName);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Label_SoundBank_Name);
-            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1166, 807);
+            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1166, 845);
             this.SplitContainer_HashCodes.SplitterDistance = 210;
             this.SplitContainer_HashCodes.TabIndex = 0;
             // 
@@ -209,7 +209,7 @@ namespace sb_explorer
             this.UserControl_Hashcode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UserControl_Hashcode.Location = new System.Drawing.Point(0, 0);
             this.UserControl_Hashcode.Name = "UserControl_Hashcode";
-            this.UserControl_Hashcode.Size = new System.Drawing.Size(210, 807);
+            this.UserControl_Hashcode.Size = new System.Drawing.Size(210, 845);
             this.UserControl_Hashcode.TabIndex = 0;
             // 
             // TabControl
@@ -251,7 +251,7 @@ namespace sb_explorer
             this.TabPage_WavHeaderData.Location = new System.Drawing.Point(4, 22);
             this.TabPage_WavHeaderData.Name = "TabPage_WavHeaderData";
             this.TabPage_WavHeaderData.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_WavHeaderData.Size = new System.Drawing.Size(400, 777);
+            this.TabPage_WavHeaderData.Size = new System.Drawing.Size(387, 777);
             this.TabPage_WavHeaderData.TabIndex = 1;
             this.TabPage_WavHeaderData.Text = "Wav Header Data";
             // 
@@ -261,7 +261,7 @@ namespace sb_explorer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.UserControl_WavHeaderData.Location = new System.Drawing.Point(6, 6);
             this.UserControl_WavHeaderData.Name = "UserControl_WavHeaderData";
-            this.UserControl_WavHeaderData.Size = new System.Drawing.Size(388, 718);
+            this.UserControl_WavHeaderData.Size = new System.Drawing.Size(375, 718);
             this.UserControl_WavHeaderData.TabIndex = 0;
             // 
             // TabPage_StreamData
@@ -271,7 +271,7 @@ namespace sb_explorer
             this.TabPage_StreamData.Location = new System.Drawing.Point(4, 22);
             this.TabPage_StreamData.Name = "TabPage_StreamData";
             this.TabPage_StreamData.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage_StreamData.Size = new System.Drawing.Size(400, 777);
+            this.TabPage_StreamData.Size = new System.Drawing.Size(387, 777);
             this.TabPage_StreamData.TabIndex = 2;
             this.TabPage_StreamData.Text = "Stream Data";
             // 
@@ -280,7 +280,7 @@ namespace sb_explorer
             this.userControl_StreamData1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.userControl_StreamData1.Location = new System.Drawing.Point(3, 3);
             this.userControl_StreamData1.Name = "userControl_StreamData1";
-            this.userControl_StreamData1.Size = new System.Drawing.Size(394, 771);
+            this.userControl_StreamData1.Size = new System.Drawing.Size(381, 771);
             this.userControl_StreamData1.TabIndex = 0;
             // 
             // Button_ReloadSoundbank
@@ -321,7 +321,7 @@ namespace sb_explorer
             // 
             // StatusBar
             // 
-            this.StatusBar.Location = new System.Drawing.Point(0, 785);
+            this.StatusBar.Location = new System.Drawing.Point(0, 823);
             this.StatusBar.Name = "StatusBar";
             this.StatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
             this.StatusLabel_HashCode,
@@ -398,7 +398,7 @@ namespace sb_explorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1166, 807);
+            this.ClientSize = new System.Drawing.Size(1166, 845);
             this.Controls.Add(this.SplitContainer_HashCodes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.MainMenu;

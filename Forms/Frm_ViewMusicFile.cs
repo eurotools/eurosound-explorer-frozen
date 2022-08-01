@@ -10,14 +10,16 @@ namespace sb_explorer
     public partial class Frm_ViewMusicFile : Form
     {
         //-------------------------------------------------------------------------------------------------------------------------------
+        private readonly MusXHeaderData headerFileData;
         private readonly MusicSample musicFileData;
         private readonly string musicFilePath;
 
         //-------------------------------------------------------------------------------------------------------------------------------
-        public Frm_ViewMusicFile(MusicSample musicObj, string filePath)
+        public Frm_ViewMusicFile(MusicSample musicObj, MusXHeaderData headerData, string filePath)
         {
             InitializeComponent();
 
+            headerFileData = headerData;
             musicFileData = musicObj;
             musicFilePath = filePath;
         }
@@ -52,9 +54,9 @@ namespace sb_explorer
 
                     ushort errors = 0;
 
-                    StreamStartMarker musicMarkerStartData = musicFileData.StartMarkers[i];
+                    StartMarker musicMarkerStartData = musicFileData.StartMarkers[i];
                     listViewItem.Text = i.ToString();
-                    listViewItem.SubItems[1].Text = musicMarkerStartData.Name.ToString();
+                    listViewItem.SubItems[1].Text = musicMarkerStartData.Index.ToString();
                     listViewItem.SubItems[2].Text = musicMarkerStartData.Position.ToString();
                     switch (musicMarkerStartData.Type)
                     {
@@ -123,9 +125,9 @@ namespace sb_explorer
                     };
 
                     ushort errors = 0;
-                    StreamMarker musicMarkerStartData = musicFileData.Markers[i];
+                    Marker musicMarkerStartData = musicFileData.Markers[i];
                     listViewItem.Text = i.ToString();
-                    listViewItem.SubItems[1].Text = musicMarkerStartData.Name.ToString();
+                    listViewItem.SubItems[1].Text = musicMarkerStartData.Index.ToString();
                     listViewItem.SubItems[2].Text = musicMarkerStartData.Position.ToString();
                     switch (musicMarkerStartData.Type)
                     {
@@ -179,8 +181,7 @@ namespace sb_explorer
             ListView_StreamData_Markers.EndUpdate();
 
             //ADPCM Validate
-            MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
-            if ((MusXheaderData.Platform.Contains("PC") || MusXheaderData.Platform.Contains("GC")) && MusXheaderData.FileVersion > 3 && MusXheaderData.FileVersion < 10)
+            if ((headerFileData.Platform.Contains("PC") || headerFileData.Platform.Contains("GC")) && headerFileData.FileVersion > 3 && headerFileData.FileVersion < 10)
             {
                 byte[] ImaDataLeft = musicFileData.SampleByteData_LeftChannel;
                 byte[] ImaDataRight = musicFileData.SampleByteData_RightChannel;
@@ -205,26 +206,25 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void Button_MediaPlayer_Click(object sender, EventArgs e)
         {
-            MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
             byte[] decodedDataL = null;
             byte[] decodedDataR = null;
             int frequency = 32000;
 
-            if (MusXheaderData.FileVersion == 201 || MusXheaderData.FileVersion == 1)
+            if (headerFileData.FileVersion == 201 || headerFileData.FileVersion == 1)
             {
-                if (MusXheaderData.Platform.Equals("PC") || MusXheaderData.Platform.Contains("GC"))
+                if (headerFileData.Platform.Equals("PC") || headerFileData.Platform.Contains("GC"))
                 {
                     ImaAdpcm eurocomDAT = new ImaAdpcm();
                     decodedDataL = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(musicFileData.SampleByteData_LeftChannel, musicFileData.SampleByteData_LeftChannel.Length * 2));
                     decodedDataR = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(musicFileData.SampleByteData_RightChannel, musicFileData.SampleByteData_RightChannel.Length * 2));
                 }
-                else if (MusXheaderData.Platform.Equals("PS2"))
+                else if (headerFileData.Platform.Equals("PS2"))
                 {
                     SonyAdpcm vagDecoder = new SonyAdpcm();
                     decodedDataL = vagDecoder.Decode(musicFileData.SampleByteData_LeftChannel);
                     decodedDataR = vagDecoder.Decode(musicFileData.SampleByteData_RightChannel);
                 }
-                else if (MusXheaderData.Platform.Equals("XB"))
+                else if (headerFileData.Platform.Equals("XB"))
                 {
                     frequency = 44100;
                     XboxAdpcm xboxDecoder = new XboxAdpcm();
@@ -234,19 +234,19 @@ namespace sb_explorer
             }
             else
             {
-                if (MusXheaderData.Platform.Equals("PC__") || MusXheaderData.Platform.Contains("GC__"))
+                if (headerFileData.Platform.Equals("PC__") || headerFileData.Platform.Contains("GC__"))
                 {
                     Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
                     decodedDataL = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(musicFileData.SampleByteData_LeftChannel));
                     decodedDataR = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(musicFileData.SampleByteData_RightChannel));
                 }
-                else if (MusXheaderData.Platform.Equals("PS2_"))
+                else if (headerFileData.Platform.Equals("PS2_"))
                 {
                     SonyAdpcm vagDecoder = new SonyAdpcm();
                     decodedDataL = vagDecoder.Decode(musicFileData.SampleByteData_LeftChannel);
                     decodedDataR = vagDecoder.Decode(musicFileData.SampleByteData_RightChannel);
                 }
-                else if (MusXheaderData.Platform.Equals("XB__") || MusXheaderData.Platform.Equals("XB1_"))
+                else if (headerFileData.Platform.Equals("XB__") || headerFileData.Platform.Equals("XB1_"))
                 {
                     frequency = 44100;
                     Eurocom_ImaAdpcm xboxDecoder = new Eurocom_ImaAdpcm();

@@ -5,24 +5,22 @@ namespace sb_explorer
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------------------
-    public class MusicSample
+    public class ProjectFile
     {
-        //Markers
-        public List<StartMarker> StartMarkers = new List<StartMarker>();
-        public List<Marker> Markers = new List<Marker>();
+        public int MemmorySlotsCount;
+        public int MemorySlotsOffset;
 
-        //Channel info
-        public byte[] SampleByteData_RightChannel = new byte[0];
-        public byte[] SampleByteData_LeftChannel = new byte[0];
+        public int soundBanksCount;
+        public int soundBanksOffset;
 
-        //Parameters
-        public uint MarkerSize;
-        public uint AudioOffset;
-        public uint AudioSize;
-        public uint StartMarkerOffset;
-        public uint MarkerOffset;
-        public uint BaseVolume;
-        public uint HashCode;
+        public int stereoStreamCount;
+        public int monoStreamCount;
+        public int projectCode;
+
+        public List<ProjectSoundBank> soundBanksData = new List<ProjectSoundBank>();
+        public List<ProjectSlots> memorySlotsData = new List<ProjectSlots>();
+
+        public int[] flagsValues = new int[10];
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------
