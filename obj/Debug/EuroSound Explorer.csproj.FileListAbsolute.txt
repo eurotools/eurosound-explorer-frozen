@@ -1,23 +1,4 @@
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.Frm_Main.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.Properties.Resources.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.GenerateResource.cache
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.CoreCompileInputs.cache
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\bin\Debug\sb_explorer.exe
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\bin\Debug\sb_explorer.pdb
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\bin\Debug\NAudio.dll
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\bin\Debug\NAudio.xml
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.CopyComplete
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.exe
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.pdb
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_HashCodes.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_HexEditor.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_Samples_Properties.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_StreamData.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.UserControl_WavHeaderData.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.Frm_MediaPlayer_Mono.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.MediaPlayer_Stereo.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\sb_explorer.ADPCM_Validator_PC.resources
-C:\Users\Jordi Martinez\source\repos\IceAge2EuroSound\obj\Debug\EuroSound Explorer.csproj.AssemblyReference.cache
+F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.exe.config
 F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.exe
 F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.pdb
 F:\Repositories\eurosound_explorer\bin\Debug\NAudio.xml
@@ -27,20 +8,19 @@ F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_Samples_Pro
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_StreamData.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.UserControl_WavHeaderData.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.ADPCM_Validator_PC.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.FindHashCode.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ChoosePlatform.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ViewMusicFile.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_About.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_Main.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_MediaPlayer_Mono.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.MediaPlayer_Stereo.resources
+F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ViewProjectFile.resources
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Properties.Resources.resources
 F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.GenerateResource.cache
 F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.CoreCompileInputs.cache
+F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.Fody.CopyLocal.cache
+F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.Fody.RuntimeCopyLocal.cache
 F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.CopyComplete
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.exe
 F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.pdb
-F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ViewMusicFile.resources
-F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ChoosePlatform.resources
-F:\Repositories\eurosound_explorer\bin\Debug\sb_explorer.exe.config
-F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_About.resources
-F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.FindHashCode.resources
-F:\Repositories\eurosound_explorer\obj\Debug\sb_explorer.Frm_ViewProjectFile.resources
-F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.Fody.CopyLocal.cache
-F:\Repositories\eurosound_explorer\obj\Debug\EuroSound Explorer.csproj.Fody.RuntimeCopyLocal.cache
