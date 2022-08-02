@@ -122,7 +122,7 @@ namespace sb_explorer
                             stringBuilder1.Append("RND ");
                         if ((sbyte)(sampleData.TrackingType & 8) != 0)
                             stringBuilder1.Append("NT ");
-                        samplePropsControl.Textbox_TrackingType.Text = stringBuilder1.ToString();
+                        samplePropsControl.Textbox_TrackingType.Text = stringBuilder1.ToString().Trim();
                     }
                     samplePropsControl.Textbox_MinDelay.Text = sampleData.MinDelay.ToString();
                     samplePropsControl.Textbox_MaxDelay.Text = sampleData.MaxDelay.ToString();
@@ -198,7 +198,7 @@ namespace sb_explorer
                             if (finalFileRef < 0)
                             {
                                 //Apply 0x3FFF and turn it into negative to be detected by the tool as a stream file.
-                                if (MusXheaderData.FileVersion > 5)
+                                if (MusXheaderData.FileVersion > 5 && MusXheaderData.FileVersion < 15)
                                 {
                                     finalFileRef = (short)((samplePoolItem.FileRef & 0x3FFF) * -1);
                                 }
@@ -242,7 +242,7 @@ namespace sb_explorer
                         else if (finalFileRef < 0)
                         {
                             //Apply 0x3FFF and turn it into negative to be detected by the tool as a stream file.
-                            if (MusXheaderData.FileVersion > 5)
+                            if (MusXheaderData.FileVersion > 5 && MusXheaderData.FileVersion < 15)
                             {
                                 finalFileRef = (short)((samplePoolItem.FileRef & 0x3FFF) * -1);
                             }
