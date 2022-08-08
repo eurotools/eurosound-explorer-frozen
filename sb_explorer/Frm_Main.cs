@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -260,6 +261,12 @@ namespace sb_explorer
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_File_Exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
         private void MenuItem_View_FindHashCode_Click(object sender, EventArgs e)
         {
             //Show form
@@ -351,6 +358,12 @@ namespace sb_explorer
             {
                 aboutForm.ShowDialog();
             }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_About_CheckUpdates_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/eurotools/eurosound-explorer/releases");
         }
     }
 

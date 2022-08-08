@@ -51,6 +51,11 @@ namespace sb_explorer
             this.OpenFileDiag_ProjectFiles = new System.Windows.Forms.OpenFileDialog();
             this.SplitContainer_HashCodes = new System.Windows.Forms.SplitContainer();
             this.UserControl_Hashcode = new sb_explorer.UserControl_HashCodes();
+            this.StatusBar = new System.Windows.Forms.StatusBar();
+            this.StatusLabel_HashCode = new System.Windows.Forms.StatusBarPanel();
+            this.StatusLabel_Version = new System.Windows.Forms.StatusBarPanel();
+            this.StatusLabel_Platform = new System.Windows.Forms.StatusBarPanel();
+            this.StatusLabel_SoundhDir = new System.Windows.Forms.StatusBarPanel();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.TabPage_HexView = new System.Windows.Forms.TabPage();
             this.UserControl_HexEditor = new sb_explorer.UserControl_HexEditor();
@@ -61,26 +66,22 @@ namespace sb_explorer
             this.Textbox_HashcodeName = new System.Windows.Forms.TextBox();
             this.UserControl_SampleProperties = new sb_explorer.UserControl_Samples_Properties();
             this.Label_HashCodeName = new System.Windows.Forms.Label();
-            this.StatusBar = new System.Windows.Forms.StatusBar();
-            this.StatusLabel_HashCode = new System.Windows.Forms.StatusBarPanel();
-            this.StatusLabel_Version = new System.Windows.Forms.StatusBarPanel();
-            this.StatusLabel_Platform = new System.Windows.Forms.StatusBarPanel();
-            this.StatusLabel_SoundhDir = new System.Windows.Forms.StatusBarPanel();
             this.Textbox_SoundbankName = new System.Windows.Forms.TextBox();
             this.Label_SoundBank_Name = new System.Windows.Forms.Label();
             this.Button_ReloadSoundbank = new System.Windows.Forms.Button();
+            this.MenuItem_About_CheckUpdates = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_HashCodes)).BeginInit();
             this.SplitContainer_HashCodes.Panel1.SuspendLayout();
             this.SplitContainer_HashCodes.Panel2.SuspendLayout();
             this.SplitContainer_HashCodes.SuspendLayout();
-            this.TabControl.SuspendLayout();
-            this.TabPage_HexView.SuspendLayout();
-            this.TabPage_WavHeaderData.SuspendLayout();
-            this.TabPage_StreamData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.StatusLabel_HashCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StatusLabel_Version)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StatusLabel_Platform)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StatusLabel_SoundhDir)).BeginInit();
+            this.TabControl.SuspendLayout();
+            this.TabPage_HexView.SuspendLayout();
+            this.TabPage_WavHeaderData.SuspendLayout();
+            this.TabPage_StreamData.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainMenu
@@ -142,6 +143,7 @@ namespace sb_explorer
             this.MenuItem_File_Exit.Index = 6;
             this.MenuItem_File_Exit.Shortcut = System.Windows.Forms.Shortcut.CtrlQ;
             this.MenuItem_File_Exit.Text = "Exit";
+            this.MenuItem_File_Exit.Click += new System.EventHandler(this.MenuItem_File_Exit_Click);
             // 
             // MenuItem_View
             // 
@@ -171,7 +173,8 @@ namespace sb_explorer
             // 
             this.MenuItem_About.Index = 2;
             this.MenuItem_About.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.MenuItem_About_About});
+            this.MenuItem_About_About,
+            this.MenuItem_About_CheckUpdates});
             this.MenuItem_About.Text = "Help";
             // 
             // MenuItem_About_About
@@ -217,7 +220,7 @@ namespace sb_explorer
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Textbox_SoundbankName);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Label_SoundBank_Name);
             this.SplitContainer_HashCodes.Panel2.Controls.Add(this.Button_ReloadSoundbank);
-            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1166, 852);
+            this.SplitContainer_HashCodes.Size = new System.Drawing.Size(1166, 869);
             this.SplitContainer_HashCodes.SplitterDistance = 210;
             this.SplitContainer_HashCodes.TabIndex = 0;
             // 
@@ -226,8 +229,48 @@ namespace sb_explorer
             this.UserControl_Hashcode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UserControl_Hashcode.Location = new System.Drawing.Point(0, 0);
             this.UserControl_Hashcode.Name = "UserControl_Hashcode";
-            this.UserControl_Hashcode.Size = new System.Drawing.Size(210, 852);
+            this.UserControl_Hashcode.Size = new System.Drawing.Size(210, 869);
             this.UserControl_Hashcode.TabIndex = 0;
+            // 
+            // StatusBar
+            // 
+            this.StatusBar.Location = new System.Drawing.Point(0, 847);
+            this.StatusBar.Name = "StatusBar";
+            this.StatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
+            this.StatusLabel_HashCode,
+            this.StatusLabel_Version,
+            this.StatusLabel_Platform,
+            this.StatusLabel_SoundhDir});
+            this.StatusBar.ShowPanels = true;
+            this.StatusBar.Size = new System.Drawing.Size(952, 22);
+            this.StatusBar.TabIndex = 0;
+            this.StatusBar.Text = "statusBar1";
+            // 
+            // StatusLabel_HashCode
+            // 
+            this.StatusLabel_HashCode.BorderStyle = System.Windows.Forms.StatusBarPanelBorderStyle.Raised;
+            this.StatusLabel_HashCode.Name = "StatusLabel_HashCode";
+            this.StatusLabel_HashCode.Text = "HashCode:";
+            this.StatusLabel_HashCode.Width = 200;
+            // 
+            // StatusLabel_Version
+            // 
+            this.StatusLabel_Version.Name = "StatusLabel_Version";
+            this.StatusLabel_Version.Text = "Version:";
+            this.StatusLabel_Version.Width = 99;
+            // 
+            // StatusLabel_Platform
+            // 
+            this.StatusLabel_Platform.BorderStyle = System.Windows.Forms.StatusBarPanelBorderStyle.Raised;
+            this.StatusLabel_Platform.Name = "StatusLabel_Platform";
+            this.StatusLabel_Platform.Text = "Platform:";
+            this.StatusLabel_Platform.Width = 99;
+            // 
+            // StatusLabel_SoundhDir
+            // 
+            this.StatusLabel_SoundhDir.Name = "StatusLabel_SoundhDir";
+            this.StatusLabel_SoundhDir.Text = "Sound.h Dir:";
+            this.StatusLabel_SoundhDir.Width = 250;
             // 
             // TabControl
             // 
@@ -326,46 +369,6 @@ namespace sb_explorer
             this.Label_HashCodeName.TabIndex = 3;
             this.Label_HashCodeName.Text = "Hashcode Name";
             // 
-            // StatusBar
-            // 
-            this.StatusBar.Location = new System.Drawing.Point(0, 830);
-            this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
-            this.StatusLabel_HashCode,
-            this.StatusLabel_Version,
-            this.StatusLabel_Platform,
-            this.StatusLabel_SoundhDir});
-            this.StatusBar.ShowPanels = true;
-            this.StatusBar.Size = new System.Drawing.Size(952, 22);
-            this.StatusBar.TabIndex = 0;
-            this.StatusBar.Text = "statusBar1";
-            // 
-            // StatusLabel_HashCode
-            // 
-            this.StatusLabel_HashCode.BorderStyle = System.Windows.Forms.StatusBarPanelBorderStyle.Raised;
-            this.StatusLabel_HashCode.Name = "StatusLabel_HashCode";
-            this.StatusLabel_HashCode.Text = "HashCode:";
-            this.StatusLabel_HashCode.Width = 200;
-            // 
-            // StatusLabel_Version
-            // 
-            this.StatusLabel_Version.Name = "StatusLabel_Version";
-            this.StatusLabel_Version.Text = "Version:";
-            this.StatusLabel_Version.Width = 99;
-            // 
-            // StatusLabel_Platform
-            // 
-            this.StatusLabel_Platform.BorderStyle = System.Windows.Forms.StatusBarPanelBorderStyle.Raised;
-            this.StatusLabel_Platform.Name = "StatusLabel_Platform";
-            this.StatusLabel_Platform.Text = "Platform:";
-            this.StatusLabel_Platform.Width = 99;
-            // 
-            // StatusLabel_SoundhDir
-            // 
-            this.StatusLabel_SoundhDir.Name = "StatusLabel_SoundhDir";
-            this.StatusLabel_SoundhDir.Text = "Sound.h Dir:";
-            this.StatusLabel_SoundhDir.Width = 250;
-            // 
             // Textbox_SoundbankName
             // 
             this.Textbox_SoundbankName.BackColor = System.Drawing.SystemColors.Window;
@@ -394,11 +397,17 @@ namespace sb_explorer
             this.Button_ReloadSoundbank.UseVisualStyleBackColor = true;
             this.Button_ReloadSoundbank.Click += new System.EventHandler(this.Button_ReloadSoundbank_Click);
             // 
+            // MenuItem_About_CheckUpdates
+            // 
+            this.MenuItem_About_CheckUpdates.Index = 1;
+            this.MenuItem_About_CheckUpdates.Text = "Check for updates";
+            this.MenuItem_About_CheckUpdates.Click += new System.EventHandler(this.MenuItem_About_CheckUpdates_Click);
+            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1166, 852);
+            this.ClientSize = new System.Drawing.Size(1166, 869);
             this.Controls.Add(this.SplitContainer_HashCodes);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.MainMenu;
@@ -409,14 +418,14 @@ namespace sb_explorer
             this.SplitContainer_HashCodes.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_HashCodes)).EndInit();
             this.SplitContainer_HashCodes.ResumeLayout(false);
-            this.TabControl.ResumeLayout(false);
-            this.TabPage_HexView.ResumeLayout(false);
-            this.TabPage_WavHeaderData.ResumeLayout(false);
-            this.TabPage_StreamData.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.StatusLabel_HashCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StatusLabel_Version)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StatusLabel_Platform)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StatusLabel_SoundhDir)).EndInit();
+            this.TabControl.ResumeLayout(false);
+            this.TabPage_HexView.ResumeLayout(false);
+            this.TabPage_WavHeaderData.ResumeLayout(false);
+            this.TabPage_StreamData.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -461,6 +470,7 @@ namespace sb_explorer
         private System.Windows.Forms.OpenFileDialog OpenFileDialog_MusicFiles;
         private System.Windows.Forms.OpenFileDialog OpenFileDiag_ProjectFiles;
         protected internal System.Windows.Forms.TabPage TabPage_StreamData;
+        private System.Windows.Forms.MenuItem MenuItem_About_CheckUpdates;
     }
 }
 
