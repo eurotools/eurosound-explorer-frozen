@@ -11,6 +11,9 @@ namespace sb_explorer
     //-------------------------------------------------------------------------------------------------------------------------------
     public partial class Frm_MediaPlayer_Mono : Form
     {
+        //*===============================================================================================
+        //* GLOBAL VARS
+        //*===============================================================================================
         private readonly WaveOut AudioPlayer = new WaveOut();
         private readonly byte[] pcmDataToPlay, encodedRawData;
         private readonly int Frequency;
@@ -74,9 +77,6 @@ namespace sb_explorer
                     //Save file
                     IWaveProvider provider = new RawSourceWaveStream(new MemoryStream(pcmDataToPlay), new WaveFormat(Frequency, 16, 1));
                     WaveFileWriter.CreateWaveFile(filePath, provider);
-
-                    //Inform user
-                    MessageBox.Show("File saved successfully!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
@@ -116,12 +116,6 @@ namespace sb_explorer
             {
                 AudioPlayer.Stop();
             }
-        }
-
-        //-------------------------------------------------------------------------------------------------------------------------------
-        private void Button_Close_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
     }
 

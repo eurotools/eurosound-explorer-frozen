@@ -36,6 +36,8 @@ namespace sb_explorer
             this.MenuItem_File_LoadSoundBank = new System.Windows.Forms.MenuItem();
             this.MenuItem_File_ViewMusicFile = new System.Windows.Forms.MenuItem();
             this.MenuItem_File_ViewProjectFile = new System.Windows.Forms.MenuItem();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.MenuItem_ExtractSoundBank = new System.Windows.Forms.MenuItem();
             this.MenuItem_File_Separator1 = new System.Windows.Forms.MenuItem();
             this.MenuItem_File_SetSoundH = new System.Windows.Forms.MenuItem();
             this.MenuItem_File_Separator2 = new System.Windows.Forms.MenuItem();
@@ -45,6 +47,7 @@ namespace sb_explorer
             this.MenuItem_View_FindNext = new System.Windows.Forms.MenuItem();
             this.MenuItem_About = new System.Windows.Forms.MenuItem();
             this.MenuItem_About_About = new System.Windows.Forms.MenuItem();
+            this.MenuItem_About_CheckUpdates = new System.Windows.Forms.MenuItem();
             this.OpenFileDiag_SoundbankFiles = new System.Windows.Forms.OpenFileDialog();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.OpenFileDialog_MusicFiles = new System.Windows.Forms.OpenFileDialog();
@@ -69,7 +72,6 @@ namespace sb_explorer
             this.Textbox_SoundbankName = new System.Windows.Forms.TextBox();
             this.Label_SoundBank_Name = new System.Windows.Forms.Label();
             this.Button_ReloadSoundbank = new System.Windows.Forms.Button();
-            this.MenuItem_About_CheckUpdates = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_HashCodes)).BeginInit();
             this.SplitContainer_HashCodes.Panel1.SuspendLayout();
             this.SplitContainer_HashCodes.Panel2.SuspendLayout();
@@ -98,6 +100,8 @@ namespace sb_explorer
             this.MenuItem_File_LoadSoundBank,
             this.MenuItem_File_ViewMusicFile,
             this.MenuItem_File_ViewProjectFile,
+            this.menuItem1,
+            this.MenuItem_ExtractSoundBank,
             this.MenuItem_File_Separator1,
             this.MenuItem_File_SetSoundH,
             this.MenuItem_File_Separator2,
@@ -122,25 +126,36 @@ namespace sb_explorer
             this.MenuItem_File_ViewProjectFile.Text = "View Project File *.sfx";
             this.MenuItem_File_ViewProjectFile.Click += new System.EventHandler(this.MenuItem_File_ViewProjectFile_Click);
             // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 3;
+            this.menuItem1.Text = "-";
+            // 
+            // MenuItem_ExtractSoundBank
+            // 
+            this.MenuItem_ExtractSoundBank.Index = 4;
+            this.MenuItem_ExtractSoundBank.Text = "Extract SoundBank";
+            this.MenuItem_ExtractSoundBank.Click += new System.EventHandler(this.MenuItem_ExtractSoundBank_Click);
+            // 
             // MenuItem_File_Separator1
             // 
-            this.MenuItem_File_Separator1.Index = 3;
+            this.MenuItem_File_Separator1.Index = 5;
             this.MenuItem_File_Separator1.Text = "-";
             // 
             // MenuItem_File_SetSoundH
             // 
-            this.MenuItem_File_SetSoundH.Index = 4;
+            this.MenuItem_File_SetSoundH.Index = 6;
             this.MenuItem_File_SetSoundH.Text = "Set Sound.h Directory";
             this.MenuItem_File_SetSoundH.Click += new System.EventHandler(this.MenuItem_File_SetSoundH_Click);
             // 
             // MenuItem_File_Separator2
             // 
-            this.MenuItem_File_Separator2.Index = 5;
+            this.MenuItem_File_Separator2.Index = 7;
             this.MenuItem_File_Separator2.Text = "-";
             // 
             // MenuItem_File_Exit
             // 
-            this.MenuItem_File_Exit.Index = 6;
+            this.MenuItem_File_Exit.Index = 8;
             this.MenuItem_File_Exit.Shortcut = System.Windows.Forms.Shortcut.CtrlQ;
             this.MenuItem_File_Exit.Text = "Exit";
             this.MenuItem_File_Exit.Click += new System.EventHandler(this.MenuItem_File_Exit_Click);
@@ -182,6 +197,12 @@ namespace sb_explorer
             this.MenuItem_About_About.Index = 0;
             this.MenuItem_About_About.Text = "About";
             this.MenuItem_About_About.Click += new System.EventHandler(this.MenuItem_About_About_Click);
+            // 
+            // MenuItem_About_CheckUpdates
+            // 
+            this.MenuItem_About_CheckUpdates.Index = 1;
+            this.MenuItem_About_CheckUpdates.Text = "Check for updates";
+            this.MenuItem_About_CheckUpdates.Click += new System.EventHandler(this.MenuItem_About_CheckUpdates_Click);
             // 
             // OpenFileDiag_SoundbankFiles
             // 
@@ -397,12 +418,6 @@ namespace sb_explorer
             this.Button_ReloadSoundbank.UseVisualStyleBackColor = true;
             this.Button_ReloadSoundbank.Click += new System.EventHandler(this.Button_ReloadSoundbank_Click);
             // 
-            // MenuItem_About_CheckUpdates
-            // 
-            this.MenuItem_About_CheckUpdates.Index = 1;
-            this.MenuItem_About_CheckUpdates.Text = "Check for updates";
-            this.MenuItem_About_CheckUpdates.Click += new System.EventHandler(this.MenuItem_About_CheckUpdates_Click);
-            // 
             // Frm_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -471,6 +486,8 @@ namespace sb_explorer
         private System.Windows.Forms.OpenFileDialog OpenFileDiag_ProjectFiles;
         protected internal System.Windows.Forms.TabPage TabPage_StreamData;
         private System.Windows.Forms.MenuItem MenuItem_About_CheckUpdates;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem MenuItem_ExtractSoundBank;
     }
 }
 

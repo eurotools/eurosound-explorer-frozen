@@ -76,6 +76,9 @@ namespace sb_explorer
             this.SamplePool_PitchOffset = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SamplePool_Pan = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SamplePool_PanOffset = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ContextMenu_SamplePool = new System.Windows.Forms.ContextMenu();
+            this.MenuItem_SaveWav = new System.Windows.Forms.MenuItem();
+            this.saveSamplesDiag = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // Textbox_TrackingType
@@ -499,6 +502,7 @@ namespace sb_explorer
             this.SamplePool_PitchOffset,
             this.SamplePool_Pan,
             this.SamplePool_PanOffset});
+            this.ListView_SamplePool.ContextMenu = this.ContextMenu_SamplePool;
             this.ListView_SamplePool.FullRowSelect = true;
             this.ListView_SamplePool.GridLines = true;
             this.ListView_SamplePool.HideSelection = false;
@@ -542,6 +546,21 @@ namespace sb_explorer
             // SamplePool_PanOffset
             // 
             this.SamplePool_PanOffset.Text = "Pan +/-";
+            // 
+            // ContextMenu_SamplePool
+            // 
+            this.ContextMenu_SamplePool.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.MenuItem_SaveWav});
+            // 
+            // MenuItem_SaveWav
+            // 
+            this.MenuItem_SaveWav.Index = 0;
+            this.MenuItem_SaveWav.Text = "Save";
+            this.MenuItem_SaveWav.Click += new System.EventHandler(this.MenuItem_SaveWav_Click);
+            // 
+            // saveSamplesDiag
+            // 
+            this.saveSamplesDiag.Filter = "WAV Files (*.wav)|*.wav";
             // 
             // UserControl_Samples_Properties
             // 
@@ -589,7 +608,7 @@ namespace sb_explorer
             this.Controls.Add(this.Label_TrackingType);
             this.Controls.Add(this.Textbox_TrackingType);
             this.Name = "UserControl_Samples_Properties";
-            this.Size = new System.Drawing.Size(544, 653);
+            this.Size = new System.Drawing.Size(519, 653);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -643,5 +662,8 @@ namespace sb_explorer
         protected internal System.Windows.Forms.TextBox Textbox_SampleCount;
         protected internal ListView_ColumnSortingClick ListView_SamplePool;
         protected internal System.Windows.Forms.CheckedListBox CheckedListBox_UserFlags;
+        private System.Windows.Forms.ContextMenu ContextMenu_SamplePool;
+        private System.Windows.Forms.MenuItem MenuItem_SaveWav;
+        private System.Windows.Forms.SaveFileDialog saveSamplesDiag;
     }
 }

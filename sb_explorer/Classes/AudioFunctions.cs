@@ -8,6 +8,7 @@ namespace sb_explorer
     //-------------------------------------------------------------------------------------------------------------------------------
     internal static class AudioFunctions
     {
+        //-------------------------------------------------------------------------------------------------------------------------------
         internal static byte[] ShortArrayToByteArray(short[] inputArray)
         {
             byte[] byteArray = new byte[inputArray.Length * 2];

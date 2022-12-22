@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace sb_explorer
@@ -50,12 +52,12 @@ namespace sb_explorer
                     //Read File
                     if (sfxHeaderData.ReadStreamBankHeader(OpenFileDialog_StreamData.FileName, headerData) && headerData.Platform != null)
                     {
-                        ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples = new List<SfxStream>();
+                        ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).streamedSamples = new List<SfxStream>();
                         if (headerData.FileVersion == 201 || headerData.FileVersion == 1)
                         {
                             //Read file data
                             OldMusX streamsReader = new OldMusX();
-                            streamsReader.LoadStreamFile(OpenFileDialog_StreamData.FileName, headerData, ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples);
+                            streamsReader.LoadStreamFile(OpenFileDialog_StreamData.FileName, headerData, ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).streamedSamples);
 
                             Button_ValidateADPCM.Enabled = false;
                         }
@@ -63,7 +65,7 @@ namespace sb_explorer
                         {
                             //Read file data
                             NewMusX streamsReader = new NewMusX();
-                            streamsReader.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples);
+                            streamsReader.ReadStreamFile(OpenFileDialog_StreamData.FileName, headerData, ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).streamedSamples);
 
                             //Enable validation tool - Only For Custom EuroCom ADPCM
                             if (headerData.Platform.Contains("PC"))
@@ -75,7 +77,7 @@ namespace sb_explorer
                                 Button_ValidateADPCM.Enabled = false;
                             }
 
-                            //For batman begins they changed the frequency to 16000
+                            //For batman begins they changed the frequency to 16000Hz
                             if (headerData.Platform.Contains("GC"))
                             {
                                 if (MessageBox.Show("The current game is Batman Begins?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -85,7 +87,7 @@ namespace sb_explorer
                             }
                         }
 
-                        PrintSamplesData(((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples);
+                        PrintSamplesData(((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).streamedSamples);
                     }
                 }
             }
@@ -99,7 +101,7 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void ListView_StreamData_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<SfxStream> streamedSamples = ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples;
+            List<SfxStream> streamedSamples = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).streamedSamples;
             if (ListView_StreamData.SelectedItems.Count == 1 && streamedSamples != null)
             {
                 //Print markers data
@@ -259,7 +261,7 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void ListView_StreamData_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            List<SfxStream> streamedSamples = ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples;
+            List<SfxStream> streamedSamples = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).streamedSamples;
             if (ListView_StreamData.SelectedItems.Count == 1 && streamedSamples != null)
             {
                 int selectedIndex = (int)ListView_StreamData.SelectedItems[0].Tag;
@@ -315,6 +317,29 @@ namespace sb_explorer
                 {
                     Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, streamedSamples[selectedIndex].SampleByteData, frequency);
                     sfxPlayer.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid index, overflows the streams list.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        internal void DecodeAndSave(int selectedIndex, List<SfxStream> streamedSamples, SaveFileDialog saveDiag, string hashCodeName)
+        {
+            if (selectedIndex < streamedSamples.Count)
+            {
+                byte[] decodedData = CommonFunctions.DecodeStreamSound(headerData, streamedSamples[selectedIndex]);
+                if (decodedData != null)
+                {
+                    saveDiag.FileName = hashCodeName;
+                    DialogResult diagResult = saveDiag.ShowDialog();
+                    if (diagResult == DialogResult.OK)
+                    {
+                        IWaveProvider provider = new RawSourceWaveStream(new MemoryStream(decodedData), new WaveFormat(frequency, 16, 1));
+                        WaveFileWriter.CreateWaveFile(saveDiag.FileName, provider);
+                    }
                 }
             }
             else

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using NAudio.Wave;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace sb_explorer
@@ -57,53 +59,41 @@ namespace sb_explorer
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItemSaveSound_Click(object sender, System.EventArgs e)
+        {
+            if (ListView_WavData.SelectedItems.Count == 1)
+            {
+                int selectedIndex = (int)ListView_WavData.SelectedItems[0].Tag;
+                List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).wavesList;
+                byte[] decodedData = CommonFunctions.DecodeSfxSound(wavHeaderData[selectedIndex]);
+                if (decodedData != null)
+                {
+                    //Save Wav
+                    DialogResult saveDialog = SaveFileDialog.ShowDialog();
+                    if (saveDialog == DialogResult.OK)
+                    {
+                        IWaveProvider provider = new RawSourceWaveStream(new MemoryStream(decodedData), new WaveFormat(wavHeaderData[selectedIndex].Frequency, 16, 1));
+                        WaveFileWriter.CreateWaveFile(SaveFileDialog.FileName, provider);
+                    }
+                }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItemOpenPlayer_Click(object sender, System.EventArgs e)
+        {
+            if (ListView_WavData.SelectedItems.Count == 1)
+            {
+                int selectedIndex = (int)ListView_WavData.SelectedItems[0].Tag;
+                DecodeAndShowPlayer(selectedIndex);
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
         internal void DecodeAndShowPlayer(int selectedIndex)
         {
-            byte[] decodedData = null;
-            List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;
-
-            MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
-            if (MusXheaderData.FileVersion > 3 && MusXheaderData.FileVersion < 10)
-            {
-                if (MusXheaderData.Platform.Equals("PC__") || MusXheaderData.Platform.Equals("XB__") || MusXheaderData.Platform.Equals("XB1_"))
-                {
-                    Eurocom_ImaAdpcm eurocomDAT = new Eurocom_ImaAdpcm();
-                    decodedData = AudioFunctions.ShortArrayToByteArray(eurocomDAT.Decode(wavHeaderData[selectedIndex].EncodedData));
-                }
-                else if (MusXheaderData.Platform.Equals("GC__"))
-                {
-                    DspAdpcm gameCubeDecoder = new DspAdpcm();
-                    decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
-                }
-                else if (MusXheaderData.Platform.Equals("PS2_"))
-                {
-                    SonyAdpcm vagDecoder = new SonyAdpcm();
-                    decodedData = vagDecoder.Decode(wavHeaderData[selectedIndex].EncodedData);
-                }
-            }
-            else
-            {
-                switch (MusXheaderData.Platform)
-                {
-                    case "PC":
-                        decodedData = wavHeaderData[selectedIndex].EncodedData;
-                        break;
-                    case "PS2":
-                        SonyAdpcm vagDecoder = new SonyAdpcm();
-                        decodedData = vagDecoder.Decode(wavHeaderData[selectedIndex].EncodedData);
-                        break;
-                    case "GC":
-                        DspAdpcm gameCubeDecoder = new DspAdpcm();
-                        decodedData = AudioFunctions.ShortArrayToByteArray(gameCubeDecoder.Decode(wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].DspCoeffs));
-                        break;
-                    case "XB":
-                        XboxAdpcm xboxDecoder = new XboxAdpcm();
-                        decodedData = AudioFunctions.ShortArrayToByteArray(xboxDecoder.Decode(wavHeaderData[selectedIndex].EncodedData));
-                        break;
-                }
-            }
-
-            //Show player
+            List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).wavesList;
+            byte[] decodedData = CommonFunctions.DecodeSfxSound(wavHeaderData[selectedIndex]);
             if (decodedData != null)
             {
                 Frm_MediaPlayer_Mono sfxPlayer = new Frm_MediaPlayer_Mono(decodedData, wavHeaderData[selectedIndex].EncodedData, wavHeaderData[selectedIndex].Frequency);

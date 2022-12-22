@@ -6,6 +6,9 @@ using System.Windows.Forms;
 
 namespace sb_explorer
 {
+    //-------------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------------------
     public partial class MediaPlayer_Stereo : Form
     {
         //*===============================================================================================
@@ -15,6 +18,7 @@ namespace sb_explorer
         private readonly byte[] pcmDataToPlayL, pcmDataToPlayR;
         private readonly int Frequency;
 
+        //-------------------------------------------------------------------------------------------------------------------------------
         public MediaPlayer_Stereo(byte[] vPcmDataToPlayL, byte[] vPcmDataToPlayR, int vFrequency)
         {
             InitializeComponent();
@@ -22,7 +26,6 @@ namespace sb_explorer
             pcmDataToPlayR = vPcmDataToPlayR;
             Frequency = vFrequency;
         }
-
 
         //*===============================================================================================
         //* Form Events
@@ -35,6 +38,7 @@ namespace sb_explorer
             WavesViewerRight.InitControl();
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------------
         private void MediaPlayer_Stereo_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (AudioPlayer.PlaybackState == PlaybackState.Playing)
@@ -74,6 +78,7 @@ namespace sb_explorer
             }
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------------
         private void Button_Stop_Click(object sender, System.EventArgs e)
         {
             if (AudioPlayer.PlaybackState == PlaybackState.Playing)
@@ -82,6 +87,7 @@ namespace sb_explorer
             }
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------------
         private void Button_SaveWav_Click(object sender, System.EventArgs e)
         {
             //Set file name and extension
@@ -113,9 +119,12 @@ namespace sb_explorer
             }
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------------
         private void Button_Close_Click(object sender, System.EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
     }
+
+    //-------------------------------------------------------------------------------------------------------------------------------
 }

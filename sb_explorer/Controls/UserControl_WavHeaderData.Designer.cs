@@ -29,6 +29,11 @@ namespace sb_explorer
         /// </summary>
         private void InitializeComponent()
         {
+            this.contextMenu = new System.Windows.Forms.ContextMenu();
+            this.menuItem_SaveSound = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.menuItem_OpenPlayer = new System.Windows.Forms.MenuItem();
+            this.SaveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.ListView_WavData = new sb_explorer.ListView_ColumnSortingClick();
             this.WavHeaderData_Number = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.WavHeaderData_Flags = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -39,6 +44,34 @@ namespace sb_explorer
             this.WavHeaderData_LoopStartOffset = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.WavHeaderData_Duration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem_SaveSound,
+            this.menuItem2,
+            this.menuItem_OpenPlayer});
+            // 
+            // menuItem_SaveSound
+            // 
+            this.menuItem_SaveSound.Index = 0;
+            this.menuItem_SaveSound.Text = "Save";
+            this.menuItem_SaveSound.Click += new System.EventHandler(this.MenuItemSaveSound_Click);
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Index = 1;
+            this.menuItem2.Text = "-";
+            // 
+            // menuItem_OpenPlayer
+            // 
+            this.menuItem_OpenPlayer.Index = 2;
+            this.menuItem_OpenPlayer.Text = "Open Player";
+            this.menuItem_OpenPlayer.Click += new System.EventHandler(this.MenuItemOpenPlayer_Click);
+            // 
+            // SaveFileDialog
+            // 
+            this.SaveFileDialog.Filter = "WAV Files (*.wav)|*.wav";
             // 
             // ListView_WavData
             // 
@@ -51,6 +84,7 @@ namespace sb_explorer
             this.WavHeaderData_Frequency,
             this.WavHeaderData_LoopStartOffset,
             this.WavHeaderData_Duration});
+            this.ListView_WavData.ContextMenu = this.contextMenu;
             this.ListView_WavData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListView_WavData.FullRowSelect = true;
             this.ListView_WavData.GridLines = true;
@@ -123,5 +157,10 @@ namespace sb_explorer
         private System.Windows.Forms.ColumnHeader WavHeaderData_LoopStartOffset;
         private System.Windows.Forms.ColumnHeader WavHeaderData_Duration;
         protected internal ListView_ColumnSortingClick ListView_WavData;
+        private System.Windows.Forms.ContextMenu contextMenu;
+        private System.Windows.Forms.MenuItem menuItem_SaveSound;
+        private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem menuItem_OpenPlayer;
+        private System.Windows.Forms.SaveFileDialog SaveFileDialog;
     }
 }

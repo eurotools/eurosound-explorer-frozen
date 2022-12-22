@@ -33,7 +33,7 @@ namespace sb_explorer
 
             //Print counts
             Textbox_StartMarkers_Count.Text = musicFileData.StartMarkers.Count.ToString();
-            Textbox_MarkersCount.Text = musicFileData.StartMarkers.Count.ToString();
+            Textbox_MarkersCount.Text = musicFileData.Markers.Count.ToString();
 
             //Clear listview
             ListView_StreamData_StartMarkers.BeginUpdate();
@@ -51,8 +51,6 @@ namespace sb_explorer
                     {
                         UseItemStyleForSubItems = false
                     };
-
-                    ushort errors = 0;
 
                     StartMarker musicMarkerStartData = musicFileData.StartMarkers[i];
                     listViewItem.Text = i.ToString();
@@ -88,17 +86,23 @@ namespace sb_explorer
 
                     //Check for errors
                     int streamLenght = musicFileData.SampleByteData_LeftChannel.Length * 4;
-
+                    ushort errors = 0;
                     if (musicMarkerStartData.Position > streamLenght)
+                    {
                         errors |= (1 << 2);
+                    }
                     if (musicMarkerStartData.LoopStart > streamLenght)
+                    {
                         errors |= (1 << 4);
+                    }
 
                     //Change color if we have errors
                     for (int j = 0; j < listViewItem.SubItems.Count; j++)
                     {
                         if (Convert.ToBoolean((errors >> j) & 1))
+                        {
                             listViewItem.SubItems[j].ForeColor = Color.Red;
+                        }
                     }
                     ListView_StreamData_StartMarkers.Items.Add(listViewItem);
                 }
@@ -124,7 +128,6 @@ namespace sb_explorer
                         UseItemStyleForSubItems = false
                     };
 
-                    ushort errors = 0;
                     Marker musicMarkerStartData = musicFileData.Markers[i];
                     listViewItem.Text = i.ToString();
                     listViewItem.SubItems[1].Text = musicMarkerStartData.Index.ToString();
@@ -158,18 +161,24 @@ namespace sb_explorer
 
                     //Check for errors
                     int streamLenght = musicFileData.SampleByteData_LeftChannel.Length * 4;
-
+                    ushort errors = 0;
                     if (musicMarkerStartData.Position > streamLenght)
+                    {
                         errors |= (1 << 2);
+                    }
                     if (musicMarkerStartData.LoopStart > streamLenght)
+                    {
                         errors |= (1 << 4);
+                    }
 
 
                     //Change color if we have errors
                     for (int j = 0; j < listViewItem.SubItems.Count; j++)
                     {
                         if (Convert.ToBoolean((errors >> j) & 1))
+                        {
                             listViewItem.SubItems[j].ForeColor = Color.Red;
+                        }
                     }
                     ListView_StreamData_Markers.Items.Add(listViewItem);
                 }

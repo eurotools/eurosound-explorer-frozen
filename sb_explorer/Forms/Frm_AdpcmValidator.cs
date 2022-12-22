@@ -19,8 +19,8 @@ namespace sb_explorer
         //-------------------------------------------------------------------------------------------------------------------------------
         private void ADPCM_Validator_PC_Shown(object sender, EventArgs e)
         {
-            UserControl_StreamData streamsListView = ((Frm_Main)Application.OpenForms["Frm_Main"]).userControl_StreamData1;
-            List<SfxStream> streamsList = ((Frm_Main)Application.OpenForms["Frm_Main"]).streamedSamples;
+            UserControl_StreamData streamsListView = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).userControl_StreamData1;
+            List<SfxStream> streamsList = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).streamedSamples;
 
             for (int i = 0; i < streamsListView.ListView_StreamData.Items.Count; i++)
             {

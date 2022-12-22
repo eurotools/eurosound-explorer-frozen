@@ -54,7 +54,8 @@ namespace sb_explorer
                     {
                         //Platform PS2_ PC__ GC__ XB__
                         headerData.Platform = Encoding.ASCII.GetString(BReader.ReadBytes(4));
-                        headerData.Timespan = BReader.ReadUInt32(); //Seconds from 1/1/2000, 1:00:00 (946684800)
+                        //Seconds from 1/1/2000, 1:00:00 (946684800)
+                        headerData.Timespan = BReader.ReadUInt32();
 
                         //Seems padding but when the platform is PC__ or GC__ is set to 1
                         BReader.ReadUInt32();
@@ -121,7 +122,7 @@ namespace sb_explorer
                     {
                         //Platform PS2_ PC__ GC__ XB__
                         headerData.Platform = Encoding.ASCII.GetString(BReader.ReadBytes(4));
-                        //??????
+                        //Seconds from 1/1/2000, 1:00:00 (946684800)
                         headerData.Timespan = BReader.ReadUInt32();
 
                         //Seems padding but when the platform is PC__ or GC__ is set to 1

@@ -12,7 +12,6 @@
         public long FlagsDataLength;
         public long UserFlagsDataLength;
         public long SamplePoolDataLength;
-
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------

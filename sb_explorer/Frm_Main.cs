@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EuroSound_Extractor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,6 +25,8 @@ namespace sb_explorer
         public Frm_Main()
         {
             InitializeComponent();
+            Width = 1166;
+            Height = 869;
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------
@@ -197,6 +200,15 @@ namespace sb_explorer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------------------------
+        private void MenuItem_ExtractSoundBank_Click(object sender, EventArgs e)
+        {
+            using (Frm_ExtractorLauncher esExtractor = new Frm_ExtractorLauncher())
+            {
+                esExtractor.ShowDialog();
             }
         }
 

@@ -8,7 +8,7 @@ namespace sb_explorer
     //-------------------------------------------------------------------------------------------------------------------------------
     public partial class Frm_ViewProjectFile : Form
     {
-        readonly ProjectFile projectFileData;
+        private readonly ProjectFile projectFileData;
 
         //-------------------------------------------------------------------------------------------------------------------------------
         public Frm_ViewProjectFile(ProjectFile projectData)

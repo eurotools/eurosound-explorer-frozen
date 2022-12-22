@@ -96,7 +96,6 @@ namespace sb_explorer
                     {
                         ListView_HexEditor.Items[rowIndex].SubItems[i].ForeColor = Color.Green;
                     }
-
                 }
             }
         }

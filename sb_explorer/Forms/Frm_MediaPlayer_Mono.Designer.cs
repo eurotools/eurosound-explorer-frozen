@@ -60,7 +60,6 @@ namespace sb_explorer
             this.Button_Close.TabIndex = 5;
             this.Button_Close.Text = "Close";
             this.Button_Close.UseVisualStyleBackColor = true;
-            this.Button_Close.Click += new System.EventHandler(this.Button_Close_Click);
             // 
             // Button_Play
             // 
@@ -115,6 +114,7 @@ namespace sb_explorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.Button_Close;
             this.ClientSize = new System.Drawing.Size(536, 233);
             this.Controls.Add(this.Button_SaveRaw);
             this.Controls.Add(this.WavesViewer);

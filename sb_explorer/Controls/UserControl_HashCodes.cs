@@ -58,13 +58,13 @@ namespace sb_explorer
         {
             if (ListView_HashCodes.SelectedItems.Count == 1)
             {
-                MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).headerData;
-                SortedDictionary<uint, SfxSound> samplesDictionary = ((Frm_Main)Application.OpenForms["Frm_Main"]).samplesList;
-                List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms["Frm_Main"]).wavesList;
-                UserControl_Samples_Properties samplePropsControl = ((Frm_Main)Application.OpenForms["Frm_Main"]).UserControl_SampleProperties;
+                MusXHeaderData MusXheaderData = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).headerData;
+                SortedDictionary<uint, SfxSound> samplesDictionary = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).samplesList;
+                List<SfxData> wavHeaderData = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).wavesList;
+                UserControl_Samples_Properties samplePropsControl = ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).UserControl_SampleProperties;
 
                 //Update textbox name
-                ((Frm_Main)Application.OpenForms["Frm_Main"]).Textbox_HashcodeName.Text = ListView_HashCodes.SelectedItems[0].SubItems[2].Text;
+                ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).Textbox_HashcodeName.Text = ListView_HashCodes.SelectedItems[0].SubItems[2].Text;
 
                 //Get Hashcode UInteger
                 uint selectedHashCode = (uint)ListView_HashCodes.SelectedItems[0].Tag;
@@ -281,7 +281,7 @@ namespace sb_explorer
                     }
 
                     //Update Hex Viewer
-                    ((Frm_Main)Application.OpenForms["Frm_Main"]).UserControl_HexEditor.UpdateHexViewer(sampleData.HexViewerData, MusXheaderData.FileVersion);
+                    ((Frm_Main)Application.OpenForms[nameof(Frm_Main)]).UserControl_HexEditor.UpdateHexViewer(sampleData.HexViewerData, MusXheaderData.FileVersion);
                 }
             }
         }

@@ -20,20 +20,6 @@ namespace sb_explorer
         {
             Combobox_Platform.SelectedIndex = 0;
         }
-
-        //-------------------------------------------------------------------------------------------------------------------------------
-        private void Button_OK_Click(object sender, System.EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-            Close();
-        }
-
-        //-------------------------------------------------------------------------------------------------------------------------------
-        private void Button_Cancel_Click(object sender, System.EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
     }
 
     //-------------------------------------------------------------------------------------------------------------------------------
